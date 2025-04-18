@@ -105,7 +105,7 @@ created_after?: string`}
               <span className="px-2 py-1 text-sm rounded bg-yellow-900 text-yellow-300">PATCH</span>
               <CardTitle className="text-gray-200">/api/alerts/{'{alert_id}'}/cancel</CardTitle>
             </div>
-            <CardDescription className="text-gray-400">Alert-requests are canceled, not deleted (for billing purposes)</CardDescription>
+            <CardDescription className="text-gray-400">Alert-requests are cancelled, not deleted (for billing purposes)</CardDescription>
           </CardHeader>
           <CardContent>
             <div>
