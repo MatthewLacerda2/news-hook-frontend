@@ -206,6 +206,18 @@ export default function MainPage() {
                   <TableCell className={`${statusColors[item.status as keyof typeof statusColors]} font-semibold`}>
                     {item.status}
                   </TableCell>
+                  <TableCell>
+                    {item.status !== "CANCELLED" && (
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="w-8 h-8 text-red-500 hover:text-red-600 border border-gray-400/10"
+                        title="Cancel"
+                      >
+                        ✕
+                      </Button>
+                    )}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
