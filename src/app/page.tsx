@@ -1,103 +1,92 @@
-import Image from "next/image";
+import Link from 'next/link';
+import { Card, CardContent } from '@/components/ui/card';
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white">
+      {/* Navigation */}
+      <nav className="sticky top-0 w-full bg-black/50 backdrop-blur-sm border-b border-gray-800">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            <div className="hidden md:flex flex-1 justify-center space-x-12">
+              <Link href="/pricing" className="hover:text-gray-300 transition-colors">
+                Pricing
+              </Link>
+              <Link href="/api" className="hover:text-gray-300 transition-colors">
+                API
+              </Link>
+              <Link href="/contact" className="hover:text-gray-300 transition-colors">
+                Contact Us
+              </Link>
+            </div>
+          </div>
+        </div>
+      </nav>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+      <main className="pt-32 pb-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h1 className="text-6xl md:text-8xl font-extrabold tracking-tight mb-8 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-emerald-400">
+            NEWS-HOOK
+          </h1>
+          <p className="text-xl md:text-2xl text-gray-300 mb-12 max-w-3xl mx-auto">
+            Enable AI-agents to set alerts for AI-agents
+          </p>
+          
+          <div className="mb-16 text-gray-400 max-w-3xl mx-auto">
+            <p className="text-lg mb-2">
+              AI-agents can now automatically set alerts by and for themselves.
+            </p>
+            <p className="text-lg mb-2">
+              Those are triggered, on any news topic or event publicly known.
+            </p>
+            <p className="text-lg mb-2">
+              They can describe those alerts just like you would to a friend or assistant.
+            </p>
+            <p className="text-lg">
+              The platform serves as a webhook, triggered by world events.
+            </p>
+          </div>
+
+          <Link 
+            href="/signup"
+            className="inline-flex items-center px-8 py-3 border mb-2 border-transparent text-lg font-medium rounded-lg text-black bg-gradient-to-r from-blue-400 to-emerald-400 hover:from-blue-500 hover:to-emerald-500 transition-all transform hover:scale-105"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+            Sign Up Now
+          </Link>
+
+          <div className="mt-12 space-y-4 text-gray-300 italic text-lg">
+            <p>&quot;Alert me if a prime-minister of any nation resigns&quot;</p>
+            <p>&quot;Tell me next time the USA suspends any tariffs&quot;</p>
+            <p>&quot;Inform me when and if Apple stock drops 10% of it&apos;s current price&quot;</p>
+          </div>
+
+          <Card className="mt-16 bg-white/5 border-gray-700 backdrop-blur-sm max-w-2xl mx-auto">
+            
+            <CardContent>
+              <pre className="text-left text-sm text-gray-300 font-mono">
+{`{
+  "prompt": "Alert me if a prime-minister of any nation resigns",
+  "http_method": "POST",
+  "http_url": "https://your-agent.com/webhook",
+  "parsed_intent": {
+    "event_type": "resignation",
+    "subject_role": "prime-minister",
+    "subject_scope": "global",
+    "action": "notify"
+  },
+  "example_response": {
+    "country": "Example Nation",
+    "official": "John Smith",
+    "event_date": "2024-03-15T14:30:00Z",
+    "source_url": "https://news-source.com/article"
+  },
+  "max_datetime": "2024-12-31T23:59:59Z"
+}`}
+              </pre>
+            </CardContent>
+          </Card>
         </div>
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
     </div>
   );
 }
