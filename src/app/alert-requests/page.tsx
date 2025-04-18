@@ -83,31 +83,36 @@ export default function MainPage() {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
           
-          <div className="flex gap-2 mb-4 justify-end">
-            <PopoverDateFilter
-              value={minCreation}
-              onChange={setMinCreation}
-              buttonLabel="Min Creation"
-              buttonColor="green"
-            />
-            <PopoverDateFilter
-              value={maxCreation}
-              onChange={setMaxCreation}
-              buttonLabel="Max Creation"
-              buttonColor="green"
-            />
-            <PopoverDateFilter
-              value={minExpire}
-              onChange={setMinExpire}
-              buttonLabel="Min Expire"
-              buttonColor="orange"
-            />
-            <PopoverDateFilter
-              value={maxExpire}
-              onChange={setMaxExpire}
-              buttonLabel="Max Expire"
-              buttonColor="orange"
-            />
+          <div className="flex gap-2 mb-4 justify-between items-center">
+            <div className="text-white text-lg font-bold ml-2">
+              500 credits
+            </div>
+            <div className="flex gap-2">
+              <PopoverDateFilter
+                value={minCreation}
+                onChange={setMinCreation}
+                buttonLabel="Min Creation"
+                buttonColor="green"
+              />
+              <PopoverDateFilter
+                value={maxCreation}
+                onChange={setMaxCreation}
+                buttonLabel="Max Creation"
+                buttonColor="green"
+              />
+              <PopoverDateFilter
+                value={minExpire}
+                onChange={setMinExpire}
+                buttonLabel="Min Expire"
+                buttonColor="orange"
+              />
+              <PopoverDateFilter
+                value={maxExpire}
+                onChange={setMaxExpire}
+                buttonLabel="Max Expire"
+                buttonColor="orange"
+              />
+            </div>
           </div>
 
           <Table>
