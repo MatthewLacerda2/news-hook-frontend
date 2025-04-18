@@ -185,13 +185,22 @@ export default function MainPage() {
             </TableHeader>
             <TableBody>
               {filteredData.map((item) => (
-                <TableRow key={item.id}>
-                  <TableCell className="font-mono text-white">{formatId(item.id)}</TableCell>
-                  <TableCell className="text-white">{formatPrompt(item.prompt)}</TableCell>
+                <TableRow 
+                  key={item.id}
+                  className="hover:bg-gray-700/50 transition-colors"
+                >
+                  <TableCell className="font-mono text-white" title={item.id}>
+                    {formatId(item.id)}
+                  </TableCell>
+                  <TableCell className="text-white" title={item.prompt}>
+                    {formatPrompt(item.prompt)}
+                  </TableCell>
                   <TableCell className={methodColors[item.method as keyof typeof methodColors]}>
                     {item.method}
                   </TableCell>
-                  <TableCell className="text-white">{formatUrl(item.url)}</TableCell>
+                  <TableCell className="text-white" title={item.url}>
+                    {formatUrl(item.url)}
+                  </TableCell>
                   <TableCell className="text-white">{formatDate(item.created_at)}</TableCell>
                   <TableCell className="text-white">{formatDate(item.max_datetime)}</TableCell>
                   <TableCell className={`${statusColors[item.status as keyof typeof statusColors]} font-semibold`}>
