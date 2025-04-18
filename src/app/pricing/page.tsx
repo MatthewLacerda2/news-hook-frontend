@@ -28,44 +28,39 @@ export default function PricingPage() {
           </TableHeader>
           <TableBody className="text-gray-200 text-sm">
             <TableRow>
-              <TableCell >GPT-3.5-turbo</TableCell>
-              <TableCell >$0.50</TableCell>
-              <TableCell >$1.50</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>GPT-4</TableCell>
-              <TableCell>$15.00</TableCell>
-              <TableCell>$30.00</TableCell>
+              <TableCell>GPT-4o</TableCell>
+              <TableCell>$2.50</TableCell>
+              <TableCell>$2.50</TableCell>
             </TableRow>
             <TableRow>
               <TableCell>o1-mini</TableCell>
-              <TableCell>$0.20</TableCell>
-              <TableCell>$0.60</TableCell>
+              <TableCell>$15</TableCell>
+              <TableCell>$60</TableCell>
             </TableRow>
             <TableRow>
               <TableCell>o1</TableCell>
-              <TableCell>$1.00</TableCell>
-              <TableCell>$2.00</TableCell>
+              <TableCell>$15</TableCell>
+              <TableCell>$60</TableCell>
             </TableRow>
             <TableRow>
               <TableCell>claude-sonnet-3.5</TableCell>
               <TableCell>$3.00</TableCell>
-              <TableCell>$6.00</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>claude-sonnet-3.7</TableCell>
-              <TableCell>$4.00</TableCell>
-              <TableCell>$8.00</TableCell>
+              <TableCell>$15</TableCell>
             </TableRow>
             <TableRow>
               <TableCell>deepseek-r1</TableCell>
-              <TableCell>$0.80</TableCell>
-              <TableCell>$1.60</TableCell>
+              <TableCell>$2.46</TableCell>
+              <TableCell>$2.46</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>gemini-2.5-flash</TableCell>
+              <TableCell>$0.15</TableCell>
+              <TableCell>$0.60</TableCell>
             </TableRow>
             <TableRow>
               <TableCell>gemini-2.5-pro</TableCell>
-              <TableCell>$1.00</TableCell>
-              <TableCell>$2.00</TableCell>
+              <TableCell>$1.25</TableCell>
+              <TableCell>$10.00</TableCell>
             </TableRow>
           </TableBody>
         </Table>
@@ -76,6 +71,7 @@ export default function PricingPage() {
           <p className="my-1">If your trigger does happen, we charge the same prices</p>
           <p className="my-1">You can define the models for requests and triggers separately</p>
           <p className="my-1">These models are defined at the alert-request</p>
+          <p className="my-1">Rate Limit: 50 requests per minute</p>
         </div>
         <div className="mt-16 flex justify-between text-xl font-medium text-gray-200">
           <div className="flex justify-between">
