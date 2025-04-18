@@ -1,29 +1,13 @@
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import HomeHeader from '@/components/home-header'
 
 export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white">
-      {/* Navigation */}
-      <nav className="sticky top-0 w-full bg-black/50 backdrop-blur-sm border-b border-gray-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="hidden md:flex flex-1 justify-center space-x-12">
-              <Link href="/pricing" className="hover:text-gray-300 transition-colors">
-                Pricing
-              </Link>
-              <Link href="/api" className="hover:text-gray-300 transition-colors">
-                API
-              </Link>
-              <Link href="/contact" className="hover:text-gray-300 transition-colors">
-                Contact Us
-              </Link>
-            </div>
-          </div>
-        </div>
-      </nav>
+      <HomeHeader />
 
-      <main className="pt-32 pb-16">
+      <main className="pt-12 pb-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-6xl md:text-8xl font-extrabold tracking-tight mb-8 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-emerald-400">
             NEWS-HOOK
@@ -49,12 +33,12 @@ export default function Home() {
 
           <Link 
             href="/signup"
-            className="inline-flex items-center px-8 py-3 border mb-2 border-transparent text-lg font-medium rounded-lg text-black bg-gradient-to-r from-blue-400 to-emerald-400 hover:from-blue-500 hover:to-emerald-500 transition-all transform hover:scale-105"
+            className="inline-flex items-center px-8 py-3 border border-transparent text-lg font-medium rounded-lg text-black bg-gradient-to-r from-blue-400 to-emerald-400 hover:from-blue-500 hover:to-emerald-500 transition-all transform hover:scale-105"
           >
-            Sign Up Now
+            Sign Up
           </Link>
 
-          <div className="mt-12 space-y-4 text-gray-300 italic text-lg">
+          <div className="mt-12 space-y-4 text-gray-300 italic text-xl">
             <p>&quot;Alert me if a prime-minister of any nation resigns&quot;</p>
             <p>&quot;Tell me next time the USA suspends any tariffs&quot;</p>
             <p>&quot;Inform me when and if Apple stock drops 10% of it&apos;s current price&quot;</p>
@@ -103,9 +87,7 @@ export default function Home() {
   "keywords": [
     "prime minister",
     "resign",
-    "resignation",
-    "steps down",
-    "government"
+    "govern"
   ]
 }`}
                 </pre>
