@@ -1,0 +1,92 @@
+[
+    {
+        "id": "550e8400-e29b-41d4-a716-446655440000",
+        "prompt": "Alert when a prime minister resigns",
+        "method": "GET", 
+        "url": "api.example.com/politics",
+        "created_at": "2025-06-07 15:40:00",
+        "max_datetime": "2026-04-03 11:30:00",
+        "status": "ACTIVE"
+    },
+    {
+        "id": "663f9500-a31c-42e5-b827-557766551111", 
+        "prompt": "Alert if bitcoins drops 10%",
+        "method": "GET",
+        "url": "api.example.com/crypto",
+        "created_at": "2025-06-08 09:15:00",
+        "max_datetime": "2026-06-08 09:15:00",
+        "status": "TRIGGERED"
+    },
+    {
+        "id": "774a0600-b42d-43f6-c938-668877662222",
+        "prompt": "Alert if Trump suspends tariffs on Brazil",
+        "method": "PATCH",
+        "url": "api.example.com/weather",
+        "created_at": "2025-06-09 11:20:00", 
+        "max_datetime": "2026-06-09 11:20:00",
+        "status": "TRIGGERED"
+    },
+    {
+        "id": "885b1700-c53e-44g7-da49-779988773333",
+        "prompt": "Alert if a new Apple product is released",
+        "method": "POST",
+        "url": "api.example.com/sports",
+        "created_at": "2025-06-10 14:30:00",
+        "max_datetime": "2026-06-10 14:30:00",
+        "status": "ACTIVE"
+    },
+    {
+        "id": "996c2800-d64f-45h8-eb50-880099884444",
+        "prompt": "Send me NVIDIA stock price at Friday 18pm",
+        "method": "GET",
+        "url": "api.example.com/stocks",
+        "created_at": "2025-06-11 16:45:00",
+        "max_datetime": "2026-06-11 16:45:00",
+        "status": "CANCELLED"
+    },
+    {
+        "id": "007d3900-e75g-46i9-fc61-991100995555",
+        "prompt": "Alert if a new Tesla product is released",
+        "method": "POST",
+        "url": "api.example.com/news",
+        "created_at": "2025-06-12 08:50:00",
+        "max_datetime": "2026-06-12 08:50:00",
+        "status": "ACTIVE"
+    },
+    {
+        "id": "118e4000-f86h-47j0-gd72-002211006666",
+        "prompt": "Monitor any earthquake news",
+        "method": "PATCH",
+        "url": "api.example.com/earthquakes",
+        "created_at": "2025-06-13 10:55:00",
+        "max_datetime": "2026-06-13 10:55:00",
+        "status": "ACTIVE"
+    },
+    {
+        "id": "229f5100-g97i-48k1-he83-113322117777",
+        "prompt": "Me avise se Bruno Henrique for indiciado",
+        "method": "PUT",
+        "url": "api.example.com/flamengo",
+        "created_at": "2025-06-14 13:25:00",
+        "max_datetime": "2026-06-14 13:25:00",
+        "status": "CANCELLED"
+    },
+    {
+        "id": "330g6200-h08j-49l2-if94-224433228888",
+        "prompt": "Me avisa se Neymar for pego traindo a namorada denovo",
+        "method": "GET",
+        "url": "api.example.com/air-quality",
+        "created_at": "2025-06-15 15:35:00",
+        "max_datetime": "2026-06-15 15:35:00",
+        "status": "TRIGGERED"
+    },
+    {
+        "id": "441h7300-i19k-50m3-jg05-335544339999",
+        "prompt": "Warn me if any European team does a major trade",
+        "method": "PUT",
+        "url": "api.example.com/space",
+        "created_at": "2025-06-16 17:45:00",
+        "max_datetime": "2026-06-16 17:45:00",
+        "status": "CANCELLED"
+    }
+]

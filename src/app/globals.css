@@ -117,6 +117,15 @@
     @apply border-border outline-ring/50;
   }
   body {
+    @apply bg-gradient-to-b from-gray-950 to-black text-foreground min-h-screen;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
     @apply bg-background text-foreground;
   }
 }
