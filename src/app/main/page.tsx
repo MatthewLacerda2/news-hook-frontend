@@ -3,12 +3,6 @@
 import { useState } from "react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { Calendar } from "@/components/ui/calendar"
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover"
 import {
   Table,
   TableBody,
@@ -19,6 +13,7 @@ import {
 } from "@/components/ui/table"
 import { Card, CardContent } from "@/components/ui/card"
 import tableData from "@/data/fake-tabledata.json"
+import { PopoverDateFilter } from "@/components/popover-date-filter"
 
 const methodColors = {
   GET: "text-green-400",
@@ -60,11 +55,6 @@ export default function MainPage() {
     return `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')} ${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}`
   }
 
-  const formatDateForButton = (dateStr: string) => {
-    const date = new Date(dateStr)
-    return `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}`
-  }
-
   const filteredData = tableData.filter(item => {
     const matchesSearch = Object.values(item).some(value => 
       value.toString().toLowerCase().includes(searchTerm.toLowerCase())
@@ -94,81 +84,30 @@ export default function MainPage() {
           />
           
           <div className="flex gap-2 mb-4 justify-end">
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button 
-                  variant="outline"
-                  className="bg-green-700 text-black hover:bg-green-800 hover:text-black"
-                >
-                  {minCreation ? formatDateForButton(minCreation.toISOString()) : 'Min Creation'}
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-0">
-                <Calendar
-                  mode="single"
-                  selected={minCreation}
-                  onSelect={setMinCreation}
-                  initialFocus
-                />
-              </PopoverContent>
-            </Popover>
-
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button 
-                  variant="outline"
-                  className="bg-green-700 text-black hover:bg-green-800 hover:text-black"
-                >
-                  {maxCreation ? formatDateForButton(maxCreation.toISOString()) : 'Max Creation'}
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-0">
-                <Calendar
-                  mode="single"
-                  selected={maxCreation}
-                  onSelect={setMaxCreation}
-                  initialFocus
-                />
-              </PopoverContent>
-            </Popover>
-
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button 
-                  variant="outline"
-                  className="bg-orange-700 text-black hover:bg-orange-800 hover:text-black"
-                >
-                  {minExpire ? formatDateForButton(minExpire.toISOString()) : 'Min Expire'}
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-0">
-                <Calendar
-                  mode="single"
-                  selected={minExpire}
-                  onSelect={setMinExpire}
-                  initialFocus
-                />
-              </PopoverContent>
-            </Popover>
-
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button 
-                  variant="outline"
-                  className="bg-orange-700 text-black hover:bg-orange-800 hover:text-black"
-                >
-                  {maxExpire ? formatDateForButton(maxExpire.toISOString()) : 'Max Expire'}
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-0">
-                <Calendar
-                  mode="single"
-                  selected={maxExpire}
-                  onSelect={setMaxExpire}
-                  initialFocus
-                />
-              </PopoverContent>
-            </Popover>
+            <PopoverDateFilter
+              value={minCreation}
+              onChange={setMinCreation}
+              buttonLabel="Min Creation"
+              buttonColor="green"
+            />
+            <PopoverDateFilter
+              value={maxCreation}
+              onChange={setMaxCreation}
+              buttonLabel="Max Creation"
+              buttonColor="green"
+            />
+            <PopoverDateFilter
+              value={minExpire}
+              onChange={setMinExpire}
+              buttonLabel="Min Expire"
+              buttonColor="orange"
+            />
+            <PopoverDateFilter
+              value={maxExpire}
+              onChange={setMaxExpire}
+              buttonLabel="Max Expire"
+              buttonColor="orange"
+            />
           </div>
 
           <Table>
