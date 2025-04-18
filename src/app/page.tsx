@@ -4,7 +4,7 @@ import HomeHeader from '@/components/home-header'
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white">
+    <div>
       <HomeHeader />
 
       <main className="pt-8 md:pt-12 pb-12 md:pb-16">
