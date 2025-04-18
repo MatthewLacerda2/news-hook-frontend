@@ -10,6 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import { Card, CardContent } from "@/components/ui/card"
 import tableData from "@/data/fake-tabledata.json"
 
 const methodColors = {
@@ -56,43 +57,47 @@ export default function MainPage() {
 
   return (
     <div className="container mx-auto p-4 mt-40 max-w-7xl">
-      <Input
-        placeholder="Search..."
-        className="mb-4 text-white placeholder:text-gray-400"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-      />
-      
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead className="text-gray-200 font-bold">ID</TableHead>
-            <TableHead className="text-gray-200 font-bold">Prompt</TableHead>
-            <TableHead className="text-gray-200 font-bold">Method</TableHead>
-            <TableHead className="text-gray-200 font-bold">URL</TableHead>
-            <TableHead className="text-gray-200 font-bold">Created At</TableHead>
-            <TableHead className="text-gray-200 font-bold">Max Datetime</TableHead>
-            <TableHead className="text-gray-200 font-bold">Status</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {filteredData.map((item) => (
-            <TableRow key={item.id}>
-              <TableCell className="font-mono text-white">{formatId(item.id)}</TableCell>
-              <TableCell className="text-white">{formatPrompt(item.prompt)}</TableCell>
-              <TableCell className={methodColors[item.method as keyof typeof methodColors]}>
-                {item.method}
-              </TableCell>
-              <TableCell className="text-white">{formatUrl(item.url)}</TableCell>
-              <TableCell className="text-white">{formatDate(item.created_at)}</TableCell>
-              <TableCell className="text-white">{formatDate(item.max_datetime)}</TableCell>
-              <TableCell className={statusColors[item.status as keyof typeof statusColors]}>
-                {item.status}
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+      <Card className="bg-gray/70 backdrop-blur-md border-gray-800">
+        <CardContent>
+          <Input
+            placeholder="Search..."
+            className="mb-4 text-white placeholder:text-gray-400"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="text-gray-200 font-bold">ID</TableHead>
+                <TableHead className="text-gray-200 font-bold">Prompt</TableHead>
+                <TableHead className="text-gray-200 font-bold">Method</TableHead>
+                <TableHead className="text-gray-200 font-bold">URL</TableHead>
+                <TableHead className="text-gray-200 font-bold">Created At</TableHead>
+                <TableHead className="text-gray-200 font-bold">Max Datetime</TableHead>
+                <TableHead className="text-gray-200 font-bold">Status</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {filteredData.map((item) => (
+                <TableRow key={item.id}>
+                  <TableCell className="font-mono text-white">{formatId(item.id)}</TableCell>
+                  <TableCell className="text-white">{formatPrompt(item.prompt)}</TableCell>
+                  <TableCell className={methodColors[item.method as keyof typeof methodColors]}>
+                    {item.method}
+                  </TableCell>
+                  <TableCell className="text-white">{formatUrl(item.url)}</TableCell>
+                  <TableCell className="text-white">{formatDate(item.created_at)}</TableCell>
+                  <TableCell className="text-white">{formatDate(item.max_datetime)}</TableCell>
+                  <TableCell className={`${statusColors[item.status as keyof typeof statusColors]} font-semibold`}>
+                    {item.status}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </CardContent>
+      </Card>
     </div>
   )
 }
