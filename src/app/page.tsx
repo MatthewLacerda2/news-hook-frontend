@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 export default function Home() {
   return (
@@ -60,10 +60,13 @@ export default function Home() {
             <p>&quot;Inform me when and if Apple stock drops 10% of it&apos;s current price&quot;</p>
           </div>
 
-          <Card className="mt-16 bg-white/5 border-gray-700 backdrop-blur-sm max-w-2xl mx-auto">
-            
-            <CardContent>
-              <pre className="text-left text-sm text-gray-300 font-mono">
+          <div className="mt-16 grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+            <Card className="bg-white/5 border-gray-700 backdrop-blur-sm">
+              <CardHeader>
+                <CardTitle className="text-gray-100 font-semibold tracking-wide text-3xl font-display">REQUEST</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <pre className="text-left text-sm text-gray-300 font-mono">
 {`{
   "prompt": "Alert me if a prime-minister of any nation resigns",
   "http_method": "POST",
@@ -82,9 +85,33 @@ export default function Home() {
   },
   "max_datetime": "2024-12-31T23:59:59Z"
 }`}
-              </pre>
-            </CardContent>
-          </Card>
+                </pre>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-white/5 border-gray-700 backdrop-blur-sm">
+              <CardHeader>
+                <CardTitle className="text-gray-100 font-semibold tracking-wide text-3xl font-display">RESPONSE</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <pre className="text-left text-sm text-gray-300 font-mono">
+{`{
+  "id": "123e4567-e89b-12d3-a456-426614174000",
+  "prompt": "Alert me if a prime-minister of any nation resigns",
+  "output_intent": "Monitor global news for any prime minister's resignation",
+  "created_at": "2024-03-15T12:00:00Z",
+  "keywords": [
+    "prime minister",
+    "resign",
+    "resignation",
+    "steps down",
+    "government"
+  ]
+}`}
+                </pre>
+              </CardContent>
+            </Card>
+          </div>
         </div>
       </main>
     </div>
