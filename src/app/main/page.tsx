@@ -2,6 +2,13 @@
 
 import { useState } from "react"
 import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
+import { Calendar } from "@/components/ui/calendar"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
 import {
   Table,
   TableBody,
@@ -30,6 +37,10 @@ const statusColors = {
 
 export default function MainPage() {
   const [searchTerm, setSearchTerm] = useState("")
+  const [minCreation, setMinCreation] = useState<Date>()
+  const [maxCreation, setMaxCreation] = useState<Date>()
+  const [minExpire, setMinExpire] = useState<Date>()
+  const [maxExpire, setMaxExpire] = useState<Date>()
 
   const formatId = (id: string) => {
     return id.substring(0, 9) + "..."
@@ -49,11 +60,27 @@ export default function MainPage() {
     return `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')} ${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}`
   }
 
-  const filteredData = tableData.filter(item => 
-    Object.values(item).some(value => 
+  const formatDateForButton = (dateStr: string) => {
+    const date = new Date(dateStr)
+    return `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}`
+  }
+
+  const filteredData = tableData.filter(item => {
+    const matchesSearch = Object.values(item).some(value => 
       value.toString().toLowerCase().includes(searchTerm.toLowerCase())
     )
-  )
+
+    const createdAt = new Date(item.created_at)
+    const maxDatetime = new Date(item.max_datetime)
+
+    const matchesCreationRange = (!minCreation || createdAt >= minCreation) &&
+      (!maxCreation || createdAt <= maxCreation)
+
+    const matchesExpireRange = (!minExpire || maxDatetime >= minExpire) &&
+      (!maxExpire || maxDatetime <= maxExpire)
+
+    return matchesSearch && matchesCreationRange && matchesExpireRange
+  })
 
   return (
     <div className="container mx-auto p-4 mt-40 max-w-7xl">
@@ -66,6 +93,84 @@ export default function MainPage() {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
           
+          <div className="flex gap-2 mb-4 justify-end">
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button 
+                  variant="outline"
+                  className="bg-green-700 text-black hover:bg-green-800 hover:text-black"
+                >
+                  {minCreation ? formatDateForButton(minCreation.toISOString()) : 'Min Creation'}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0">
+                <Calendar
+                  mode="single"
+                  selected={minCreation}
+                  onSelect={setMinCreation}
+                  initialFocus
+                />
+              </PopoverContent>
+            </Popover>
+
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button 
+                  variant="outline"
+                  className="bg-green-700 text-black hover:bg-green-800 hover:text-black"
+                >
+                  {maxCreation ? formatDateForButton(maxCreation.toISOString()) : 'Max Creation'}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0">
+                <Calendar
+                  mode="single"
+                  selected={maxCreation}
+                  onSelect={setMaxCreation}
+                  initialFocus
+                />
+              </PopoverContent>
+            </Popover>
+
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button 
+                  variant="outline"
+                  className="bg-orange-700 text-black hover:bg-orange-800 hover:text-black"
+                >
+                  {minExpire ? formatDateForButton(minExpire.toISOString()) : 'Min Expire'}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0">
+                <Calendar
+                  mode="single"
+                  selected={minExpire}
+                  onSelect={setMinExpire}
+                  initialFocus
+                />
+              </PopoverContent>
+            </Popover>
+
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button 
+                  variant="outline"
+                  className="bg-orange-700 text-black hover:bg-orange-800 hover:text-black"
+                >
+                  {maxExpire ? formatDateForButton(maxExpire.toISOString()) : 'Max Expire'}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0">
+                <Calendar
+                  mode="single"
+                  selected={maxExpire}
+                  onSelect={setMaxExpire}
+                  initialFocus
+                />
+              </PopoverContent>
+            </Popover>
+          </div>
+
           <Table>
             <TableHeader>
               <TableRow>
