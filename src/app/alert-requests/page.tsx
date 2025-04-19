@@ -12,7 +12,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { Card, CardContent } from "@/components/ui/card"
-import tableData from "@/data/fake-tabledata.json"
+import tableData from "@/data/mock/fake-tabledata.json"
 import { PopoverDateFilter } from "@/components/popover-date-filter"
 
 const methodColors = {
