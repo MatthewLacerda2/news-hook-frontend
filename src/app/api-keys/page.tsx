@@ -23,7 +23,7 @@ const typeColors = {
 
 export default function ApiKeysPage() {
   const [searchTerm, setSearchTerm] = useState("")
-  const apiKeys = apiKeysData["api-keys"]
+  const [apiKeys, setApiKeys] = useState(apiKeysData["api-keys"])
 
   const formatDate = (dateStr: string) => {
     const date = new Date(dateStr)
@@ -32,6 +32,7 @@ export default function ApiKeysPage() {
 
   const handleDelete = async (name: string) => {
     // Implement your delete logic here
+    setApiKeys(prevKeys => prevKeys.filter(item => item.name !== name))
     console.log("Deleting key:", name)
   }
 
@@ -64,13 +65,13 @@ export default function ApiKeysPage() {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="text-gray-200 font-bold">Name</TableHead>
-                <TableHead className="text-gray-200 font-bold">API Key</TableHead>
-                <TableHead className="text-gray-200 font-bold">Created At</TableHead>
-                <TableHead className="text-gray-200 font-bold">Uses</TableHead>
-                <TableHead className="text-gray-200 font-bold">Monthly Limit</TableHead>
-                <TableHead className="text-gray-200 font-bold">Type</TableHead>
-                <TableHead className="text-gray-200 font-bold">Actions</TableHead>
+                <TableHead className="text-gray-200 text-base font-bold">Name</TableHead>
+                <TableHead className="text-gray-200 text-base font-bold">API Key</TableHead>
+                <TableHead className="text-gray-200 text-base font-bold">Created At</TableHead>
+                <TableHead className="text-gray-200 text-base font-bold">Uses</TableHead>
+                <TableHead className="text-gray-200 text-base font-bold">Monthly Limit</TableHead>
+                <TableHead className="text-gray-200 text-base font-bold">Type</TableHead>
+                <TableHead className="text-gray-200 text-base font-bold">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
