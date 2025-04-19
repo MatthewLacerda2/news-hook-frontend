@@ -14,6 +14,7 @@ import {
 import { Card, CardContent } from "@/components/ui/card"
 import { DeleteButton } from "@/components/api-keys/delete-button"
 import apiKeysData from "@/data/mock/fake-api-keys.json"
+import { CreateApiKeyModal } from "@/components/api-keys/create-api-key-modal"
 
 
 const typeColors = {
@@ -24,6 +25,7 @@ const typeColors = {
 export default function ApiKeysPage() {
   const [searchTerm, setSearchTerm] = useState("")
   const [apiKeys, setApiKeys] = useState(apiKeysData["api-keys"])
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
 
   const formatDate = (dateStr: string) => {
     const date = new Date(dateStr)
@@ -34,6 +36,12 @@ export default function ApiKeysPage() {
     // Implement your delete logic here
     setApiKeys(prevKeys => prevKeys.filter(item => item.name !== name))
     console.log("Deleting key:", name)
+  }
+
+  const handleCreateKey = async (data: { name: string; monthlyLimit: number; type: "dev" | "prod" }) => {
+    // Here you would typically make an API call to create the key
+    // For now, we'll just log the data
+    console.log("Creating new API key:", data)
   }
 
   const filteredData = apiKeys.filter(item => 
@@ -57,8 +65,8 @@ export default function ApiKeysPage() {
             <div className="text-white text-lg font-bold ml-2">
               API Keys
             </div>
-            <Button variant="default">
-              Create New API Key
+            <Button variant="default" onClick={() => setIsCreateModalOpen(true)}>
+              Create API Key
             </Button>
           </div>
 
@@ -71,7 +79,6 @@ export default function ApiKeysPage() {
                 <TableHead className="text-gray-200 text-base font-bold">Uses</TableHead>
                 <TableHead className="text-gray-200 text-base font-bold">Monthly Limit</TableHead>
                 <TableHead className="text-gray-200 text-base font-bold">Type</TableHead>
-                <TableHead className="text-gray-200 text-base font-bold">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -109,6 +116,12 @@ export default function ApiKeysPage() {
           </Table>
         </CardContent>
       </Card>
+
+      <CreateApiKeyModal
+        isOpen={isCreateModalOpen}
+        onClose={() => setIsCreateModalOpen(false)}
+        onSubmit={handleCreateKey}
+      />
     </div>
   )
 }
