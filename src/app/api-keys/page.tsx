@@ -12,7 +12,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { Card, CardContent } from "@/components/ui/card"
-import { DeleteButton } from "@/components/delete-button"
+import { DeleteButton } from "@/components/api-keys/delete-button"
 import apiKeysData from "@/data/mock/fake-api-keys.json"
 
 
