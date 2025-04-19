@@ -12,8 +12,8 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { Card, CardContent } from "@/components/ui/card"
-import tableData from "@/data/fake-tabledata.json"
-import { PopoverDateFilter } from "@/components/popover-date-filter"
+import tableData from "@/data/mock/fake-tabledata.json"
+import { PopoverDateFilter } from "@/components/alert-requests.tsx/popover-date-filter"
 
 const methodColors = {
   GET: "text-green-400",
