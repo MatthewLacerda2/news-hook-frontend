@@ -1,4 +1,6 @@
 "use client";
+import { Configuration } from '@/client-sdk';
+import { AuthApi } from '@/client-sdk';
 import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
 import { CredentialResponse } from '@react-oauth/google';
 
@@ -8,8 +10,22 @@ export default function GoogleLoginComponent() {
 
     console.log(clientId);
 
-    const onSuccess = (credentialResponse: CredentialResponse) => {
+    const onSuccess = async (credentialResponse: CredentialResponse) => {
         console.log("Login successful", credentialResponse);
+
+        if (!credentialResponse.credential) {
+            console.error("No credential received");
+            return;
+        }
+
+        const authApi = new AuthApi(new Configuration({ basePath: "http://127.0.0.1:8000" }));
+        const response = await authApi.signupApiV1AuthSignupPost({
+            oAuth2Request: {
+                accessToken: credentialResponse.credential,
+            },
+        });
+        console.log("Response is:", response != null);
+        console.log("Signup response", response);
     }
 
     const onError = () => {
