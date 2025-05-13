@@ -12,9 +12,8 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { Card, CardContent } from "@/components/ui/card"
-import tableData from "@/data/mock/fake-tabledata.json"
 import { PopoverDateFilter } from "@/components/alert-requests.tsx/popover-date-filter"
-import { AuthApi, Configuration } from "@/client-sdk"
+import { AlertsApi, AuthApi, Configuration, AlertPromptItem } from "@/client-sdk"
 
 const methodColors = {
   GET: "text-green-400",
@@ -38,6 +37,7 @@ export default function MainPage() {
   const [minExpire, setMinExpire] = useState<Date>()
   const [maxExpire, setMaxExpire] = useState<Date>()
   const [creditBalance, setCreditBalance] = useState<number | null>(null)
+  const [alerts, setAlerts] = useState<AlertPromptItem[]>([])
 
   const formatId = (id: string) => {
     return id.substring(0, 9) + "..."
@@ -57,23 +57,6 @@ export default function MainPage() {
     return `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')} ${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}`
   }
 
-  const filteredData = tableData.filter(item => {
-    const matchesSearch = Object.values(item).some(value => 
-      value.toString().toLowerCase().includes(searchTerm.toLowerCase())
-    )
-
-    const createdAt = new Date(item.created_at)
-    const maxDatetime = new Date(item.max_datetime)
-
-    const matchesCreationRange = (!minCreation || createdAt >= minCreation) &&
-      (!maxCreation || createdAt <= maxCreation)
-
-    const matchesExpireRange = (!minExpire || maxDatetime >= minExpire) &&
-      (!maxExpire || maxDatetime <= maxExpire)
-
-    return matchesSearch && matchesCreationRange && matchesExpireRange
-  })
-
   useEffect(() => {
     const fetchCredits = async () => {
       try {
@@ -92,7 +75,27 @@ export default function MainPage() {
     };
 
     fetchCredits();
-  }, []);
+
+    const listAlerts = async () => {
+      const agentData = JSON.parse(localStorage.getItem('agentData') || '{}');
+      const alertApi = new AlertsApi(new Configuration({ 
+        basePath: "http://127.0.0.1:8000",
+        headers: {
+          'X-API-Key': agentData.apiKey
+        }
+      }));
+      const response = await alertApi.listAlertsApiV1AlertsGet({
+        offset: 0,
+        limit: 10,
+        promptContains: searchTerm,
+        maxDatetime: maxExpire,
+        createdAfter: minCreation
+      });
+      setAlerts(response.alerts);
+    };    
+
+    listAlerts();
+  }, [searchTerm, maxExpire, minCreation]);
 
   return (
     <div className="container mx-auto p-4 mt-40 max-w-7xl">
@@ -152,7 +155,7 @@ export default function MainPage() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {filteredData.map((item) => (
+              {alerts.map((item) => (
                 <TableRow 
                   key={item.id}
                   className="hover:bg-gray-700/50 transition-colors"
@@ -163,14 +166,14 @@ export default function MainPage() {
                   <TableCell className="text-white" title={item.prompt}>
                     {formatPrompt(item.prompt)}
                   </TableCell>
-                  <TableCell className={methodColors[item.method as keyof typeof methodColors]}>
-                    {item.method}
+                  <TableCell className={methodColors[item.httpMethod as keyof typeof methodColors]}>
+                    {item.httpMethod}
                   </TableCell>
-                  <TableCell className="text-white" title={item.url}>
-                    {formatUrl(item.url)}
+                  <TableCell className="text-white" title={item.httpUrl}>
+                    {formatUrl(item.httpUrl)}
                   </TableCell>
-                  <TableCell className="text-white">{formatDate(item.created_at)}</TableCell>
-                  <TableCell className="text-white">{formatDate(item.max_datetime)}</TableCell>
+                  <TableCell className="text-white">{formatDate(item.createdAt.toString())}</TableCell>
+                  <TableCell className="text-white">{formatDate(item.expiresAt.toString())}</TableCell>
                   <TableCell className={`${statusColors[item.status as keyof typeof statusColors]} font-semibold`}>
                     {item.status}
                   </TableCell>
