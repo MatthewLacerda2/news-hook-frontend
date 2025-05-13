@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import {
@@ -14,6 +14,7 @@ import {
 import { Card, CardContent } from "@/components/ui/card"
 import tableData from "@/data/mock/fake-tabledata.json"
 import { PopoverDateFilter } from "@/components/alert-requests.tsx/popover-date-filter"
+import { AuthApi, Configuration } from "@/client-sdk"
 
 const methodColors = {
   GET: "text-green-400",
@@ -36,6 +37,7 @@ export default function MainPage() {
   const [maxCreation, setMaxCreation] = useState<Date>()
   const [minExpire, setMinExpire] = useState<Date>()
   const [maxExpire, setMaxExpire] = useState<Date>()
+  const [creditBalance, setCreditBalance] = useState<number | null>(null)
 
   const formatId = (id: string) => {
     return id.substring(0, 9) + "..."
@@ -72,6 +74,26 @@ export default function MainPage() {
     return matchesSearch && matchesCreationRange && matchesExpireRange
   })
 
+  useEffect(() => {
+    const fetchCredits = async () => {
+      try {
+        const accessToken = localStorage.getItem('accessToken');
+        const authApi = new AuthApi(new Configuration({ 
+          basePath: "http://127.0.0.1:8000",
+          headers: {
+            'Authorization': `Bearer ${accessToken}`
+          }
+        }));
+        const response = await authApi.checkCreditsApiV1AuthCreditsGet();
+        setCreditBalance(response.credit_balance);
+      } catch (error) {
+        console.error('Error fetching credit balance:', error);
+      }
+    };
+
+    fetchCredits();
+  }, []);
+
   return (
     <div className="container mx-auto p-4 mt-40 max-w-7xl">
       <Card className="bg-gray/70 backdrop-blur-md border-gray-800">
@@ -84,9 +106,11 @@ export default function MainPage() {
           />
           
           <div className="flex gap-2 mb-4 justify-between items-center">
-            <div className="text-white text-lg font-bold ml-2">
-              500 credits
-            </div>
+            {creditBalance !== null && (
+              <div className="text-white text-lg font-bold ml-2">
+                {creditBalance} credits
+              </div>
+            )}
             <div className="flex gap-2">
               <PopoverDateFilter
                 value={minCreation}
