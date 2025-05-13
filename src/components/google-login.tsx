@@ -19,13 +19,23 @@ export default function GoogleLoginComponent() {
         }
 
         const authApi = new AuthApi(new Configuration({ basePath: "http://127.0.0.1:8000" }));
-        const response = await authApi.signupApiV1AuthSignupPost({
+        const signupResponse = await authApi.signupApiV1AuthSignupPost({
+            oAuth2Request: {
+                accessToken: credentialResponse.credential
+            }
+        });
+
+        //TODO: Check if signup was successful (201) or user already exists (409)
+        
+        console.log("Response is:", signupResponse != null);
+        console.log("Signup response", signupResponse);
+
+        const loginResponse = await authApi.loginApiV1AuthLoginPost({
             oAuth2Request: {
                 accessToken: credentialResponse.credential,
             },
         });
-        console.log("Response is:", response != null);
-        console.log("Signup response", response);
+        console.log("Login response", loginResponse);
     }
 
     const onError = () => {
