@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import GoogleLogin from './google-login'
 export default function HomeHeader() {
   return (
     <nav className="bg-gray-950 border-b border-white/10">
@@ -15,7 +14,6 @@ export default function HomeHeader() {
             <Link href="/contact-us" className="text-white font-semibold text-lg hover:text-gray-300 transition-colors">
               Contact Us
             </Link>
-            <GoogleLogin />
           </div>
         </div>
       </div>
