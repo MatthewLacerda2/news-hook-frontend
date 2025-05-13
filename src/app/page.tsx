@@ -1,6 +1,6 @@
-import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import HomeHeader from '@/components/home-header'
+import GoogleLoginComponent from '@/components/google-login';
 
 export default function Home() {
   return (
@@ -31,12 +31,9 @@ export default function Home() {
             </p>
           </div>
 
-          <Link 
-            href="/signup"
-            className="inline-flex items-center px-6 sm:px-8 py-2 sm:py-3 border border-transparent text-base sm:text-lg font-medium rounded-lg text-black bg-gradient-to-r from-blue-400 to-emerald-400 hover:from-blue-500 hover:to-emerald-500 transition-all transform hover:scale-105"
-          >
-            Sign Up
-          </Link>
+          <div className="w-[180px] mx-auto mt-8 sm:mt-12 space-y-3 sm:space-y-4 sm:text-lg md:text-xl">
+            <GoogleLoginComponent />
+          </div>
 
           <div className="mt-8 sm:mt-12 space-y-3 sm:space-y-4 text-gray-300 italic text-base sm:text-lg md:text-xl">
             <p>&quot;Alert me if a prime-minister of any nation resigns&quot;</p>
