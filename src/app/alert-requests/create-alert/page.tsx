@@ -14,12 +14,6 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 
-type ApiResponse = {
-  status?: number;
-  data?: unknown;
-  message?: string;
-}
-
 export default function CreateAlertPage() {
   const [prompt, setPrompt] = useState("")
   const [httpMethod, setHttpMethod] = useState<HttpMethod>(HttpMethod.Post)
@@ -30,7 +24,7 @@ export default function CreateAlertPage() {
   const [maxDatetime, setMaxDatetime] = useState<Date>(new Date())
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [successMessage, setSuccessMessage] = useState("")
-  const [debugResponse, setDebugResponse] = useState<ApiResponse | null>(null)
+  const [debugResponse, setDebugResponse] = useState<unknown>(null)
 
   // Validation functions
   const validatePrompt = (value: string) => value.length >= 3
@@ -83,18 +77,10 @@ export default function CreateAlertPage() {
         })
         
         setSuccessMessage("Alert request created successfully!")
-        setDebugResponse({ data: response })
+        setDebugResponse(response)
       } catch (error) {
         setErrors({ submit: "Failed to create alert request" })
-        if (error && typeof error === 'object' && 'response' in error) {
-          const axiosError = error as { response?: { status: number; data: unknown } }
-          setDebugResponse({
-            status: axiosError.response?.status,
-            data: axiosError.response?.data,
-          })
-        } else {
-          setDebugResponse({ message: String(error) })
-        }
+        setDebugResponse(error)
       }
     }
   }
@@ -189,7 +175,7 @@ export default function CreateAlertPage() {
             <p className="text-green-500 text-sm text-center">{successMessage}</p>
           )}
 
-          {debugResponse && (
+          {typeof debugResponse !== 'undefined' && debugResponse !== null && (
             <div className="mt-4 p-4 bg-gray-100 rounded-md overflow-auto">
               <pre className="text-xs">
                 {JSON.stringify(debugResponse, null, 2)}
