@@ -58,29 +58,31 @@ export default function MainPage() {
     return `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')} ${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}`
   }
 
-  const debouncedListAlerts = useCallback(async (term: string) => {
-    const agentData = JSON.parse(localStorage.getItem('agentData') || '{}');
-    const alertApi = new AlertsApi(new Configuration({ 
-      basePath: "http://127.0.0.1:8000",
-      headers: {
-        'X-API-Key': agentData.apiKey
-      }
-    }));
-    const response = await alertApi.listAlertsApiV1AlertsGet({
-      offset: 0,
-      limit: 10,
-      promptContains: term,
-      maxDatetime: maxExpire,
-      createdAfter: minCreation
-    });
-    setAlerts(response.alerts);
-  }, [maxExpire, minCreation]);
+  const debouncedListAlerts = useCallback(
+    debounce(async (term: string) => {
+      const agentData = JSON.parse(localStorage.getItem('agentData') || '{}');
+      const alertApi = new AlertsApi(new Configuration({ 
+        basePath: "http://127.0.0.1:8000",
+        headers: {
+          'X-API-Key': agentData.apiKey
+        }
+      }));
+      const response = await alertApi.listAlertsApiV1AlertsGet({
+        offset: 0,
+        limit: 10,
+        promptContains: term,
+        maxDatetime: maxExpire,
+        createdAfter: minCreation
+      });
+      setAlerts(response.alerts);
+    }, 300),
+    [maxExpire, minCreation]
+  );
 
   useEffect(() => {
-    const debouncedSearch = debounce(debouncedListAlerts, 300);
-    debouncedSearch(searchTerm);
+    debouncedListAlerts(searchTerm);
     return () => {
-      debouncedSearch.cancel();
+      debouncedListAlerts.cancel();
     };
   }, [searchTerm, debouncedListAlerts]);
 
@@ -103,7 +105,7 @@ export default function MainPage() {
 
     fetchCredits();
     debouncedListAlerts(searchTerm);
-  });
+  }, []);
 
   return (
     <div className="container mx-auto p-4 mt-40 max-w-7xl">
