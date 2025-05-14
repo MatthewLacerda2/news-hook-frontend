@@ -39,23 +39,41 @@ export default function MainPage() {
   const [creditBalance, setCreditBalance] = useState<number | null>(null)
   const [alerts, setAlerts] = useState<AlertPromptItem[]>([])
 
-  const formatId = (id: string) => {
-    return id.substring(0, 9) + "..."
-  }
-
   const formatPrompt = (prompt: string) => {
-    return prompt.length > 56 ? prompt.substring(0, 40) + "..." : prompt
+    return prompt.length > 64 ? prompt.substring(0, 61) + "..." : prompt
   }
 
   const formatUrl = (url: string) => {
-    const [baseUrl] = url.split("/")
-    return `${baseUrl}/...`
+    try {
+      const urlObj = new URL(url)
+      return `${urlObj.hostname}/...`
+    } catch {
+      return url;
+    }
   }
 
   const formatDate = (dateStr: string) => {
     const date = new Date(dateStr)
     return `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')} ${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}`
   }
+
+  const listAlerts = async () => {
+    const agentData = JSON.parse(localStorage.getItem('agentData') || '{}');
+    const alertApi = new AlertsApi(new Configuration({ 
+      basePath: "http://127.0.0.1:8000",
+      headers: {
+        'X-API-Key': agentData.apiKey
+      }
+    }));
+    const response = await alertApi.listAlertsApiV1AlertsGet({
+      offset: 0,
+      limit: 10,
+      promptContains: searchTerm,
+      maxDatetime: maxExpire,
+      createdAfter: minCreation
+    });
+    setAlerts(response.alerts);
+  };
 
   useEffect(() => {
     const fetchCredits = async () => {
@@ -75,27 +93,8 @@ export default function MainPage() {
     };
 
     fetchCredits();
-
-    const listAlerts = async () => {
-      const agentData = JSON.parse(localStorage.getItem('agentData') || '{}');
-      const alertApi = new AlertsApi(new Configuration({ 
-        basePath: "http://127.0.0.1:8000",
-        headers: {
-          'X-API-Key': agentData.apiKey
-        }
-      }));
-      const response = await alertApi.listAlertsApiV1AlertsGet({
-        offset: 0,
-        limit: 10,
-        promptContains: searchTerm,
-        maxDatetime: maxExpire,
-        createdAfter: minCreation
-      });
-      setAlerts(response.alerts);
-    };    
-
     listAlerts();
-  }, [searchTerm, maxExpire, minCreation]);
+  },);
 
   return (
     <div className="container mx-auto p-4 mt-40 max-w-7xl">
@@ -164,12 +163,13 @@ export default function MainPage() {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="text-gray-200 font-bold">ID</TableHead>
                 <TableHead className="text-gray-200 font-bold">Prompt</TableHead>
-                <TableHead className="text-gray-200 font-bold">Method</TableHead>
                 <TableHead className="text-gray-200 font-bold">URL</TableHead>
+                <TableHead className="text-gray-200 font-bold">Method</TableHead>
+                <TableHead className="text-gray-200 font-bold">Model</TableHead>
+                <TableHead className="text-gray-200 font-bold">Recurring</TableHead>
                 <TableHead className="text-gray-200 font-bold">Created At</TableHead>
-                <TableHead className="text-gray-200 font-bold">Max Datetime</TableHead>
+                <TableHead className="text-gray-200 font-bold">Expires At</TableHead>
                 <TableHead className="text-gray-200 font-bold">Status</TableHead>
               </TableRow>
             </TableHeader>
@@ -179,17 +179,20 @@ export default function MainPage() {
                   key={item.id}
                   className="hover:bg-gray-700/50 transition-colors"
                 >
-                  <TableCell className="font-mono text-white" title={item.id}>
-                    {formatId(item.id)}
-                  </TableCell>
                   <TableCell className="text-white" title={item.prompt}>
                     {formatPrompt(item.prompt)}
+                  </TableCell>
+                  <TableCell className="text-white" title={item.httpUrl}>
+                    {formatUrl(item.httpUrl)}
                   </TableCell>
                   <TableCell className={methodColors[item.httpMethod as keyof typeof methodColors]}>
                     {item.httpMethod}
                   </TableCell>
-                  <TableCell className="text-white" title={item.httpUrl}>
-                    {formatUrl(item.httpUrl)}
+                  <TableCell className="text-white font-mono text-sm">
+                    {item.llmModel}
+                  </TableCell>
+                  <TableCell className="text-white">
+                    {item.isRecurring ? "Yes" : "No"}
                   </TableCell>
                   <TableCell className="text-white">{formatDate(item.createdAt.toString())}</TableCell>
                   <TableCell className="text-white">{formatDate(item.expiresAt.toString())}</TableCell>
@@ -203,6 +206,26 @@ export default function MainPage() {
                         size="sm"
                         className="w-8 h-8 text-red-500 hover:text-red-600 border border-gray-400/10"
                         title="Cancel"
+                        onClick={async () => {
+                          if (window.confirm('Cancel alert. Are you sure?')) {
+                            try {
+                              const agentData = JSON.parse(localStorage.getItem('agentData') || '{}');
+                              const alertApi = new AlertsApi(new Configuration({ 
+                                basePath: "http://127.0.0.1:8000",
+                                headers: {
+                                  'X-API-Key': agentData.apiKey
+                                }
+                              }));
+                              await alertApi.cancelAlertApiV1AlertsAlertIdCancelPatch({
+                                alertId: item.id
+                              });
+                              await listAlerts(); // Re-fetch the alerts list
+                            } catch (error) {
+                              console.error('Error cancelling alert:', error);
+                              alert('Failed to cancel alert. Please try again.');
+                            }
+                          }
+                        }}
                       >
                         ✕
                       </Button>
