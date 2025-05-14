@@ -15,21 +15,16 @@
 
 import * as runtime from '../runtime';
 import type {
-  HTTPValidationError,
   UserDocumentCreateRequest,
   UserDocumentCreateResponse,
 } from '../models/index';
 import {
-    HTTPValidationErrorFromJSON,
-    HTTPValidationErrorToJSON,
     UserDocumentCreateRequestFromJSON,
     UserDocumentCreateRequestToJSON,
     UserDocumentCreateResponseFromJSON,
-    UserDocumentCreateResponseToJSON,
 } from '../models/index';
 
 export interface PostDocumentApiV1DocumentsPostRequest {
-    xUserId: string;
     userDocumentCreateRequest: UserDocumentCreateRequest;
 }
 
@@ -43,10 +38,10 @@ export class DocumentsApi extends runtime.BaseAPI {
      * Post Document
      */
     async postDocumentApiV1DocumentsPostRaw(requestParameters: PostDocumentApiV1DocumentsPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UserDocumentCreateResponse>> {
-        if (requestParameters['xUserId'] == null) {
+        if (requestParameters['userDocumentCreateRequest'] == null) {
             throw new runtime.RequiredError(
-                'xUserId',
-                'Required parameter "xUserId" was null or undefined when calling postDocumentApiV1DocumentsPost().'
+                'userDocumentCreateRequest',
+                'Required parameter "userDocumentCreateRequest" was null or undefined when calling postDocumentApiV1DocumentsPost().'
             );
         }
 
@@ -62,10 +57,6 @@ export class DocumentsApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         headerParameters['Content-Type'] = 'application/json';
-
-        if (requestParameters['xUserId'] != null) {
-            headerParameters['X-User-Id'] = String(requestParameters['xUserId']);
-        }
 
         if (this.configuration && this.configuration.apiKey) {
             headerParameters["X-API-Key"] = await this.configuration.apiKey("X-API-Key"); // APIKeyHeader authentication
