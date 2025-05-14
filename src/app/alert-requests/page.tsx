@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import {
@@ -14,6 +14,7 @@ import {
 import { Card, CardContent } from "@/components/ui/card"
 import { PopoverDateFilter } from "@/components/alert-requests.tsx/popover-date-filter"
 import { AlertsApi, AuthApi, Configuration, AlertPromptItem } from "@/client-sdk"
+import debounce from "lodash/debounce"
 
 const methodColors = {
   GET: "text-green-400",
@@ -57,7 +58,7 @@ export default function MainPage() {
     return `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')} ${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}`
   }
 
-  const listAlerts = async () => {
+  const debouncedListAlerts = useCallback(async (term: string) => {
     const agentData = JSON.parse(localStorage.getItem('agentData') || '{}');
     const alertApi = new AlertsApi(new Configuration({ 
       basePath: "http://127.0.0.1:8000",
@@ -68,12 +69,20 @@ export default function MainPage() {
     const response = await alertApi.listAlertsApiV1AlertsGet({
       offset: 0,
       limit: 10,
-      promptContains: searchTerm,
+      promptContains: term,
       maxDatetime: maxExpire,
       createdAfter: minCreation
     });
     setAlerts(response.alerts);
-  };
+  }, [maxExpire, minCreation]);
+
+  useEffect(() => {
+    const debouncedSearch = debounce(debouncedListAlerts, 300);
+    debouncedSearch(searchTerm);
+    return () => {
+      debouncedSearch.cancel();
+    };
+  }, [searchTerm, debouncedListAlerts]);
 
   useEffect(() => {
     const fetchCredits = async () => {
@@ -93,8 +102,8 @@ export default function MainPage() {
     };
 
     fetchCredits();
-    listAlerts();
-  },);
+    debouncedListAlerts(searchTerm);
+  });
 
   return (
     <div className="container mx-auto p-4 mt-40 max-w-7xl">
@@ -219,7 +228,7 @@ export default function MainPage() {
                               await alertApi.cancelAlertApiV1AlertsAlertIdCancelPatch({
                                 alertId: item.id
                               });
-                              await listAlerts(); // Re-fetch the alerts list
+                              await debouncedListAlerts(searchTerm);
                             } catch (error) {
                               console.error('Error cancelling alert:', error);
                               alert('Failed to cancel alert. Please try again.');
