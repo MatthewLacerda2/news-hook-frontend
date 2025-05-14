@@ -13,6 +13,6 @@ export * from './LLMModelListResponse';
 export * from './OAuth2Request';
 export * from './TokenResponse';
 export * from './UserDocumentCreateRequest';
-export * from './UserDocumentCreateResponse';
+export * from './UserDocumentCreateSuccessResponse';
 export * from './ValidationError';
 export * from './ValidationErrorLocInner';

@@ -32,11 +32,11 @@ export interface AlertPromptCreateSuccessResponse {
      */
     prompt: string;
     /**
-     * What the LLM understood from the prompt
+     * Reason for the approval or denial
      * @type {string}
      * @memberof AlertPromptCreateSuccessResponse
      */
-    outputIntent: string;
+    reason: string;
     /**
      * 
      * @type {Date}
@@ -57,7 +57,7 @@ export interface AlertPromptCreateSuccessResponse {
 export function instanceOfAlertPromptCreateSuccessResponse(value: object): value is AlertPromptCreateSuccessResponse {
     if (!('id' in value) || value['id'] === undefined) return false;
     if (!('prompt' in value) || value['prompt'] === undefined) return false;
-    if (!('outputIntent' in value) || value['outputIntent'] === undefined) return false;
+    if (!('reason' in value) || value['reason'] === undefined) return false;
     if (!('createdAt' in value) || value['createdAt'] === undefined) return false;
     return true;
 }
@@ -74,7 +74,7 @@ export function AlertPromptCreateSuccessResponseFromJSONTyped(json: any, ignoreD
         
         'id': json['id'],
         'prompt': json['prompt'],
-        'outputIntent': json['output_intent'],
+        'reason': json['reason'],
         'createdAt': (new Date(json['created_at'])),
         'keywords': json['keywords'] == null ? undefined : json['keywords'],
     };
@@ -93,7 +93,7 @@ export function AlertPromptCreateSuccessResponseToJSONTyped(value?: AlertPromptC
         
         'id': value['id'],
         'prompt': value['prompt'],
-        'output_intent': value['outputIntent'],
+        'reason': value['reason'],
         'created_at': ((value['createdAt']).toISOString()),
         'keywords': value['keywords'],
     };
