@@ -99,7 +99,26 @@ export default function MainPage() {
 
   return (
     <div className="container mx-auto p-4 mt-40 max-w-7xl">
+      <div className="flex gap-4 mb-4">
+        <Card 
+          className="bg-green-600/80 backdrop-blur-md border-green-700 cursor-pointer hover:bg-green-700/90 transition-colors h-14 flex items-center justify-center min-w-[160px]"
+          onClick={() => window.location.href = '/create-alert'}
+        >
+          <CardContent className="py-2 px-4 flex items-center justify-center">
+            <h3 className="text-lg font-semibold text-white">Create Alert</h3>
+          </CardContent>
+        </Card>
+        <Card 
+          className="bg-blue-600/80 backdrop-blur-md border-blue-700 cursor-pointer hover:bg-blue-700/90 transition-colors h-14 flex items-center justify-center min-w-[160px]"
+          onClick={() => window.location.href = '/send-document'}
+        >
+          <CardContent className="py-2 px-4 flex items-center justify-center">
+            <h3 className="text-lg font-semibold text-white">Upload Document</h3>
+          </CardContent>
+        </Card>
+      </div>
       <Card className="bg-gray/70 backdrop-blur-md border-gray-800">
+        
         <CardContent>
           <Input
             placeholder="Search..."
