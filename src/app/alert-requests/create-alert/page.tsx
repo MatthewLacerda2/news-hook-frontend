@@ -42,6 +42,8 @@ export default function CreateAlertPage() {
   const handleSubmit = async () => {
     const newErrors: Record<string, string> = {}
     setDebugResponse(null)
+    setSuccessMessage("")
+    setErrors({})
     
     if (!validatePrompt(prompt)) {
       newErrors.prompt = "Prompt must be at least 3 characters long"
