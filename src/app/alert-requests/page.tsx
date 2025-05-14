@@ -58,8 +58,8 @@ export default function MainPage() {
     return `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')} ${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}`
   }
 
-  const debouncedListAlerts = useCallback(
-    debounce(async (term: string) => {
+  const debouncedListAlerts = useCallback((term: string) => {
+    const handler = debounce(async (searchTerm: string) => {
       const agentData = JSON.parse(localStorage.getItem('agentData') || '{}');
       const alertApi = new AlertsApi(new Configuration({ 
         basePath: "http://127.0.0.1:8000",
@@ -70,20 +70,19 @@ export default function MainPage() {
       const response = await alertApi.listAlertsApiV1AlertsGet({
         offset: 0,
         limit: 10,
-        promptContains: term,
+        promptContains: searchTerm,
         maxDatetime: maxExpire,
         createdAfter: minCreation
       });
       setAlerts(response.alerts);
-    }, 300),
-    [maxExpire, minCreation]
-  );
+    }, 500);
+    
+    handler(term);
+    return () => handler.cancel();
+  }, [maxExpire, minCreation]);
 
   useEffect(() => {
     debouncedListAlerts(searchTerm);
-    return () => {
-      debouncedListAlerts.cancel();
-    };
   }, [searchTerm, debouncedListAlerts]);
 
   useEffect(() => {
@@ -105,7 +104,7 @@ export default function MainPage() {
 
     fetchCredits();
     debouncedListAlerts(searchTerm);
-  }, []);
+  }, [debouncedListAlerts, searchTerm]);
 
   return (
     <div className="container mx-auto p-4 mt-40 max-w-7xl">
