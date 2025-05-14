@@ -102,7 +102,7 @@ export default function MainPage() {
       <div className="flex gap-4 mb-4">
         <Card 
           className="bg-green-600/80 backdrop-blur-md border-green-700 cursor-pointer hover:bg-green-700/90 transition-colors h-14 flex items-center justify-center min-w-[160px]"
-          onClick={() => window.location.href = '/create-alert'}
+          onClick={() => window.location.href = '/alert-requests/create-alert'}
         >
           <CardContent className="py-2 px-4 flex items-center justify-center">
             <h3 className="text-lg font-semibold text-white">Create Alert</h3>
