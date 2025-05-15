@@ -22,6 +22,7 @@ export default function CreateAlertPage() {
   const [llmModel, setLlmModel] = useState("")
   const [payloadFormat, setPayloadFormat] = useState("")
   const [maxDatetime, setMaxDatetime] = useState<Date>(new Date())
+  const [isRecurring, setIsRecurring] = useState(false)
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [successMessage, setSuccessMessage] = useState("")
   const [debugResponse, setDebugResponse] = useState<unknown>(null)
@@ -71,10 +72,11 @@ export default function CreateAlertPage() {
             prompt,
             httpMethod,
             httpUrl,
-            httpHeaders: httpHeaders ? JSON.parse(httpHeaders) : {},
+            httpHeaders: httpHeaders ? JSON.parse(httpHeaders) : null,
             llmModel,
-            payloadFormat: payloadFormat ? JSON.parse(payloadFormat) : {},
+            payloadFormat: payloadFormat ? JSON.parse(payloadFormat) : null,
             maxDatetime,
+            isRecurring,
           }
         })
         
@@ -160,6 +162,19 @@ export default function CreateAlertPage() {
               className={errors.maxDatetime ? "border-red-500" : ""}
             />
             {errors.maxDatetime && <p className="text-red-500 text-sm mt-1">{errors.maxDatetime}</p>}
+          </div>
+
+          <div className="flex items-center gap-2">
+            <input
+              type="checkbox"
+              id="isRecurring"
+              checked={isRecurring}
+              onChange={(e) => setIsRecurring(e.target.checked)}
+              className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
+            />
+            <label htmlFor="isRecurring" className="text-sm font-medium">
+              Recurring Alert
+            </label>
           </div>
 
           <Button 
