@@ -15,19 +15,12 @@
 
 import * as runtime from '../runtime';
 import type {
-  HTTPValidationError,
   LLMModelListResponse,
 } from '../models/index';
 import {
-    HTTPValidationErrorFromJSON,
-    HTTPValidationErrorToJSON,
     LLMModelListResponseFromJSON,
     LLMModelListResponseToJSON,
 } from '../models/index';
-
-export interface ListLlmModelsApiV1LlmModelsGetRequest {
-    activesOnly?: boolean;
-}
 
 /**
  * 
@@ -35,15 +28,11 @@ export interface ListLlmModelsApiV1LlmModelsGetRequest {
 export class LlmModelsApi extends runtime.BaseAPI {
 
     /**
-     * List available LLM models. If actives_only is True (default), only return active models. If actives_only is False, return all models.
+     * List all active LLM models.
      * List Llm Models
      */
-    async listLlmModelsApiV1LlmModelsGetRaw(requestParameters: ListLlmModelsApiV1LlmModelsGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<LLMModelListResponse>> {
+    async listLlmModelsApiV1LlmModelsGetRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<LLMModelListResponse>> {
         const queryParameters: any = {};
-
-        if (requestParameters['activesOnly'] != null) {
-            queryParameters['actives_only'] = requestParameters['activesOnly'];
-        }
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -58,11 +47,11 @@ export class LlmModelsApi extends runtime.BaseAPI {
     }
 
     /**
-     * List available LLM models. If actives_only is True (default), only return active models. If actives_only is False, return all models.
+     * List all active LLM models.
      * List Llm Models
      */
-    async listLlmModelsApiV1LlmModelsGet(requestParameters: ListLlmModelsApiV1LlmModelsGetRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<LLMModelListResponse> {
-        const response = await this.listLlmModelsApiV1LlmModelsGetRaw(requestParameters, initOverrides);
+    async listLlmModelsApiV1LlmModelsGet(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<LLMModelListResponse> {
+        const response = await this.listLlmModelsApiV1LlmModelsGetRaw(initOverrides);
         return await response.value();
     }
 
