@@ -1,3 +1,5 @@
+'use client'
+
 import HomeHeader from "@/components/home-header"
 import {
   Table,
@@ -7,8 +9,30 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import { LlmModelsApi } from "@/client-sdk/apis/LlmModelsApi"
+import { useEffect, useState } from "react"
+import type { LLMModelItem } from "@/client-sdk/models"
+import { Configuration } from "@/client-sdk/runtime"
 
 export default function PricingPage() {
+  const [models, setModels] = useState<LLMModelItem[]>([])
+  
+  useEffect(() => {
+    const fetchModels = async () => {
+      try {
+        const api = new LlmModelsApi(new Configuration({
+          basePath: "http://127.0.0.1:8000",
+        }))
+        const response = await api.listLlmModelsApiV1LlmModelsGet()
+        setModels(response.items)
+      } catch (error) {
+        console.error('Failed to fetch LLM models:', error)
+      }
+    }
+    
+    fetchModels()
+  }, [])
+
   return (
     <div>
       <HomeHeader />
@@ -22,26 +46,13 @@ export default function PricingPage() {
             </TableRow>
           </TableHeader>
           <TableBody className="text-gray-200 text-sm">
-            <TableRow>
-              <TableCell>Gemini 2.5 Pro</TableCell>
-              <TableCell>$1.25</TableCell>
-              <TableCell>$3.50</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>Gemini 2.5 Flash</TableCell>
-              <TableCell>$0.15</TableCell>
-              <TableCell>$3.50</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>Gemini 2.0 Flash</TableCell>
-              <TableCell>$0.15</TableCell>
-              <TableCell>$0.60</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>Gemini 2.0 Flash Lite</TableCell>
-              <TableCell>$0.075</TableCell>
-              <TableCell>$0.030</TableCell>
-            </TableRow>
+            {models.map((model) => (
+              <TableRow key={model.modelName}>
+                <TableCell>{model.modelName}</TableCell>
+                <TableCell>${model.inputTokenPrice.toFixed(3)}</TableCell>
+                <TableCell>${model.outputTokenPrice.toFixed(3)}</TableCell>
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
         <div className="mt-2 mb-8">
