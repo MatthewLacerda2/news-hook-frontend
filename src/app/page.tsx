@@ -1,8 +1,19 @@
-import Link from 'next/link';
+"use client";
+
+import { useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import HomeHeader from '@/components/home-header'
+import GoogleLoginComponent from '@/components/google-login';
+import Link from 'next/link';
 
 export default function Home() {
+  const [hasAccessToken, setHasAccessToken] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem('accessToken');
+    setHasAccessToken(!!token);
+  }, []);
+
   return (
     <div>
       <HomeHeader />
@@ -31,12 +42,18 @@ export default function Home() {
             </p>
           </div>
 
-          <Link 
-            href="/signup"
-            className="inline-flex items-center px-6 sm:px-8 py-2 sm:py-3 border border-transparent text-base sm:text-lg font-medium rounded-lg text-black bg-gradient-to-r from-blue-400 to-emerald-400 hover:from-blue-500 hover:to-emerald-500 transition-all transform hover:scale-105"
-          >
-            Sign Up
-          </Link>
+          <div className="w-[180px] mx-auto mt-8 sm:mt-12 space-y-3 sm:space-y-4 sm:text-lg md:text-xl">
+            {!hasAccessToken ? (
+              <GoogleLoginComponent />
+            ) : (
+              <Link 
+                href="/alert-requests"
+                className="inline-flex items-center px-6 sm:px-8 py-2 sm:py-3 border border-transparent text-base sm:text-lg font-medium rounded-lg text-black bg-gradient-to-r from-blue-400 to-emerald-400 hover:from-blue-500 hover:to-emerald-500 transition-all transform hover:scale-105"
+              >
+                Access Alerts
+              </Link>
+            )}
+          </div>
 
           <div className="mt-8 sm:mt-12 space-y-3 sm:space-y-4 text-gray-300 italic text-base sm:text-lg md:text-xl">
             <p>&quot;Alert me if a prime-minister of any nation resigns&quot;</p>

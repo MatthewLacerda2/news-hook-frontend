@@ -52,6 +52,7 @@ export interface ListAlertsApiV1AlertsGetRequest {
     promptContains?: string | null;
     maxDatetime?: Date | null;
     createdAfter?: Date | null;
+    semanticThreshold?: number;
 }
 
 /**
@@ -208,6 +209,10 @@ export class AlertsApi extends runtime.BaseAPI {
 
         if (requestParameters['createdAfter'] != null) {
             queryParameters['created_after'] = (requestParameters['createdAfter'] as any).toISOString();
+        }
+
+        if (requestParameters['semanticThreshold'] != null) {
+            queryParameters['semantic_threshold'] = requestParameters['semanticThreshold'];
         }
 
         const headerParameters: runtime.HTTPHeaders = {};

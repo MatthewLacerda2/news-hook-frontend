@@ -1,5 +1,4 @@
 import Link from 'next/link'
-
 export default function HomeHeader() {
   return (
     <nav className="bg-gray-950 border-b border-white/10">

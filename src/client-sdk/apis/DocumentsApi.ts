@@ -17,19 +17,18 @@ import * as runtime from '../runtime';
 import type {
   HTTPValidationError,
   UserDocumentCreateRequest,
-  UserDocumentCreateResponse,
+  UserDocumentCreateSuccessResponse,
 } from '../models/index';
 import {
     HTTPValidationErrorFromJSON,
     HTTPValidationErrorToJSON,
     UserDocumentCreateRequestFromJSON,
     UserDocumentCreateRequestToJSON,
-    UserDocumentCreateResponseFromJSON,
-    UserDocumentCreateResponseToJSON,
+    UserDocumentCreateSuccessResponseFromJSON,
+    UserDocumentCreateSuccessResponseToJSON,
 } from '../models/index';
 
 export interface PostDocumentApiV1DocumentsPostRequest {
-    xUserId: string;
     userDocumentCreateRequest: UserDocumentCreateRequest;
 }
 
@@ -42,14 +41,7 @@ export class DocumentsApi extends runtime.BaseAPI {
      * Create a new document
      * Post Document
      */
-    async postDocumentApiV1DocumentsPostRaw(requestParameters: PostDocumentApiV1DocumentsPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UserDocumentCreateResponse>> {
-        if (requestParameters['xUserId'] == null) {
-            throw new runtime.RequiredError(
-                'xUserId',
-                'Required parameter "xUserId" was null or undefined when calling postDocumentApiV1DocumentsPost().'
-            );
-        }
-
+    async postDocumentApiV1DocumentsPostRaw(requestParameters: PostDocumentApiV1DocumentsPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UserDocumentCreateSuccessResponse>> {
         if (requestParameters['userDocumentCreateRequest'] == null) {
             throw new runtime.RequiredError(
                 'userDocumentCreateRequest',
@@ -63,10 +55,6 @@ export class DocumentsApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        if (requestParameters['xUserId'] != null) {
-            headerParameters['X-User-Id'] = String(requestParameters['xUserId']);
-        }
-
         if (this.configuration && this.configuration.apiKey) {
             headerParameters["X-API-Key"] = await this.configuration.apiKey("X-API-Key"); // APIKeyHeader authentication
         }
@@ -79,14 +67,14 @@ export class DocumentsApi extends runtime.BaseAPI {
             body: UserDocumentCreateRequestToJSON(requestParameters['userDocumentCreateRequest']),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => UserDocumentCreateResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => UserDocumentCreateSuccessResponseFromJSON(jsonValue));
     }
 
     /**
      * Create a new document
      * Post Document
      */
-    async postDocumentApiV1DocumentsPost(requestParameters: PostDocumentApiV1DocumentsPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UserDocumentCreateResponse> {
+    async postDocumentApiV1DocumentsPost(requestParameters: PostDocumentApiV1DocumentsPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UserDocumentCreateSuccessResponse> {
         const response = await this.postDocumentApiV1DocumentsPostRaw(requestParameters, initOverrides);
         return await response.value();
     }

@@ -58,6 +58,12 @@ export interface AlertPromptCreateRequestBase {
      */
     llmModel?: string;
     /**
+     * Whether the alert is recurring
+     * @type {boolean}
+     * @memberof AlertPromptCreateRequestBase
+     */
+    isRecurring: boolean;
+    /**
      * 
      * @type {{ [key: string]: any; }}
      * @memberof AlertPromptCreateRequestBase
@@ -80,6 +86,7 @@ export function instanceOfAlertPromptCreateRequestBase(value: object): value is 
     if (!('prompt' in value) || value['prompt'] === undefined) return false;
     if (!('httpMethod' in value) || value['httpMethod'] === undefined) return false;
     if (!('httpUrl' in value) || value['httpUrl'] === undefined) return false;
+    if (!('isRecurring' in value) || value['isRecurring'] === undefined) return false;
     return true;
 }
 
@@ -98,6 +105,7 @@ export function AlertPromptCreateRequestBaseFromJSONTyped(json: any, ignoreDiscr
         'httpUrl': json['http_url'],
         'httpHeaders': json['http_headers'] == null ? undefined : json['http_headers'],
         'llmModel': json['llm_model'] == null ? undefined : json['llm_model'],
+        'isRecurring': json['is_recurring'],
         'payloadFormat': json['payload_format'] == null ? undefined : json['payload_format'],
         'maxDatetime': json['max_datetime'] == null ? undefined : (new Date(json['max_datetime'])),
     };
@@ -119,6 +127,7 @@ export function AlertPromptCreateRequestBaseToJSONTyped(value?: AlertPromptCreat
         'http_url': value['httpUrl'],
         'http_headers': value['httpHeaders'],
         'llm_model': value['llmModel'],
+        'is_recurring': value['isRecurring'],
         'payload_format': value['payloadFormat'],
         'max_datetime': value['maxDatetime'] == null ? undefined : ((value['maxDatetime'] as any).toISOString()),
     };
