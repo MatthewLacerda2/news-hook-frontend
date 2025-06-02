@@ -8,20 +8,13 @@ export default function Contact() {
     <div>
       <HomeHeader />
       <div className="container max-w-4xl mx-auto mt-18 pb-12">
-        <div className="text-center my-20">
-          <p className="text-lg text-gray-300 mb-2">
+        <div className="text-center mt-8">
+          <p className="text-xl text-gray-100 mb-4 font-bold">
             Need support, customizations or help integrating News-Hook?
           </p>
-          <p className="text-lg text-gray-300 mb-2">
-            Schedule a meeting with us and hear more about what news-hook can offer you
-          </p>
-          <p className="text-lg text-gray-300">
-            Hear more on how News-Hook can augment your AI-agents and offer custom solutions
-          </p>
         </div>
-
-        <div className="grid md:grid-cols-2 gap-8">
-          <Card className="bg-zinc-900 border-zinc-800">
+          <div className="flex justify-center my-12">
+          <Card className="bg-zinc-900 border-zinc-800 max-w-xl w-full">
             <CardContent className="flex items-start gap-4 p-6">
               <div className="w-24 h-24 relative rounded-full overflow-hidden bg-zinc-800 flex-shrink-0">
                 <Image
@@ -32,7 +25,7 @@ export default function Contact() {
                 />
               </div>
               <div className="flex flex-col gap-2">
-                <h3 className="font-bold text-xl text-gray-200 mb-2">Matheus Lacerda - CEO</h3>
+                <h3 className="font-bold text-xl text-gray-200 mb-2">Matheus Lacerda Bezerra</h3>
                 <div className="space-y-2">
                   <a 
                     href="https://www.linkedin.com/in/matheus-lacerda96/" 
@@ -57,12 +50,28 @@ export default function Contact() {
                     className="flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors"
                   >
                     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                    math2.0@hotmail.com
+                  </a>
+                  <a 
+                    href="mailto:matheus.l1996@gmail.com" 
+                    className="flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors"
+                  >
+                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
                     matheus.l1996@gmail.com
                   </a>
                 </div>
               </div>
             </CardContent>
           </Card>
+        </div>
+
+        <div className="text-center mt-8">
+          <p className="text-xl text-gray-100 mb-4 mt-4">
+            Schedule a meeting and hear more about what news-hook can offer you
+          </p>
+          <p className="text-xl text-gray-100">
+            Hear more on how News-Hook can keep vigilant for you on any updates
+          </p>
         </div>
       </div>
     </div>
