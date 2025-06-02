@@ -28,7 +28,7 @@ import {
  */
 export interface AlertPromptCreateRequestBase {
     /**
-     * The natural language prompt describing what to monitor
+     * The description of what to monitor. Try to be specific, clear and succinct.
      * @type {string}
      * @memberof AlertPromptCreateRequestBase
      */
@@ -52,17 +52,17 @@ export interface AlertPromptCreateRequestBase {
      */
     httpHeaders?: { [key: string]: any; } | null;
     /**
-     * The LLM model to use for the alert
-     * @type {string}
-     * @memberof AlertPromptCreateRequestBase
-     */
-    llmModel?: string;
-    /**
      * Whether the alert is recurring
      * @type {boolean}
      * @memberof AlertPromptCreateRequestBase
      */
     isRecurring: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof AlertPromptCreateRequestBase
+     */
+    llmModel?: string | null;
     /**
      * 
      * @type {{ [key: string]: any; }}
@@ -104,8 +104,8 @@ export function AlertPromptCreateRequestBaseFromJSONTyped(json: any, ignoreDiscr
         'httpMethod': HttpMethodFromJSON(json['http_method']),
         'httpUrl': json['http_url'],
         'httpHeaders': json['http_headers'] == null ? undefined : json['http_headers'],
-        'llmModel': json['llm_model'] == null ? undefined : json['llm_model'],
         'isRecurring': json['is_recurring'],
+        'llmModel': json['llm_model'] == null ? undefined : json['llm_model'],
         'payloadFormat': json['payload_format'] == null ? undefined : json['payload_format'],
         'maxDatetime': json['max_datetime'] == null ? undefined : (new Date(json['max_datetime'])),
     };
@@ -126,8 +126,8 @@ export function AlertPromptCreateRequestBaseToJSONTyped(value?: AlertPromptCreat
         'http_method': HttpMethodToJSON(value['httpMethod']),
         'http_url': value['httpUrl'],
         'http_headers': value['httpHeaders'],
-        'llm_model': value['llmModel'],
         'is_recurring': value['isRecurring'],
+        'llm_model': value['llmModel'],
         'payload_format': value['payloadFormat'],
         'max_datetime': value['maxDatetime'] == null ? undefined : ((value['maxDatetime'] as any).toISOString()),
     };

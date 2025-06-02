@@ -52,7 +52,6 @@ export interface ListAlertsApiV1AlertsGetRequest {
     promptContains?: string | null;
     maxDatetime?: Date | null;
     createdAfter?: Date | null;
-    semanticThreshold?: number;
 }
 
 /**
@@ -61,7 +60,7 @@ export interface ListAlertsApiV1AlertsGetRequest {
 export class AlertsApi extends runtime.BaseAPI {
 
     /**
-     * Cancel an existing alert
+     * Mark an alert as CANCELLED. We do not \'delete\' the alert, for billing purposes
      * Cancel Alert
      */
     async cancelAlertApiV1AlertsAlertIdCancelPatchRaw(requestParameters: CancelAlertApiV1AlertsAlertIdCancelPatchRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<any>> {
@@ -95,7 +94,7 @@ export class AlertsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Cancel an existing alert
+     * Mark an alert as CANCELLED. We do not \'delete\' the alert, for billing purposes
      * Cancel Alert
      */
     async cancelAlertApiV1AlertsAlertIdCancelPatch(requestParameters: CancelAlertApiV1AlertsAlertIdCancelPatchRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {
@@ -185,7 +184,7 @@ export class AlertsApi extends runtime.BaseAPI {
     }
 
     /**
-     * List alerts for the authenticated user with filtering and pagination
+     * List all alerts for the authenticated user with filtering and pagination
      * List Alerts
      */
     async listAlertsApiV1AlertsGetRaw(requestParameters: ListAlertsApiV1AlertsGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<AlertPromptListResponse>> {
@@ -211,10 +210,6 @@ export class AlertsApi extends runtime.BaseAPI {
             queryParameters['created_after'] = (requestParameters['createdAfter'] as any).toISOString();
         }
 
-        if (requestParameters['semanticThreshold'] != null) {
-            queryParameters['semantic_threshold'] = requestParameters['semanticThreshold'];
-        }
-
         const headerParameters: runtime.HTTPHeaders = {};
 
         if (this.configuration && this.configuration.apiKey) {
@@ -232,7 +227,7 @@ export class AlertsApi extends runtime.BaseAPI {
     }
 
     /**
-     * List alerts for the authenticated user with filtering and pagination
+     * List all alerts for the authenticated user with filtering and pagination
      * List Alerts
      */
     async listAlertsApiV1AlertsGet(requestParameters: ListAlertsApiV1AlertsGetRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<AlertPromptListResponse> {

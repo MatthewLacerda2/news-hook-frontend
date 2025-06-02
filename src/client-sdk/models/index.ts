@@ -14,5 +14,6 @@ export * from './OAuth2Request';
 export * from './TokenResponse';
 export * from './UserDocumentCreateRequest';
 export * from './UserDocumentCreateSuccessResponse';
+export * from './UserDocumentItem';
 export * from './ValidationError';
 export * from './ValidationErrorLocInner';

@@ -1,8 +1,8 @@
 apis/AlertsApi.ts
 apis/AuthApi.ts
 apis/DefaultApi.ts
-apis/DocumentsApi.ts
 apis/LlmModelsApi.ts
+apis/UserDocumentsApi.ts
 apis/index.ts
 index.ts
 models/AgentControllerResponse.ts
@@ -19,6 +19,7 @@ models/OAuth2Request.ts
 models/TokenResponse.ts
 models/UserDocumentCreateRequest.ts
 models/UserDocumentCreateSuccessResponse.ts
+models/UserDocumentItem.ts
 models/ValidationError.ts
 models/ValidationErrorLocInner.ts
 models/index.ts
