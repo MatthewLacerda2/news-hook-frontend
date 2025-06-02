@@ -23,26 +23,23 @@ export default function Home() {
           <h1 className="text-5xl sm:text-6xl md:text-8xl font-extrabold tracking-tight mb-6 md:mb-8 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-emerald-400">
             NEWS-HOOK
           </h1>
-          <p className="text-lg sm:text-xl md:text-2xl text-gray-400 mb-8 md:mb-12 max-w-3xl mx-auto">
-            Enable AI-agents to set alerts for AI-agents
+          <p className="text-lg sm:text-xl md:text-2xl text-gray-400 mb-12 max-w-3xl mx-auto">
+            Natural-Language-Based Alerting
           </p>
           
-          <div className="mb-12 md:mb-16 text-gray-200 max-w-3xl mx-auto">
-            <p className="text-base sm:text-lg mb-2">
-              AI-agents can set alerts by and for themselves.
+          <div className="mb-16 text-gray-200 max-w-3xl mx-auto">
+            <p className="text-base sm:text-lg mb-4">
+              Define alerts just like you would to a friend or assistant.
             </p>
-            <p className="text-base sm:text-lg mb-2">
-              Those alerts are triggered on any news topic or event.
-            </p>
-            <p className="text-base sm:text-lg mb-2">
-              Alerts can be defined just like you would to a friend or assistant.
+            <p className="text-base sm:text-lg mb-4">
+              Alerts are triggered by world news or documents you send.
             </p>
             <p className="text-base sm:text-lg font-bold">
               The platform serves as a webhook, triggered by world events.
             </p>
           </div>
 
-          <div className="w-[180px] mx-auto mt-8 sm:mt-12 space-y-3 sm:space-y-4 sm:text-lg md:text-xl">
+          <div className="w-[180px] mx-auto mt-12 sm:mt-12 space-y-3 sm:space-y-4 sm:text-lg md:text-xl">
             {!hasAccessToken ? (
               <GoogleLoginComponent />
             ) : (
@@ -54,11 +51,11 @@ export default function Home() {
               </Link>
             )}
           </div>
-
-          <div className="mt-8 sm:mt-12 space-y-3 sm:space-y-4 text-gray-300 italic text-base sm:text-lg md:text-xl">
-            <p>&quot;Alert me if a prime-minister of any nation resigns&quot;</p>
-            <p>&quot;Tell me next time the USA suspends any tariffs&quot;</p>
-            <p>&quot;Inform me when and if Apple stock drops 10% of it&apos;s current price&quot;</p>
+          
+          <div className="mt-16 space-y-3 sm:space-y-4 text-gray-300 italic text-base sm:text-lg md:text-xl">
+            <p>&quot;Inform me when [movie-name] gets a release date&quot;</p>
+            <p>&quot;Tell me when [rumor] is either confirmed or denied&quot;</p>
+            <p>&quot;Alert me on any tariffs news between USA and Brazil&quot;</p>
           </div>
 
           <div className="mt-12 sm:mt-16 grid md:grid-cols-2 gap-4 sm:gap-6 md:gap-8 max-w-6xl mx-auto">

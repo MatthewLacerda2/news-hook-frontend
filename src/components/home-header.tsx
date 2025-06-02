@@ -11,8 +11,8 @@ export default function HomeHeader() {
             <Link href="/api" className="text-white font-semibold text-lg hover:text-gray-300 transition-colors">
               API
             </Link>
-            <Link href="/contact-us" className="text-white font-semibold text-lg hover:text-gray-300 transition-colors">
-              Contact Us
+            <Link href="/contact" className="text-white font-semibold text-lg hover:text-gray-300 transition-colors">
+              Contact
             </Link>
           </div>
         </div>
