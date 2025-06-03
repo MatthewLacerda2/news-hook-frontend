@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { AlertsApi, Configuration, HttpMethod } from "@/client-sdk"
+import { AlertPromptCreateRequestBase, AlertsApi, Configuration, HttpMethod } from "@/client-sdk"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
@@ -67,17 +67,19 @@ export default function CreateAlertPage() {
         const alertApi = new AlertsApi(new Configuration({ basePath: "http://127.0.0.1:8000", headers: {
           'X-API-Key': agentData.apiKey
         } }))
+        const createAlertRequest : AlertPromptCreateRequestBase = {
+          prompt,
+          httpMethod,
+          httpUrl,
+          httpHeaders: httpHeaders ? JSON.parse(httpHeaders.replace(/'/g, '"')) : null,
+          llmModel,
+          payloadFormat: payloadFormat ? JSON.parse(payloadFormat.replace(/'/g, '"')) : null,
+          maxDatetime,
+          isRecurring,
+        }
+        console.log(createAlertRequest)
         const response = await alertApi.createAlertApiV1AlertsPost({
-          alertPromptCreateRequestBase: {
-            prompt,
-            httpMethod,
-            httpUrl,
-            httpHeaders: httpHeaders ? JSON.parse(httpHeaders) : null,
-            llmModel,
-            payloadFormat: payloadFormat ? JSON.parse(payloadFormat) : null,
-            maxDatetime,
-            isRecurring,
-          }
+          alertPromptCreateRequestBase: createAlertRequest
         })
         
         setSuccessMessage("Alert request created successfully!")
