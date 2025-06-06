@@ -53,9 +53,10 @@ export default function MainPage() {
     }
   }
 
-  const formatDate = (dateStr: string) => {
-    const date = new Date(dateStr)
-    return `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')} ${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}`
+  const formatDate = (date: Date) => {
+    const time = `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`
+    const dateStr = `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}`
+    return <><span className="font-bold">{time}</span> {dateStr}</>
   }
 
   const debouncedListAlerts = useCallback((term: string) => {
@@ -179,7 +180,6 @@ export default function MainPage() {
                 <TableHead className="text-gray-200 font-bold">Model</TableHead>
                 <TableHead className="text-gray-200 font-bold">Recurring</TableHead>
                 <TableHead className="text-gray-200 font-bold">Created At</TableHead>
-                <TableHead className="text-gray-200 font-bold">Expires At</TableHead>
                 <TableHead className="text-gray-200 font-bold">Status</TableHead>
               </TableRow>
             </TableHeader>
@@ -199,13 +199,12 @@ export default function MainPage() {
                     {item.httpMethod}
                   </TableCell>
                   <TableCell className="text-white font-mono text-sm">
-                    {item.llmModel}
+                    {item.llmModel.length > 23 ? `${item.llmModel.substring(0, 20)}...` : item.llmModel}
                   </TableCell>
                   <TableCell className="text-white">
                     {item.isRecurring ? "Yes" : "No"}
                   </TableCell>
-                  <TableCell className="text-white">{formatDate(item.createdAt.toString())}</TableCell>
-                  <TableCell className="text-white">{formatDate(item.expiresAt.toString())}</TableCell>
+                  <TableCell className="text-white">{formatDate(item.createdAt)}</TableCell>
                   <TableCell className={`${statusColors[item.status as keyof typeof statusColors]} font-semibold`}>
                     {item.status}
                   </TableCell>

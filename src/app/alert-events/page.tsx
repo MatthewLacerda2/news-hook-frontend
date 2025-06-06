@@ -36,8 +36,21 @@ export default function AlertEventsPage() {
     return url.length > 60 ? url.substring(0, 57) + "..." : url
   }
 
+  const formatJson = (data: Record<string, unknown>) => {
+    const str = JSON.stringify(data)
+    return str.length > 38 ? str.substring(0, 35) + "..." : str
+  }
+
   const formatDate = (date: Date) => {
-    return `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')} ${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}`
+    const time = `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`
+    let dateStr = `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}`
+    
+    // Total length would be: time (5) + space (1) + dateStr
+    if (time.length + 1 + dateStr.length > 23) {
+      dateStr = dateStr.substring(0, 17) + '...'
+    }
+    
+    return <><span className="font-bold">{time}</span> {dateStr}</>
   }
 
   const filteredData = events?.events.filter(item => {
@@ -110,6 +123,7 @@ export default function AlertEventsPage() {
                 <TableHead className="text-white font-bold text-base w-24">Method</TableHead>
                 <TableHead className="text-white font-bold text-base w-64">URL</TableHead>
                 <TableHead className="text-white font-bold text-base w-24">Recurring</TableHead>
+                <TableHead className="text-white font-bold text-base w-64">Payload</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -131,7 +145,12 @@ export default function AlertEventsPage() {
                     {formatUrl(item.httpUrl)}
                   </TableCell>
                   <TableCell className="text-white w-24">
-                    {item.isRecurring ? "Yes" : "No"}
+                    <span className={`font-bold ${item.isRecurring ? 'text-green-500' : 'text-blue-500'}`}>
+                      {item.isRecurring ? "Yes" : "No"}
+                    </span>
+                  </TableCell>
+                  <TableCell className="text-white w-64 font-mono text-sm" title={JSON.stringify(item.structuredData, null, 2)}>
+                    {formatJson(item.structuredData)}
                   </TableCell>
                 </TableRow>
               ))}
