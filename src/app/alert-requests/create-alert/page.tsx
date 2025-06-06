@@ -27,6 +27,10 @@ export default function CreateAlertPage() {
   const [successMessage, setSuccessMessage] = useState("")
   const [debugResponse, setDebugResponse] = useState<unknown>(null)
 
+  const auxagentData = JSON.parse(localStorage.getItem('agentData') || '{}');
+  const headers = { 'X-API-Key': auxagentData.apiKey };
+  console.log(headers);
+
   // Validation functions
   const validatePrompt = (value: string) => value.length >= 3
   const validateUrl = (value: string) => {

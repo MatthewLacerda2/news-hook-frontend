@@ -1,19 +1,17 @@
 "use client"
 
 import { useState } from "react"
-import { DocumentsApi, Configuration } from "@/client-sdk"
+import { UserDocumentsApi, Configuration } from "@/client-sdk"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
-import { useRouter } from "next/navigation"
 
 export default function SendDocumentPage() {
   const [name, setName] = useState("")
   const [content, setContent] = useState("")
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [debugResponse, setDebugResponse] = useState<unknown>(null)
-  const router = useRouter()
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {}
@@ -36,25 +34,21 @@ export default function SendDocumentPage() {
     if (validateForm()) {
       try {
         const agentData = JSON.parse(localStorage.getItem('agentData') || '{}');
-        const documentApi = new DocumentsApi(new Configuration({ 
+        const documentApi = new UserDocumentsApi(new Configuration({ 
           basePath: "http://127.0.0.1:8000", 
           headers: {
             'X-API-Key': agentData.apiKey
           } 
         }))
 
-        const response = await documentApi.postDocumentApiV1DocumentsPost({
+        const response = await documentApi.postUserDocumentApiV1UserDocumentsPost({
           userDocumentCreateRequest: {
             name: name.trim(),
             content: content.trim(),
           },
         })
 
-        if ('id' in response) {
-          router.push('/alert-requests')
-        } else {
-          setDebugResponse(response)
-        }
+        setDebugResponse(response)
       } catch (error) {
         setErrors({ submit: "Failed to send document" })
         console.error(error)
@@ -69,7 +63,7 @@ export default function SendDocumentPage() {
         <CardContent className="pt-6 space-y-4">
           <div>
             <Input
-              placeholder="Document name"
+              placeholder="Document name (for organization)"
               value={name}
               onChange={(e) => setName(e.target.value)}
               className={errors.name ? "border-red-500" : ""}

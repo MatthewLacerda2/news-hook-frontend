@@ -1,11 +1,14 @@
 apis/AlertsApi.ts
 apis/AuthApi.ts
 apis/DefaultApi.ts
+apis/EventsApi.ts
 apis/LlmModelsApi.ts
 apis/UserDocumentsApi.ts
 apis/index.ts
 index.ts
 models/AgentControllerResponse.ts
+models/AlertEventItem.ts
+models/AlertEventListResponse.ts
 models/AlertPromptCreateRequestBase.ts
 models/AlertPromptCreateSuccessResponse.ts
 models/AlertPromptItem.ts

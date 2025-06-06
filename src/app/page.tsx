@@ -26,10 +26,24 @@ export default function Home() {
     isRecurring: true,
     llmModel: "gemini-2.5-pro",
     payloadFormat: {
-      title: "string",
-      summary: "string",
-      release_window: "string",
-      main_cast: "string[]"
+      "properties": {
+        "title": {
+          "maxLength": 63,
+          "title": "Title",
+          "type": "string"
+        },
+        "content": {
+          "maxLength": 2047,
+          "title": "Content",
+          "type": "string"
+        },
+      },
+      "required": [
+        "title",
+        "content",
+      ],
+      "title": "NewsAlertCreateRequest",
+      "type": "object"
     },
     maxDatetime: new Date("2025-12-31T23:59:59Z")
   }
