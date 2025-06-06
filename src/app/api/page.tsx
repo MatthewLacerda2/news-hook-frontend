@@ -1,3 +1,4 @@
+import EndpointCard from "@/components/alert-events/endpoint-card"
 import HomeHeader from "@/components/home-header"
 import {
   Card,
@@ -12,45 +13,23 @@ export default function APIPage() {
     <div>
       <HomeHeader />
       <div className="container max-w-4xl mx-auto mt-18 pb-12">
-        <Card className="mb-8 bg-zinc-900 border-zinc-800">
-          <CardHeader>
-            <div className="flex items-center gap-3">
-              <span className="px-2 py-1 text-sm rounded bg-green-900 text-green-300">POST</span>
-              <CardTitle className="text-gray-200">/api/alerts</CardTitle>
-            </div>
-            <CardDescription className="text-gray-400">Create an alert-trigger</CardDescription>
-            <CardDescription className="text-gray-400">The prompt itself must be possible, otherwise we send 400 Bad Request</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-6">
-              <div>
-                <h3 className="text-sm font-medium text-gray-300 mb-2">Request Body</h3>
-                <pre className="bg-zinc-800 p-4 rounded-lg text-sm text-gray-300">
-{`{
-  "prompt": string,
-  "http_method": "GET" | "POST" | "PUT" | "PATCH" | "DELETE",
-  "http_url": string,
-  "parsed_intent"?: object,
-  "example_response"?: object,
-  "max_datetime"?: string
-}`}
-                </pre>
-              </div>
-              <div>
-                <h3 className="text-sm font-medium text-gray-300 mb-2">Response (201)</h3>
-                <pre className="bg-zinc-800 p-4 rounded-lg text-sm text-gray-300">
-{`{
-  "id": string,
-  "prompt": string,
-  "output_intent": string,
-  "created_at": string,
-  "keywords": string[]
-}`}
-                </pre>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+        <EndpointCard
+          url="/api/alerts"
+          description="List all alerts"
+          method="GET"
+          properties={[
+            {
+              title: "offset",
+              description: "The offset of the alerts to return",
+              mytype: "number",
+              required: true,
+              defaultValue: "0",
+              availableOptions: "0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10",
+              min: 0,
+              max: 100,
+            },
+          ]}
+        />
 
         {/* List Alerts Endpoint */}
         <Card className="mb-8 bg-zinc-900 border-zinc-800">
