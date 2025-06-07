@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent } from "@/components/ui/card"
 import {
@@ -12,42 +12,43 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { Configuration, UserDocumentsApi, UserDocumentListResponse } from "@/client-sdk"
+import { debounce } from "lodash"
 
 export default function MyDocumentsPage() {
   const [searchTerm, setSearchTerm] = useState("")
   const [documents, setDocuments] = useState<UserDocumentListResponse>()
   
   const formatName = (name: string) => {
-    return name.length > 42 ? name.substring(0, 39) + "..." : name
+    return name.length > 51 ? name.substring(0, 48) + "..." : name
   }
 
   const formatContent = (content: string) => {
-    return content.length > 64 ? content.substring(0, 61) + "..." : content
+    return content.length > 99 ? content.substring(0, 96) + "..." : content
   }
   
   const formatDate = (date: Date) => {
     return date.toLocaleString().substring(0, 16)
   }
 
-  useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        const agentData = JSON.parse(localStorage.getItem('agentData') || '{}');
-        const userDocumentsApi = new UserDocumentsApi(new Configuration({ 
-          basePath: "http://127.0.0.1:8000",
-          headers: {
-            'X-API-Key': agentData.apiKey
-          }
-        }));
-        const response = await userDocumentsApi.getUserDocumentsApiV1UserDocumentsGet({offset:0, limit:50, contains:searchTerm});
-        setDocuments(response);
-      } catch (error) {
-        console.error('Error fetching alert events:', error);
-      }
-    };
+  const debouncedListDocuments = useCallback((term: string) => {
+    const handler = debounce(async (searchTerm: string) => {
+      const agentData = JSON.parse(localStorage.getItem('agentData') || '{}');
+      const userDocumentsApi = new UserDocumentsApi(new Configuration({
+        basePath: "http://127.0.0.1:8000",
+        headers: {
+          'X-API-Key': agentData.apiKey
+        }
+      }));
+      const response = await userDocumentsApi.getUserDocumentsApiV1UserDocumentsGet({offset:0, limit:50, contains:searchTerm});
+      setDocuments(response);
+    }, 500);
+    handler(term);
+    return () => handler.cancel();
+  }, []);
 
-    fetchEvents();
-  }, [searchTerm]);
+  useEffect(() => {
+    debouncedListDocuments(searchTerm);
+  }, [searchTerm, debouncedListDocuments]);
 
   return (
     <div className="container mx-auto p-4 mt-40 max-w-7xl">
