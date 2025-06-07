@@ -1,4 +1,3 @@
-import HomeHeader from "@/components/home-header"
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 import profileImages from "./profile-images.json";
@@ -6,7 +5,6 @@ import profileImages from "./profile-images.json";
 export default function Contact() {
   return (
     <div>
-      <HomeHeader />
       <div className="container max-w-4xl mx-auto mt-18 pb-12">
         <div className="text-center mt-8">
           <p className="text-xl text-gray-100 mb-4 font-bold">

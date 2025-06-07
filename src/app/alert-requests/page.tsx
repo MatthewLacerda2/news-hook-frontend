@@ -12,7 +12,6 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { Card, CardContent } from "@/components/ui/card"
-import { PopoverDateFilter } from "@/components/alert-requests.tsx/popover-date-filter"
 import { AlertsApi, AuthApi, Configuration, AlertPromptItem } from "@/client-sdk"
 import debounce from "lodash/debounce"
 
@@ -33,10 +32,6 @@ const statusColors = {
 
 export default function MainPage() {
   const [searchTerm, setSearchTerm] = useState("")
-  const [minCreation, setMinCreation] = useState<Date>()
-  const [maxCreation, setMaxCreation] = useState<Date>()
-  const [minExpire, setMinExpire] = useState<Date>()
-  const [maxExpire, setMaxExpire] = useState<Date>()
   const [creditBalance, setCreditBalance] = useState<number | null>(null)
   const [alerts, setAlerts] = useState<AlertPromptItem[]>([])
 
@@ -72,15 +67,13 @@ export default function MainPage() {
         offset: 0,
         limit: 10,
         promptContains: searchTerm,
-        maxDatetime: maxExpire,
-        createdAfter: minCreation
       });
       setAlerts(response.alerts);
     }, 500);
     
     handler(term);
     return () => handler.cancel();
-  }, [maxExpire, minCreation]);
+  }, []);
 
   useEffect(() => {
     debouncedListAlerts(searchTerm);
@@ -137,38 +130,12 @@ export default function MainPage() {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
           
-          <div className="flex gap-2 mb-4 justify-between items-center">
+          <div className="flex gap-2 mb-3 justify-between items-center">
             {creditBalance !== null && (
-              <div className="text-white text-lg font-bold ml-2">
-                {creditBalance} credits
+              <div className="text-white text-lg font-semibold ml-2 mt-1">
+                {creditBalance.toFixed(4)} credits
               </div>
             )}
-            <div className="flex gap-2">
-              <PopoverDateFilter
-                value={minCreation}
-                onChange={setMinCreation}
-                buttonLabel="Min Creation"
-                buttonColor="green"
-              />
-              <PopoverDateFilter
-                value={maxCreation}
-                onChange={setMaxCreation}
-                buttonLabel="Max Creation"
-                buttonColor="green"
-              />
-              <PopoverDateFilter
-                value={minExpire}
-                onChange={setMinExpire}
-                buttonLabel="Min Expire"
-                buttonColor="orange"
-              />
-              <PopoverDateFilter
-                value={maxExpire}
-                onChange={setMaxExpire}
-                buttonLabel="Max Expire"
-                buttonColor="orange"
-              />
-            </div>
           </div>
 
           <Table>

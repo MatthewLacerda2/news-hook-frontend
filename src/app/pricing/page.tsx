@@ -1,6 +1,5 @@
 'use client'
 
-import HomeHeader from "@/components/home-header"
 import {
   Table,
   TableBody,
@@ -35,7 +34,6 @@ export default function PricingPage() {
 
   return (
     <div>
-      <HomeHeader />
       <div className="container max-w-4xl mx-auto mt-18">
         <Table>
           <TableHeader>

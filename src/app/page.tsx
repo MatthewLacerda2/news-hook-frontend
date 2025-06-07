@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import HomeHeader from '@/components/home-header'
 import GoogleLoginComponent from '@/components/google-login';
 import Link from 'next/link';
 import { AlertPromptCreateRequestBase, AlertPromptCreateSuccessResponse } from '@/client-sdk/models';
@@ -58,8 +57,6 @@ export default function Home() {
 
   return (
     <div>
-      <HomeHeader />
-
       <main className="pt-8 md:pt-12 pb-12 md:pb-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-5xl sm:text-6xl md:text-8xl font-extrabold tracking-tight mb-6 md:mb-8 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-emerald-400">
