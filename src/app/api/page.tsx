@@ -114,7 +114,7 @@ export default function APIPage() {
         />
         <EndpointCard
           url="/alerts/{alert_id}/cancel"
-          description="Marks the alert request with the given ID as CANCELLED.\nThe alert request is not deleted (for billing purposes)"
+          description="Marks the alert request with the given 'id' as 'cancelled'. Does not delete it (for billing purposes)"
           method="PATCH"
           properties={[
             {
