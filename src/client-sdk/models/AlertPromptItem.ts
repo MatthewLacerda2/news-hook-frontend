@@ -41,7 +41,7 @@ export interface AlertPromptItem {
      */
     id: string;
     /**
-     * The natural language prompt describing what to monitor
+     * The description of what to monitor. Try to be specific, clear and succinct.
      * @type {string}
      * @memberof AlertPromptItem
      */

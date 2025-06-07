@@ -20,46 +20,32 @@ import { mapValues } from '../runtime';
  */
 export interface LLMModelItem {
     /**
-     * 
-     * @type {string}
-     * @memberof LLMModelItem
-     */
-    id: string;
-    /**
-     * 
+     * The name of the LLM model. Vertex-AI refers to it as the model ID.
      * @type {string}
      * @memberof LLMModelItem
      */
     modelName: string;
     /**
-     * 
+     * Input token price in dollars per million tokens, without cache hit
      * @type {number}
      * @memberof LLMModelItem
      */
     inputTokenPrice: number;
     /**
-     * 
+     * Output token price in dollars per million tokens, without cache hit
      * @type {number}
      * @memberof LLMModelItem
      */
     outputTokenPrice: number;
-    /**
-     * Whether the model is currently active and can be used
-     * @type {boolean}
-     * @memberof LLMModelItem
-     */
-    isActive: boolean;
 }
 
 /**
  * Check if a given object implements the LLMModelItem interface.
  */
 export function instanceOfLLMModelItem(value: object): value is LLMModelItem {
-    if (!('id' in value) || value['id'] === undefined) return false;
     if (!('modelName' in value) || value['modelName'] === undefined) return false;
     if (!('inputTokenPrice' in value) || value['inputTokenPrice'] === undefined) return false;
     if (!('outputTokenPrice' in value) || value['outputTokenPrice'] === undefined) return false;
-    if (!('isActive' in value) || value['isActive'] === undefined) return false;
     return true;
 }
 
@@ -73,11 +59,9 @@ export function LLMModelItemFromJSONTyped(json: any, ignoreDiscriminator: boolea
     }
     return {
         
-        'id': json['id'],
         'modelName': json['model_name'],
         'inputTokenPrice': json['input_token_price'],
         'outputTokenPrice': json['output_token_price'],
-        'isActive': json['is_active'],
     };
 }
 
@@ -92,11 +76,9 @@ export function LLMModelItemToJSONTyped(value?: LLMModelItem | null, ignoreDiscr
 
     return {
         
-        'id': value['id'],
         'model_name': value['modelName'],
         'input_token_price': value['inputTokenPrice'],
         'output_token_price': value['outputTokenPrice'],
-        'is_active': value['isActive'],
     };
 }
 

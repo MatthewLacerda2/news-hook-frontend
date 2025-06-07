@@ -1,125 +1,224 @@
-import HomeHeader from "@/components/home-header"
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-} from "@/components/ui/card"
+import EndpointCard from "@/components/alert-events/endpoint-card"
 
 export default function APIPage() {
   return (
     <div>
-      <HomeHeader />
-      <div className="container max-w-4xl mx-auto mt-18 pb-12">
-        <Card className="mb-8 bg-zinc-900 border-zinc-800">
-          <CardHeader>
-            <div className="flex items-center gap-3">
-              <span className="px-2 py-1 text-sm rounded bg-green-900 text-green-300">POST</span>
-              <CardTitle className="text-gray-200">/api/alerts</CardTitle>
-            </div>
-            <CardDescription className="text-gray-400">Create an alert-trigger</CardDescription>
-            <CardDescription className="text-gray-400">The prompt itself must be possible, otherwise we send 400 Bad Request</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-6">
-              <div>
-                <h3 className="text-sm font-medium text-gray-300 mb-2">Request Body</h3>
-                <pre className="bg-zinc-800 p-4 rounded-lg text-sm text-gray-300">
-{`{
-  "prompt": string,
-  "http_method": "GET" | "POST" | "PUT" | "PATCH" | "DELETE",
-  "http_url": string,
-  "parsed_intent"?: object,
-  "example_response"?: object,
-  "max_datetime"?: string
-}`}
-                </pre>
-              </div>
-              <div>
-                <h3 className="text-sm font-medium text-gray-300 mb-2">Response (201)</h3>
-                <pre className="bg-zinc-800 p-4 rounded-lg text-sm text-gray-300">
-{`{
-  "id": string,
-  "prompt": string,
-  "output_intent": string,
-  "created_at": string,
-  "keywords": string[]
-}`}
-                </pre>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* List Alerts Endpoint */}
-        <Card className="mb-8 bg-zinc-900 border-zinc-800">
-          <CardHeader>
-            <div className="flex items-center gap-3">
-              <span className="px-2 py-1 text-sm rounded bg-blue-900 text-blue-300">GET</span>
-              <CardTitle className="text-gray-200">/api/alerts</CardTitle>
-            </div>
-            <CardDescription className="text-gray-400">List all alerts</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-6">
-              <div>
-                <h3 className="text-sm font-medium text-gray-300 mb-2">Query Parameters</h3>
-                <pre className="bg-zinc-800 p-4 rounded-lg text-sm text-gray-300">
-{`offset?: number (default: 0)
-limit?: number (default: 50, max: 100)
-prompt_contains?: string // If provided, only prompts containing this substring will be returned
-max_datetime?: string
-created_after?: string`}
-                </pre>
-              </div>
-              <div>
-                <h3 className="text-sm font-medium text-gray-300 mb-2">Response (200)</h3>
-                <pre className="bg-zinc-800 p-4 rounded-lg text-sm text-gray-300">
-{`{
-  "alerts": [
-    {
-      "id": string,
-      "prompt": string,
-      "http_method": string,
-      "http_url": string,
-      "max_datetime": string,
-      "tags": string[],
-      "keywords": string[],
-      "status": string,
-      "created_at": string
-    }
-  ],
-  "total_count": number
-}`}
-                </pre>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Cancel Alert Endpoint */}
-        <Card className="mb-8 bg-zinc-900 border-zinc-800">
-          <CardHeader>
-            <div className="flex items-center gap-3">
-              <span className="px-2 py-1 text-sm rounded bg-yellow-900 text-yellow-300">PATCH</span>
-              <CardTitle className="text-gray-200">/api/alerts/{'{alert_id}'}/cancel</CardTitle>
-            </div>
-            <CardDescription className="text-gray-400">Alert-requests are cancelled, not deleted (for billing purposes)</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div>
-              <h3 className="text-sm font-medium text-gray-300 mb-2">Path Parameters</h3>
-              <pre className="bg-zinc-800 p-4 rounded-lg text-sm text-gray-300">
-{`alert_id: UUID // The ID of the alert to cancel`}
-              </pre>
-            </div>
-          </CardContent>
-        </Card>
-
-        <div className="mt-8 text-sm text-gray-400">
-          <p>All endpoints require authentication via API key in the Authorization header.</p>
+      <div className="container max-w-3xl mx-auto mt-18 pb-12">
+        <div className="mb-8 text-sm text-gray-400">
+          <p>* All endpoints require authentication via API key in the Authorization header, except for the /llm-models endpoint</p>
         </div>
+        <EndpointCard
+          url="/alerts"
+          description="Create alert request"
+          method="POST"
+          properties={[
+            {
+              title: "Prompt",
+              description: "Description of the event or condition to be monitored.\nThe alert request is sent via HTTP request",
+              mytype: "string",
+              required: true,
+            },
+            {
+              title: "http_method",
+              description: "HTTP method to be used when sending the alert request",
+              mytype: "enum",
+              required: true,
+              availableOptions: "POST, PATCH, PUT",
+            },
+            {
+              title: "http_url",
+              description: "URL to be used when sending the alert request",
+              mytype: "string",
+              required: true,
+            },
+            {
+              title: "http_headers",
+              description: "HTTP headers to be used when sending the alert request",
+              mytype: "object",
+              required: false,
+            },
+            {
+              title: "is_recurring",
+              description: "Should we send the alert every time the condition is met?",
+              mytype: "boolean",
+              required: true,
+            },
+            {
+              title: "llm_model",
+              description: "The model to be used for validating the alert request and generating the alerts' payload",
+              mytype: "string",
+              required: false,
+              defaultValue: "gemini-2.5-pro-preview-05-06",
+              availableOptions: "gemini-2.5-pro-preview-05-06, gemini-2.5-flash-preview-05-20, gemini-2.0-flash-lite-001, gemini-2.0-flash-001",
+            },
+            {
+              title: "payload_format",
+              description: "The body of the request. Must be in OpenAPI 3.0 Specification format",
+              mytype: "object",
+              required: false,
+              defaultValue: "{\"title\": \"Alert Request\", \"description\": \"Alert Request\"}",
+            },
+            {
+              title: "max_datetime",
+              description: "The expiration date of the alert request",
+              mytype: "datetime",
+              required: false,
+              defaultValue: "+300 days",
+            },
+          ]}
+        />
+        <EndpointCard
+          url="/alerts"
+          description="List all alerts within the filters"
+          method="GET"
+          properties={[
+            {
+              title: "offset",
+              description: "The offset of the alert requests to return",
+              mytype: "number",
+              required: false,
+              defaultValue: "0",
+              min: 0,
+            },
+            {
+              title: "limit",
+              description: "The limit number of alert requests to return",
+              mytype: "number",
+              required: false,
+              defaultValue: "50",
+              min: 1,
+              max: 100,
+            },
+            {
+              title: "prompt_contains",
+              description: "Substring that must be contained in the alert request's prompt",
+              mytype: "string",
+              required: false,
+            },
+            {
+              title: "created_after",
+              description: "The earliest datetime the alert was created at",
+              mytype: "datetime",
+              required: false,
+            },
+            {
+              title: "max_datetime",
+              description: "The latest datetime the alert was created at",
+              mytype: "datetime",
+              required: false,
+              defaultValue: "now",
+            }
+          ]}
+        />
+        <EndpointCard
+          url="/alerts/{alert_id}/cancel"
+          description="Marks the alert request with the given 'id' as 'cancelled'. Does not delete it (for billing purposes)"
+          method="PATCH"
+          properties={[
+            {
+              title: "alert_id",
+              description: "The ID of the alert request to cancel",
+              mytype: "string",
+              required: true,
+            },
+          ]}
+        />
+        <EndpointCard
+          url="/llm-models"
+          description="List all LLM models available for the alert requests"
+          method="GET"
+          properties={[]}
+        />
+        <EndpointCard
+          url="/user_documents"
+          description="Send a text to trigger any matching alert requests.\nIt's like sending a .txt file"
+          method="POST"
+          properties={[
+            {
+              title: "name",
+              description: "The name of the text",
+              mytype: "string",
+              required: true,
+              min: 3
+            },
+            {
+              title: "content",
+              description: "The content of the text",
+              mytype: "string",
+              required: true,
+              min: 10
+            }
+          ]}
+        />
+        <EndpointCard
+          url="/user_documents/{document_id}"
+          description="Get user document with the given ID"
+          method="GET"
+          properties={[
+            {
+              title: "document_id",
+              description: "The ID of the user document to get",
+              mytype: "string",
+              required: true,
+            },
+          ]}
+        />
+        <EndpointCard
+          url="/events"
+          description="List all alert events ever triggered"
+          method="GET"
+          properties={[
+            {
+              title: "offset",
+              description: "The offset of the alert events to return",
+              mytype: "number",
+              required: false,
+              defaultValue: "0",
+              min: 0,
+            },
+            {
+              title: "limit",
+              description: "The limit of the alert events to return",
+              mytype: "number",
+              required: false,
+              defaultValue: "50",
+              min: 1,
+              max: 100,
+            },
+            {
+              title: "triggered_before",
+              description: "The earliest datetime the alert events were triggered at",
+              mytype: "datetime",
+              required: false,
+            },
+            {
+              title: "triggered_after",
+              description: "The latest datetime the alert events were triggered at",
+              mytype: "datetime",
+              required: false,
+              defaultValue: "now",
+            }
+          ]}
+        />
+        <EndpointCard
+          url="/alerts/{alert_id}"
+          description="Get alert request with the given ID"
+          method="GET"
+          properties={[
+            {
+              title: "alert_id",
+              description: "The ID of the alert request to get",
+              mytype: "string",
+              required: true,
+            },
+          ]}
+        />
+        <EndpointCard
+          url="/credits"
+          description="Check how many credits you have"
+          method="GET"
+          properties={[]}
+        />
       </div>
     </div>
   )

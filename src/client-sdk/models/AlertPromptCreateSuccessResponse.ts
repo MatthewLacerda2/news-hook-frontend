@@ -26,7 +26,7 @@ export interface AlertPromptCreateSuccessResponse {
      */
     id: string;
     /**
-     * The natural language prompt describing what to monitor
+     * The description of what to monitor
      * @type {string}
      * @memberof AlertPromptCreateSuccessResponse
      */

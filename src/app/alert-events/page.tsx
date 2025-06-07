@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent } from "@/components/ui/card"
 import {
@@ -11,8 +11,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { PopoverDateFilter } from "@/components/alert-requests.tsx/popover-date-filter"
-import tableData from "@/data/mock/fake-alert-events.json"
+import { EventsApi, AlertEventListResponse, Configuration } from "@/client-sdk"
 
 const methodColors = {
   GET: "text-green-400",
@@ -24,12 +23,7 @@ const methodColors = {
 
 export default function AlertEventsPage() {
   const [searchTerm, setSearchTerm] = useState("")
-  const [minDate, setMinDate] = useState<Date>()
-  const [maxDate, setMaxDate] = useState<Date>()
-
-  const formatId = (id: string) => {
-    return id.substring(0, 9) + "..."
-  }
+  const [events, setEvents] = useState<AlertEventListResponse>()
 
   const formatPrompt = (prompt: string) => {
     return prompt.length > 50 ? prompt.substring(0, 47) + "..." : prompt
@@ -39,22 +33,51 @@ export default function AlertEventsPage() {
     return url.length > 60 ? url.substring(0, 57) + "..." : url
   }
 
-  const formatDate = (dateStr: string) => {
-    const date = new Date(dateStr)
-    return `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')} ${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}`
+  const formatJson = (data: Record<string, unknown>) => {
+    const str = JSON.stringify(data)
+    return str.length > 38 ? str.substring(0, 35) + "..." : str
   }
 
-  const filteredData = tableData.filter(item => {
-    const matchesSearch = Object.values(item).some(value => 
-      value.toString().toLowerCase().includes(searchTerm.toLowerCase())
+  const formatDate = (date: Date) => {
+    const time = `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`
+    let dateStr = `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}`
+    
+    // Total length would be: time (5) + space (1) + dateStr
+    if (time.length + 1 + dateStr.length > 23) {
+      dateStr = dateStr.substring(0, 17) + '...'
+    }
+    
+    return <><span className="font-bold">{time}</span> {dateStr}</>
+  }
+
+  const filteredData = events?.events.filter(item => {
+    const matchesSearch = (
+      item.prompt.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.httpUrl.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.httpMethod.toLowerCase().includes(searchTerm.toLowerCase())
     )
+    return matchesSearch
+  }) || []
 
-    const eventDate = new Date(item.datetime)
-    const matchesDateRange = (!minDate || eventDate >= minDate) &&
-      (!maxDate || eventDate <= maxDate)
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const agentData = JSON.parse(localStorage.getItem('agentData') || '{}');
+        const eventsApi = new EventsApi(new Configuration({ 
+          basePath: "http://127.0.0.1:8000",
+          headers: {
+            'X-API-Key': agentData.apiKey
+          }
+        }));
+        const response = await eventsApi.listEventsApiV1EventsGet({offset:0, limit:50});
+        setEvents(response);
+      } catch (error) {
+        console.error('Error fetching alert events:', error);
+      }
+    };
 
-    return matchesSearch && matchesDateRange
-  })
+    fetchEvents();
+  }, []);
 
   return (
     <div className="container mx-auto p-4 mt-40 max-w-7xl">
@@ -66,32 +89,16 @@ export default function AlertEventsPage() {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          
-          <div className="flex gap-2 mb-4 justify-between items-center">
-            <div className="flex gap-2">
-              <PopoverDateFilter
-                value={minDate}
-                onChange={setMinDate}
-                buttonLabel="Min Date"
-                buttonColor="green"
-              />
-              <PopoverDateFilter
-                value={maxDate}
-                onChange={setMaxDate}
-                buttonLabel="Max Date"
-                buttonColor="green"
-              />
-            </div>
-          </div>
 
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="text-white font-bold text-base w-32">ID</TableHead>
                 <TableHead className="text-white font-bold text-base w-40">Datetime</TableHead>
                 <TableHead className="text-white font-bold text-base w-36">Prompt</TableHead>
                 <TableHead className="text-white font-bold text-base w-24">Method</TableHead>
                 <TableHead className="text-white font-bold text-base w-64">URL</TableHead>
+                <TableHead className="text-white font-bold text-base w-24">Recurring</TableHead>
+                <TableHead className="text-white font-bold text-base w-64">Payload</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -100,20 +107,25 @@ export default function AlertEventsPage() {
                   key={item.id}
                   className="hover:bg-gray-700/50 transition-colors"
                 >
-                  <TableCell className="font-mono text-white w-32" title={item.id}>
-                    {formatId(item.id)}
-                  </TableCell>
                   <TableCell className="text-white w-40">
-                    {formatDate(item.datetime)}
+                    {formatDate(new Date(item.triggeredAt))}
                   </TableCell>
                   <TableCell className="text-white w-36" title={item.prompt}>
                     {formatPrompt(item.prompt)}
                   </TableCell>
-                  <TableCell className={`${methodColors[item.method as keyof typeof methodColors]} font-semibold w-24`}>
-                    {item.method}
+                  <TableCell className={`${methodColors[item.httpMethod as keyof typeof methodColors]} font-semibold w-24`}>
+                    {item.httpMethod}
                   </TableCell>
-                  <TableCell className="text-white w-64" title={item.url}>
-                    {formatUrl(item.url)}
+                  <TableCell className="text-white w-64" title={item.httpUrl}>
+                    {formatUrl(item.httpUrl)}
+                  </TableCell>
+                  <TableCell className="text-white w-24">
+                    <span className={`font-bold ${item.isRecurring ? 'text-green-500' : 'text-blue-500'}`}>
+                      {item.isRecurring ? "Yes" : "No"}
+                    </span>
+                  </TableCell>
+                  <TableCell className="text-white w-64 font-mono text-sm" title={JSON.stringify(item.structuredData, null, 2)}>
+                    {formatJson(item.structuredData)}
                   </TableCell>
                 </TableRow>
               ))}
