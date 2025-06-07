@@ -36,17 +36,16 @@ const EndpointCard: React.FC<EndpointCardProps> = ({
     <Card className="mb-8 bg-zinc-900 border-zinc-800">
       <CardHeader>
         <div className="flex items-center gap-3">
-          <span className={`px-2 py-1 text-sm rounded ${methodColor}`}>
+          <span className={`px-3 py-1 text-sm rounded ${methodColor}`}>
             {method.toUpperCase()}
           </span>
-          <CardTitle className="text-gray-200">{url}</CardTitle>
+          <CardTitle className="ml-1 text-gray-200 text-lg">{url}</CardTitle>
         </div>
-        <CardDescription className="text-gray-400">{description}</CardDescription>
+        <CardDescription className="text-gray-400 text-base my-6">{description}</CardDescription>
       </CardHeader>
       {properties && properties.length > 0 && (
         <CardContent>
-          <h3 className="text-sm font-medium text-gray-200 mb-4">Parameters</h3>
-          <div className="space-y-6">
+          <div>
             {properties.map((prop, index) => (
               <PropertyDescription key={index} {...prop} />
             ))}

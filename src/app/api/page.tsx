@@ -24,10 +24,19 @@ export default function APIPage() {
               mytype: "number",
               required: true,
               defaultValue: "0",
-              availableOptions: "0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10",
+              availableOptions: "0, 1, 2, 3, 4",
               min: 0,
               max: 100,
             },
+            {
+              title: "limit",
+              description: "The limit of the alerts to return",
+              mytype: "number",
+              required: true,
+              defaultValue: "50",
+              availableOptions: "GET, POST, PATCH, PUT",
+              min: 1,
+            }
           ]}
         />
 

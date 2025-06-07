@@ -23,41 +23,50 @@ const PropertyDescription: React.FC<PropertyDescriptionProps> = ({
   max,
 }) => {
   return (
-    <div className="space-y-2">
-      <div className="flex items-center gap-2">
-        <span className="font-mono text-white">{title}</span>
-        <span className="font-mono text-gray-400">{mytype}</span>
+    <div className="space-y-2 mb-10">
+
+      <hr className="w-full border-t border-white/20 mb-8" />
+
+      <div className="flex items-center gap-4">
+        <span className="font-mono text-white mr-10 font-bold text-lg">{title}</span>
+        <span className="px-3 py-1 text-sm rounded bg-gray-600/40 text-gray-300">{mytype}</span>
+        {defaultValue && (
+          <div className="px-3 py-1 text-sm rounded bg-gray-600/40 text-gray-300">
+            <span className="font-mono text-gray-500 text-sm mr-2">Default value:</span>
+            <span className="px-3 py-1 text-sm rounded">
+              {defaultValue}
+            </span>
+          </div>
+        )}
         {required && (
-          <span className="font-mono text-red-500">required</span>
+          <span className="px-3 py-1 text-sm rounded bg-red-600/40 text-red-300">required</span>
         )}
       </div>
       
-      <p className="text-gray-400 text-sm">{description}</p>
-      
-      {defaultValue && (
-        <div className="space-y-1">
-          <span className="text-gray-300 text-sm">Default value:</span>
-          <div className="font-mono text-gray-400 text-sm">{defaultValue}</div>
-        </div>
-      )}
+      <p className="text-gray-400 text-sm my-8">{description}</p>
 
-      {availableOptions && (
-        <div className="space-y-1">
-          <span className="text-gray-300 text-sm">Available options:</span>
-          <div className="font-mono text-gray-400 text-sm">{availableOptions}</div>
-        </div>
-      )}
-
-      {(min !== undefined || max !== undefined) && (
-        <div className="space-y-1">
-          <span className="text-gray-300 text-sm">Range:</span>
-          <div className="font-mono text-gray-400 text-sm">
-            {min !== undefined && `min: ${min}`}
-            {min !== undefined && max !== undefined && ' | '}
-            {max !== undefined && `max: ${max}`}
+      <div className="flex gap-8">
+        {availableOptions && (
+          <div className="space-y-1">
+            <span className="text-gray-300 text-sm mr-4">Available options:</span>
+            <span className="px-3 py-1 text-sm rounded bg-gray-600/40 text-gray-300">{availableOptions}</span>
           </div>
-        </div>
-      )}
+        )}
+
+        {(min !== undefined || max !== undefined) && (
+          <div className="space-y-1">
+            <span className="text-gray-300 text-sm mr-4">Range:</span>
+            <span className="px-3 py-1 text-sm rounded bg-gray-600/40 text-gray-300">
+              {min !== undefined && `min: ${min}`}
+            </span>
+            {min !== undefined && max !== undefined && ' | '}
+            <span className="px-3 py-1 text-sm rounded bg-gray-600/40 text-gray-300">
+              {max !== undefined && `max: ${max}`}
+            </span>
+          </div>
+        )}
+      </div>
+      
     </div>
   );
 };
