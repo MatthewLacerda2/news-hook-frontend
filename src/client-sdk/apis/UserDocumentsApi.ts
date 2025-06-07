@@ -19,6 +19,7 @@ import type {
   UserDocumentCreateRequest,
   UserDocumentCreateSuccessResponse,
   UserDocumentItem,
+  UserDocumentListResponse,
 } from '../models/index';
 import {
     HTTPValidationErrorFromJSON,
@@ -29,10 +30,18 @@ import {
     UserDocumentCreateSuccessResponseToJSON,
     UserDocumentItemFromJSON,
     UserDocumentItemToJSON,
+    UserDocumentListResponseFromJSON,
+    UserDocumentListResponseToJSON,
 } from '../models/index';
 
 export interface GetUserDocumentApiV1UserDocumentsDocumentIdGetRequest {
     documentId: string;
+}
+
+export interface GetUserDocumentsApiV1UserDocumentsGetRequest {
+    contains?: string | null;
+    offset?: number;
+    limit?: number;
 }
 
 export interface PostUserDocumentApiV1UserDocumentsPostRequest {
@@ -80,6 +89,50 @@ export class UserDocumentsApi extends runtime.BaseAPI {
      */
     async getUserDocumentApiV1UserDocumentsDocumentIdGet(requestParameters: GetUserDocumentApiV1UserDocumentsDocumentIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UserDocumentItem> {
         const response = await this.getUserDocumentApiV1UserDocumentsDocumentIdGetRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * List all documents for the authenticated user. Can filter by substrings in the name or content.
+     * Get User Documents
+     */
+    async getUserDocumentsApiV1UserDocumentsGetRaw(requestParameters: GetUserDocumentsApiV1UserDocumentsGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UserDocumentListResponse>> {
+        const queryParameters: any = {};
+
+        if (requestParameters['contains'] != null) {
+            queryParameters['contains'] = requestParameters['contains'];
+        }
+
+        if (requestParameters['offset'] != null) {
+            queryParameters['offset'] = requestParameters['offset'];
+        }
+
+        if (requestParameters['limit'] != null) {
+            queryParameters['limit'] = requestParameters['limit'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["X-API-Key"] = await this.configuration.apiKey("X-API-Key"); // APIKeyHeader authentication
+        }
+
+        const response = await this.request({
+            path: `/api/v1/user_documents/`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => UserDocumentListResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * List all documents for the authenticated user. Can filter by substrings in the name or content.
+     * Get User Documents
+     */
+    async getUserDocumentsApiV1UserDocumentsGet(requestParameters: GetUserDocumentsApiV1UserDocumentsGetRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UserDocumentListResponse> {
+        const response = await this.getUserDocumentsApiV1UserDocumentsGetRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

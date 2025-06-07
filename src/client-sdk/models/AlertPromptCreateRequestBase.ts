@@ -34,12 +34,6 @@ export interface AlertPromptCreateRequestBase {
      */
     prompt: string;
     /**
-     * HTTP method to alert at
-     * @type {HttpMethod}
-     * @memberof AlertPromptCreateRequestBase
-     */
-    httpMethod: HttpMethod;
-    /**
      * The URL to alert at
      * @type {string}
      * @memberof AlertPromptCreateRequestBase
@@ -52,11 +46,17 @@ export interface AlertPromptCreateRequestBase {
      */
     httpHeaders?: { [key: string]: any; } | null;
     /**
-     * Whether the alert is recurring
+     * Should we send the alert every time the condition is met?
      * @type {boolean}
      * @memberof AlertPromptCreateRequestBase
      */
     isRecurring: boolean;
+    /**
+     * 
+     * @type {HttpMethod}
+     * @memberof AlertPromptCreateRequestBase
+     */
+    httpMethod?: HttpMethod | null;
     /**
      * 
      * @type {string}
@@ -84,7 +84,6 @@ export interface AlertPromptCreateRequestBase {
  */
 export function instanceOfAlertPromptCreateRequestBase(value: object): value is AlertPromptCreateRequestBase {
     if (!('prompt' in value) || value['prompt'] === undefined) return false;
-    if (!('httpMethod' in value) || value['httpMethod'] === undefined) return false;
     if (!('httpUrl' in value) || value['httpUrl'] === undefined) return false;
     if (!('isRecurring' in value) || value['isRecurring'] === undefined) return false;
     return true;
@@ -101,10 +100,10 @@ export function AlertPromptCreateRequestBaseFromJSONTyped(json: any, ignoreDiscr
     return {
         
         'prompt': json['prompt'],
-        'httpMethod': HttpMethodFromJSON(json['http_method']),
         'httpUrl': json['http_url'],
         'httpHeaders': json['http_headers'] == null ? undefined : json['http_headers'],
         'isRecurring': json['is_recurring'],
+        'httpMethod': json['http_method'] == null ? undefined : HttpMethodFromJSON(json['http_method']),
         'llmModel': json['llm_model'] == null ? undefined : json['llm_model'],
         'payloadFormat': json['payload_format'] == null ? undefined : json['payload_format'],
         'maxDatetime': json['max_datetime'] == null ? undefined : (new Date(json['max_datetime'])),
@@ -123,10 +122,10 @@ export function AlertPromptCreateRequestBaseToJSONTyped(value?: AlertPromptCreat
     return {
         
         'prompt': value['prompt'],
-        'http_method': HttpMethodToJSON(value['httpMethod']),
         'http_url': value['httpUrl'],
         'http_headers': value['httpHeaders'],
         'is_recurring': value['isRecurring'],
+        'http_method': HttpMethodToJSON(value['httpMethod']),
         'llm_model': value['llmModel'],
         'payload_format': value['payloadFormat'],
         'max_datetime': value['maxDatetime'] == null ? undefined : ((value['maxDatetime'] as any).toISOString()),

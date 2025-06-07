@@ -23,6 +23,7 @@ models/TokenResponse.ts
 models/UserDocumentCreateRequest.ts
 models/UserDocumentCreateSuccessResponse.ts
 models/UserDocumentItem.ts
+models/UserDocumentListResponse.ts
 models/ValidationError.ts
 models/ValidationErrorLocInner.ts
 models/index.ts

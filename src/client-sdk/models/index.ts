@@ -17,5 +17,6 @@ export * from './TokenResponse';
 export * from './UserDocumentCreateRequest';
 export * from './UserDocumentCreateSuccessResponse';
 export * from './UserDocumentItem';
+export * from './UserDocumentListResponse';
 export * from './ValidationError';
 export * from './ValidationErrorLocInner';
