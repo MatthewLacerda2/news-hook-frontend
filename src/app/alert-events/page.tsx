@@ -11,7 +11,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { PopoverDateFilter } from "@/components/alert-requests.tsx/popover-date-filter"
 import { EventsApi, AlertEventListResponse, Configuration } from "@/client-sdk"
 
 const methodColors = {
@@ -24,8 +23,6 @@ const methodColors = {
 
 export default function AlertEventsPage() {
   const [searchTerm, setSearchTerm] = useState("")
-  const [minDate, setMinDate] = useState<Date>()
-  const [maxDate, setMaxDate] = useState<Date>()
   const [events, setEvents] = useState<AlertEventListResponse>()
 
   const formatPrompt = (prompt: string) => {
@@ -59,12 +56,7 @@ export default function AlertEventsPage() {
       item.httpUrl.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item.httpMethod.toLowerCase().includes(searchTerm.toLowerCase())
     )
-
-    const eventDate = new Date(item.triggeredAt)
-    const matchesDateRange = (!minDate || eventDate >= minDate) &&
-      (!maxDate || eventDate <= maxDate)
-
-    return matchesSearch && matchesDateRange
+    return matchesSearch
   }) || []
 
   useEffect(() => {
@@ -97,23 +89,6 @@ export default function AlertEventsPage() {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          
-          <div className="flex gap-2 mb-4 justify-between items-center">
-            <div className="flex gap-2">
-              <PopoverDateFilter
-                value={minDate}
-                onChange={setMinDate}
-                buttonLabel="Min Date"
-                buttonColor="green"
-              />
-              <PopoverDateFilter
-                value={maxDate}
-                onChange={setMaxDate}
-                buttonLabel="Max Date"
-                buttonColor="green"
-              />
-            </div>
-          </div>
 
           <Table>
             <TableHeader>

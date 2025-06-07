@@ -40,7 +40,6 @@ export default function APIPage() {
           ]}
         />
 
-        {/* List Alerts Endpoint */}
         <Card className="mb-8 bg-zinc-900 border-zinc-800">
           <CardHeader>
             <div className="flex items-center gap-3">

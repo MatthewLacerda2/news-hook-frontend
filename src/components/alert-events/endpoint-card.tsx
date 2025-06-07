@@ -41,13 +41,17 @@ const EndpointCard: React.FC<EndpointCardProps> = ({
           </span>
           <CardTitle className="ml-1 text-gray-200 text-lg">{url}</CardTitle>
         </div>
-        <CardDescription className="text-gray-400 text-base my-6">{description}</CardDescription>
+        <CardDescription className="text-gray-400 text-base mt-6 mb-2">{description}</CardDescription>
+        <hr className="w-full border-t border-white/10 mt-4 mb-2" />
       </CardHeader>
       {properties && properties.length > 0 && (
         <CardContent>
           <div>
             {properties.map((prop, index) => (
-              <PropertyDescription key={index} {...prop} />
+              <div key={index}>
+                <PropertyDescription {...prop} />
+                <hr className="w-full border-t border-white/20 my-10" />
+              </div>
             ))}
           </div>
         </CardContent>

@@ -23,10 +23,7 @@ const PropertyDescription: React.FC<PropertyDescriptionProps> = ({
   max,
 }) => {
   return (
-    <div className="space-y-2 mb-10">
-
-      <hr className="w-full border-t border-white/20 mb-8" />
-
+    <div>
       <div className="flex items-center gap-4">
         <span className="font-mono text-white mr-10 font-bold text-lg">{title}</span>
         <span className="px-3 py-1 text-sm rounded bg-gray-600/40 text-gray-300">{mytype}</span>
@@ -43,7 +40,7 @@ const PropertyDescription: React.FC<PropertyDescriptionProps> = ({
         )}
       </div>
       
-      <p className="text-gray-400 text-sm my-8">{description}</p>
+      <p className="text-gray-400 text-sm my-6">{description}</p>
 
       <div className="flex gap-8">
         {availableOptions && (
@@ -55,18 +52,15 @@ const PropertyDescription: React.FC<PropertyDescriptionProps> = ({
 
         {(min !== undefined || max !== undefined) && (
           <div className="space-y-1">
-            <span className="text-gray-300 text-sm mr-4">Range:</span>
+            <span className="text-gray-300 text-sm mr-4">range:</span>
             <span className="px-3 py-1 text-sm rounded bg-gray-600/40 text-gray-300">
               {min !== undefined && `min: ${min}`}
-            </span>
-            {min !== undefined && max !== undefined && ' | '}
-            <span className="px-3 py-1 text-sm rounded bg-gray-600/40 text-gray-300">
+              {min !== undefined && max !== undefined && ' | '}
               {max !== undefined && `max: ${max}`}
             </span>
           </div>
         )}
       </div>
-      
     </div>
   );
 };
