@@ -4,7 +4,7 @@ import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
 import { CredentialResponse } from '@react-oauth/google';
 import { useRouter } from 'next/navigation';
 
-const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID ?? '';
+const clientId = "205743657377-gg1iilbm7fcq4q1o7smi7c10bdhlnco0.apps.googleusercontent.com";
 
 export default function GoogleLoginComponent() {
     const router = useRouter();
