@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { AlertPromptCreateRequestBase, AlertsApi, Configuration, HttpMethod } from "@/client-sdk"
+import { AlertPromptCreateRequestBase, AlertsApi, BASE_PATH, Configuration, HttpMethod } from "@/client-sdk"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
@@ -68,7 +68,7 @@ export default function CreateAlertPage() {
     if (Object.keys(newErrors).length === 0) {
       try {
         const agentData = JSON.parse(localStorage.getItem('agentData') || '{}');
-        const alertApi = new AlertsApi(new Configuration({ basePath: "http://127.0.0.1:8000", headers: {
+        const alertApi = new AlertsApi(new Configuration({ basePath: BASE_PATH, headers: {
           'X-API-Key': agentData.apiKey
         } }))
         const createAlertRequest : AlertPromptCreateRequestBase = {

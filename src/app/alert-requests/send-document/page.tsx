@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { UserDocumentsApi, Configuration } from "@/client-sdk"
+import { UserDocumentsApi, Configuration, BASE_PATH } from "@/client-sdk"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
@@ -35,7 +35,7 @@ export default function SendDocumentPage() {
       try {
         const agentData = JSON.parse(localStorage.getItem('agentData') || '{}');
         const documentApi = new UserDocumentsApi(new Configuration({ 
-          basePath: "http://127.0.0.1:8000", 
+          basePath: BASE_PATH,
           headers: {
             'X-API-Key': agentData.apiKey
           } 

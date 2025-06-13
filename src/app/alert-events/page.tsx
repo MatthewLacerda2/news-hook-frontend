@@ -11,7 +11,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { EventsApi, AlertEventListResponse, Configuration } from "@/client-sdk"
+import { EventsApi, AlertEventListResponse, Configuration, BASE_PATH } from "@/client-sdk"
 
 const methodColors = {
   GET: "text-green-400",
@@ -64,7 +64,7 @@ export default function AlertEventsPage() {
       try {
         const agentData = JSON.parse(localStorage.getItem('agentData') || '{}');
         const eventsApi = new EventsApi(new Configuration({ 
-          basePath: "http://127.0.0.1:8000",
+          basePath: BASE_PATH,
           headers: {
             'X-API-Key': agentData.apiKey
           }

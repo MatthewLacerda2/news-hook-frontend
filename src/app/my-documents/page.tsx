@@ -11,7 +11,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { Configuration, UserDocumentsApi, UserDocumentListResponse } from "@/client-sdk"
+import { Configuration, UserDocumentsApi, UserDocumentListResponse, BASE_PATH } from "@/client-sdk"
 import { debounce } from "lodash"
 
 export default function MyDocumentsPage() {
@@ -34,7 +34,7 @@ export default function MyDocumentsPage() {
     const handler = debounce(async (searchTerm: string) => {
       const agentData = JSON.parse(localStorage.getItem('agentData') || '{}');
       const userDocumentsApi = new UserDocumentsApi(new Configuration({
-        basePath: "http://127.0.0.1:8000",
+        basePath: BASE_PATH,
         headers: {
           'X-API-Key': agentData.apiKey
         }

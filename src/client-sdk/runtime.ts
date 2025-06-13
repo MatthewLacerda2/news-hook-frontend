@@ -13,7 +13,7 @@
  */
 
 
-export const BASE_PATH = "http://localhost".replace(/\/+$/, "");
+export const BASE_PATH = (process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost").replace(/\/+$/, "");
 
 export interface ConfigurationParameters {
     basePath?: string; // override base path

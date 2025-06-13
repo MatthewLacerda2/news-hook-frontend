@@ -12,7 +12,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { Card, CardContent } from "@/components/ui/card"
-import { AlertsApi, AuthApi, Configuration, AlertPromptItem } from "@/client-sdk"
+import { AlertsApi, AuthApi, Configuration, AlertPromptItem, BASE_PATH } from "@/client-sdk"
 import debounce from "lodash/debounce"
 
 const methodColors = {
@@ -58,7 +58,7 @@ export default function MainPage() {
     const handler = debounce(async (searchTerm: string) => {
       const agentData = JSON.parse(localStorage.getItem('agentData') || '{}');
       const alertApi = new AlertsApi(new Configuration({ 
-        basePath: "http://127.0.0.1:8000",
+        basePath: BASE_PATH,
         headers: {
           'X-API-Key': agentData.apiKey
         }
@@ -84,7 +84,7 @@ export default function MainPage() {
       try {
         const accessToken = localStorage.getItem('accessToken');
         const authApi = new AuthApi(new Configuration({ 
-          basePath: "http://127.0.0.1:8000",
+          basePath: BASE_PATH,
           headers: {
             'Authorization': `Bearer ${accessToken}`
           }
@@ -187,7 +187,7 @@ export default function MainPage() {
                             try {
                               const agentData = JSON.parse(localStorage.getItem('agentData') || '{}');
                               const alertApi = new AlertsApi(new Configuration({ 
-                                basePath: "http://127.0.0.1:8000",
+                                basePath: BASE_PATH,
                                 headers: {
                                   'X-API-Key': agentData.apiKey
                                 }

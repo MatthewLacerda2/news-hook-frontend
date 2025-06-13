@@ -11,7 +11,7 @@ import {
 import { LlmModelsApi } from "@/client-sdk/apis/LlmModelsApi"
 import { useEffect, useState } from "react"
 import type { LLMModelItem } from "@/client-sdk/models"
-import { Configuration } from "@/client-sdk/runtime"
+import { BASE_PATH, Configuration } from "@/client-sdk"
 
 export default function PricingPage() {
   const [models, setModels] = useState<LLMModelItem[]>([])
@@ -20,7 +20,7 @@ export default function PricingPage() {
     const fetchModels = async () => {
       try {
         const api = new LlmModelsApi(new Configuration({
-          basePath: "http://127.0.0.1:8000",
+          basePath: BASE_PATH
         }))
         const response = await api.listLlmModelsApiV1LlmModelsGet()
         setModels(response.items)

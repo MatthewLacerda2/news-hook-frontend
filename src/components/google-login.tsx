@@ -1,9 +1,7 @@
 "use client";
-import { Configuration } from '@/client-sdk';
-import { AuthApi } from '@/client-sdk';
+import { AuthApi, BASE_PATH, Configuration, ResponseError } from '@/client-sdk';
 import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
 import { CredentialResponse } from '@react-oauth/google';
-import { ResponseError } from '@/client-sdk/runtime';
 import { useRouter } from 'next/navigation';
 
 const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID ?? '';
@@ -21,7 +19,7 @@ export default function GoogleLoginComponent() {
             return;
         }
         console.log("first")
-        const authApi = new AuthApi(new Configuration({ basePath: "http://127.0.0.1:8000" }));
+        const authApi = new AuthApi(new Configuration({ basePath: BASE_PATH }));
         try {
             const signupResponse = await authApi.signupApiV1AuthSignupPost({
                 oAuth2Request: {
