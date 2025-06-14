@@ -15,6 +15,14 @@ const nextConfig = {
             key: "Content-Security-Policy",
             value: "frame-ancestors 'self' https://accounts.google.com",
           },
+          {
+            key: "Cross-Origin-Opener-Policy",
+            value: "unsafe-none",
+          },
+          {
+            key: "Cross-Origin-Embedder-Policy",
+            value: "unsafe-none",
+          },
         ],
       },
     ];
