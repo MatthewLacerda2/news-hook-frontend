@@ -6,6 +6,19 @@ const nextConfig = {
       'media.licdn.com'
     ],
   },
+  async headers() {
+    return [
+      {
+        source: "/(.*)",
+        headers: [
+          {
+            key: "Content-Security-Policy",
+            value: "frame-ancestors 'self' https://accounts.google.com",
+          },
+        ],
+      },
+    ];
+  },
 }
 
 module.exports = nextConfig 
