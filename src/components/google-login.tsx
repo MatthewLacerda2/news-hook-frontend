@@ -19,14 +19,17 @@ export default function GoogleLoginComponent() {
         try {
             console.log("Credential response:", credentialResponse);
             console.log("Credential response credential:", credentialResponse.credential);
-            await authApi.signupApiV1AuthSignupPost({
+            const signupResponse = await authApi.signupApiV1AuthSignupPost({
                 oAuth2Request: {
                     accessToken: credentialResponse.credential
                 }
             });
+            console.log("Signup successful - Status:", 200);
+            console.log("Signup response:", signupResponse);
         } catch (error: unknown) {
-            if (error instanceof ResponseError && error.response.status === 409) {
-                console.log("User already exists - proceeding with login");
+            if (error instanceof ResponseError) {
+                console.log("Signup status code:", error.response.status);
+                console.log("Signup error response:", error.response);
             } else {
                 console.error("Signup failed:", error);
                 return;
@@ -38,6 +41,8 @@ export default function GoogleLoginComponent() {
                 accessToken: credentialResponse.credential,
             },
         });
+
+        console.log("Login response:", loginResponse);
         
         // Save token and agent data to localStorage
         localStorage.setItem('accessToken', loginResponse.accessToken);

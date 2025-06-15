@@ -1,9 +1,13 @@
 import EndpointCard from "@/components/alert-events/endpoint-card"
+import { BASE_PATH } from "@/client-sdk/runtime"
 
 export default function APIPage() {
   return (
     <div>
       <div className="container max-w-3xl mx-auto mt-18 pb-12">
+      <div className="mb-8 text-sm text-gray-400">
+          <p>URL: {BASE_PATH}</p>
+        </div>
         <div className="mb-8 text-sm text-gray-400">
           <p>* All endpoints require authentication via API key in the Authorization header, except for the /llm-models endpoint</p>
         </div>
