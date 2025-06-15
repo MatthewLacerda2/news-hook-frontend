@@ -11,7 +11,8 @@ import {
 import { LlmModelsApi } from "@/client-sdk/apis/LlmModelsApi"
 import { useEffect, useState } from "react"
 import type { LLMModelItem } from "@/client-sdk/models"
-import { BASE_PATH, Configuration } from "@/client-sdk"
+import { Configuration } from "@/client-sdk/runtime"
+import { BASE_PATH } from "@/client-sdk/runtime"
 
 export default function PricingPage() {
   const [models, setModels] = useState<LLMModelItem[]>([])

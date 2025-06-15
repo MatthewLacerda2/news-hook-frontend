@@ -1,11 +1,13 @@
 "use client"
 
 import { useState } from "react"
-import { UserDocumentsApi, Configuration, BASE_PATH } from "@/client-sdk"
+import { UserDocumentsApi } from "@/client-sdk/apis/UserDocumentsApi"
+import { Configuration } from "@/client-sdk/runtime"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
+import { BASE_PATH } from "@/client-sdk/runtime"
 
 export default function SendDocumentPage() {
   const [name, setName] = useState("")

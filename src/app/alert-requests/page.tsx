@@ -12,8 +12,12 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { Card, CardContent } from "@/components/ui/card"
-import { AlertsApi, AuthApi, Configuration, AlertPromptItem, BASE_PATH } from "@/client-sdk"
+import { AlertsApi } from "@/client-sdk/apis/AlertsApi"
+import { AuthApi } from "@/client-sdk/apis/AuthApi"
+import { Configuration } from "@/client-sdk/runtime"
+import { AlertPromptItem } from "@/client-sdk/models"
 import debounce from "lodash/debounce"
+import { BASE_PATH } from "@/client-sdk/runtime"
 
 const methodColors = {
   GET: "text-green-400",

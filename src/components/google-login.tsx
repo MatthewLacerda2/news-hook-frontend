@@ -1,8 +1,11 @@
 "use client";
-import { AuthApi, BASE_PATH, Configuration, ResponseError } from '@/client-sdk';
+
+import { AuthApi } from '@/client-sdk/apis/AuthApi';
+import { Configuration, ResponseError } from '@/client-sdk/runtime';
 import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
 import { CredentialResponse } from '@react-oauth/google';
 import { useRouter } from 'next/navigation';
+import { BASE_PATH } from '@/client-sdk/runtime';
 
 const googleClientId = "205743657377-gg1iilbm7fcq4q1o7smi7c10bdhlnco0.apps.googleusercontent.com";
 

@@ -11,7 +11,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { EventsApi, AlertEventListResponse, Configuration, BASE_PATH } from "@/client-sdk"
+import { EventsApi } from "@/client-sdk/apis/EventsApi"
+import { AlertEventListResponse } from "@/client-sdk/models"
+import { Configuration } from "@/client-sdk/runtime"
+import { BASE_PATH } from "@/client-sdk/runtime"
 
 const methodColors = {
   GET: "text-green-400",
