@@ -1,7 +1,9 @@
 "use client"
 
 import { useState } from "react"
-import { AlertPromptCreateRequestBase, AlertsApi, BASE_PATH, Configuration, HttpMethod } from "@/client-sdk"
+import { AlertsApi } from "@/client-sdk/apis/AlertsApi"
+import { Configuration } from "@/client-sdk/runtime"
+import { AlertPromptCreateRequestBase, HttpMethod } from "@/client-sdk/models"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
@@ -13,6 +15,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { BASE_PATH } from "@/client-sdk/runtime"
 
 export default function CreateAlertPage() {
   const [prompt, setPrompt] = useState("")

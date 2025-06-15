@@ -11,8 +11,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { Configuration, UserDocumentsApi, UserDocumentListResponse, BASE_PATH } from "@/client-sdk"
+import { UserDocumentsApi } from "@/client-sdk/apis/UserDocumentsApi"
+import { Configuration } from "@/client-sdk/runtime"
+import { UserDocumentListResponse } from "@/client-sdk/models"
 import { debounce } from "lodash"
+import { BASE_PATH } from "@/client-sdk/runtime"
 
 export default function MyDocumentsPage() {
   const [searchTerm, setSearchTerm] = useState("")
