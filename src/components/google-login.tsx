@@ -4,7 +4,7 @@ import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
 import { CredentialResponse } from '@react-oauth/google';
 import { useRouter } from 'next/navigation';
 
-const clientId = "205743657377-gg1iilbm7fcq4q1o7smi7c10bdhlnco0.apps.googleusercontent.com";
+const googleClientId = "205743657377-gg1iilbm7fcq4q1o7smi7c10bdhlnco0.apps.googleusercontent.com";
 
 export default function GoogleLoginComponent() {
     const router = useRouter();
@@ -17,6 +17,8 @@ export default function GoogleLoginComponent() {
         }
         const authApi = new AuthApi(new Configuration({ basePath: BASE_PATH }));
         try {
+            console.log("Credential response:", credentialResponse);
+            console.log("Credential response credential:", credentialResponse.credential);
             await authApi.signupApiV1AuthSignupPost({
                 oAuth2Request: {
                     accessToken: credentialResponse.credential
@@ -49,7 +51,7 @@ export default function GoogleLoginComponent() {
     }
 
     return (
-        <GoogleOAuthProvider clientId={clientId}>
+        <GoogleOAuthProvider clientId={googleClientId}>
             <GoogleLogin
                 onSuccess={onSuccess}
                 onError={onError}
