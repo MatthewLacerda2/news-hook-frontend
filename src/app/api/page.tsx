@@ -5,11 +5,9 @@ export default function APIPage() {
   return (
     <div>
       <div className="container max-w-3xl mx-auto mt-18 pb-12">
-      <div className="mb-8 text-sm text-gray-400">
+        <div className="mb-8 text-sm text-gray-300 font-bold">
           <p>URL: {BASE_PATH}</p>
-        </div>
-        <div className="mb-8 text-sm text-gray-400">
-          <p>* All endpoints require authentication via API key in the Authorization header, except for the /llm-models endpoint</p>
+          <p>All endpoints require authentication via API key in the Authorization header, except for the /llm-models endpoint</p>
         </div>
         <EndpointCard
           url="/alerts"

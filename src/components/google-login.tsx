@@ -36,19 +36,28 @@ export default function GoogleLoginComponent() {
             }
         }
 
-        const loginResponse = await authApi.loginApiV1AuthLoginPost({
-            oAuth2Request: {
-                accessToken: credentialResponse.credential,
-            },
-        });
-
-        console.log("Login response:", loginResponse);
-        
-        // Save token and agent data to localStorage
-        localStorage.setItem('accessToken', loginResponse.accessToken);
-        localStorage.setItem('agentData', JSON.stringify(loginResponse.agentController));
-        
-        router.push('/alert-requests');
+        try {
+            const loginResponse = await authApi.loginApiV1AuthLoginPost({
+                oAuth2Request: {
+                    accessToken: credentialResponse.credential,
+                },
+            });
+            console.log("Login successful - Status:", 200);
+            console.log("Login response:", loginResponse);
+            
+            // Save token and agent data to localStorage
+            localStorage.setItem('accessToken', loginResponse.accessToken);
+            localStorage.setItem('agentData', JSON.stringify(loginResponse.agentController));
+            
+            router.push('/alert-requests');
+        } catch (error: unknown) {
+            if (error instanceof ResponseError) {
+                console.log("Login status code:", error.response.status);
+                console.log("Login error response:", error.response);
+            } else {
+                console.error("Login failed:", error);
+            }
+        }
     }
 
     const onError = () => {
