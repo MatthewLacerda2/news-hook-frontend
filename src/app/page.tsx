@@ -15,7 +15,7 @@ export default function Home() {
   }, []);
 
   const alertPromptCreateRequestExample : AlertPromptCreateRequestBase = {
-    prompt: "Inform me on any updates on a next Top-Gun movie",
+    prompt: "Inform me on any news about a new Top-Gun movie",
     httpMethod: "POST",
     httpUrl: "https://your-api.com/webhook",
     httpHeaders: {
@@ -23,7 +23,7 @@ export default function Home() {
       "X-API-Key": "your-api-key"
     },
     isRecurring: true,
-    llmModel: "gemini-2.5-pro",
+    llmModel: "gemini-2.5-pro-preview-05-06",
     payloadFormat: {
       "properties": {
         "title": {

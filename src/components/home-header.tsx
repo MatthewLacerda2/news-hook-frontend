@@ -20,7 +20,7 @@ export default function HomeHeader({ token }: { token: string | undefined }) {
             <Link href="/contact" className={tabStyle}>
               Contact
             </Link>
-            { token !== undefined && extraLinks.map((link) => (
+            { token === undefined && extraLinks.map((link) => (
               <Link key={link} href={`/${link.toLowerCase()}`} className={tabStyle}>
                 {link.replace(/-/g, ' ')}
               </Link>
