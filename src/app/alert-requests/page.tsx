@@ -38,6 +38,7 @@ export default function MainPage() {
   const [searchTerm, setSearchTerm] = useState("")
   const [creditBalance, setCreditBalance] = useState<number | null>(null)
   const [alerts, setAlerts] = useState<AlertPromptItem[]>([])
+  const [showApiKey, setShowApiKey] = useState(false)
 
   const apiKey = JSON.parse(localStorage.getItem('agentData') || '{}').apiKey;
   
@@ -145,8 +146,16 @@ export default function MainPage() {
                 <div>
                   |
                 </div>
-                <div>
-                  Api key: {apiKey}
+                <div className="flex items-center gap-2">
+                  <span>Api key: </span>
+                  <button
+                    onClick={() => setShowApiKey(!showApiKey)}
+                    className="p-1 hover:bg-gray-700/50 rounded transition-colors"
+                    title={showApiKey ? "Hide API key" : "Show API key"}
+                  >
+                    {showApiKey ? "👁️" : "👁️‍🗨️"}
+                  </button>
+                  <span className="font-mono">{showApiKey ? apiKey : '************'}</span>
                 </div>
               </>
             )}
