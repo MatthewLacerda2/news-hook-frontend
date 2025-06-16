@@ -39,6 +39,8 @@ export default function MainPage() {
   const [creditBalance, setCreditBalance] = useState<number | null>(null)
   const [alerts, setAlerts] = useState<AlertPromptItem[]>([])
 
+  const apiKey = JSON.parse(localStorage.getItem('agentData') || '{}').apiKey;
+  
   const formatPrompt = (prompt: string) => {
     return prompt.length > 64 ? prompt.substring(0, 61) + "..." : prompt
   }
@@ -134,11 +136,19 @@ export default function MainPage() {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
           
-          <div className="flex gap-2 mb-3 justify-between items-center">
+          <div className="flex gap-10 mb-3 mt-5 justify-start items-center text-white text-lg font-bold">
             {creditBalance !== null && (
-              <div className="text-white text-lg font-semibold ml-2 mt-1">
-                {creditBalance.toFixed(4)} credits
-              </div>
+              <>
+                <div>
+                  {creditBalance.toFixed(4)} credits
+                </div>  
+                <div>
+                  |
+                </div>
+                <div>
+                  Api key: {apiKey}
+                </div>
+              </>
             )}
           </div>
 
