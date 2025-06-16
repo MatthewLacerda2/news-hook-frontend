@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { AlertsApi } from "@/client-sdk/apis/AlertsApi"
 import { Configuration } from "@/client-sdk/runtime"
 import { AlertPromptCreateRequestBase, HttpMethod } from "@/client-sdk/models"
@@ -16,19 +16,43 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { BASE_PATH } from "@/client-sdk/runtime"
+import { LlmModelsApi } from "@/client-sdk/apis/LlmModelsApi"
+import { LLMModelItem } from "@/client-sdk/models"
 
 export default function CreateAlertPage() {
   const [prompt, setPrompt] = useState("")
   const [httpMethod, setHttpMethod] = useState<HttpMethod>(HttpMethod.Post)
   const [httpUrl, setHttpUrl] = useState("")
   const [httpHeaders, setHttpHeaders] = useState("")
-  const [llmModel, setLlmModel] = useState("")
   const [payloadFormat, setPayloadFormat] = useState("")
   const [maxDatetime, setMaxDatetime] = useState<Date>(new Date())
   const [isRecurring, setIsRecurring] = useState(false)
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [successMessage, setSuccessMessage] = useState("")
   const [debugResponse, setDebugResponse] = useState<unknown>(null)
+  const [models, setModels] = useState<LLMModelItem[]>([])
+  const [selectedModel, setSelectedModel] = useState<string>("")
+
+  // Add useEffect to fetch models
+  useEffect(() => {
+    const fetchModels = async () => {
+      try {
+        const api = new LlmModelsApi(new Configuration({
+          basePath: BASE_PATH
+        }))
+        const response = await api.listLlmModelsApiV1LlmModelsGet()
+        setModels(response.items)
+        // Set the first model as default if available
+        if (response.items.length > 0) {
+          setSelectedModel(response.items[0].modelName)
+        }
+      } catch (error) {
+        console.error('Failed to fetch LLM models:', error)
+      }
+    }
+    
+    fetchModels()
+  }, [])
 
   // Validation functions
   const validatePrompt = (value: string) => value.length >= 3
@@ -40,7 +64,6 @@ export default function CreateAlertPage() {
       return false
     }
   }
-  const validateLlmModel = (value: string) => value.length >= 5
   const validateMaxDatetime = (value: Date) => value >= new Date()
 
   const handleSubmit = async () => {
@@ -55,11 +78,11 @@ export default function CreateAlertPage() {
     if (!validateUrl(httpUrl)) {
       newErrors.httpUrl = "Please enter a valid URL"
     }
-    if (!validateLlmModel(llmModel)) {
-      newErrors.llmModel = "LLM Model must be at least 5 characters long"
-    }
     if (!validateMaxDatetime(maxDatetime)) {
       newErrors.maxDatetime = "Max datetime cannot be in the past"
+    }
+    if (!selectedModel) {
+      newErrors.llmModel = "Please select an LLM model"
     }
 
     setErrors(newErrors)
@@ -75,7 +98,7 @@ export default function CreateAlertPage() {
           httpMethod,
           httpUrl,
           httpHeaders: httpHeaders ? JSON.parse(httpHeaders.replace(/'/g, '"')) : null,
-          llmModel,
+          llmModel: selectedModel,
           payloadFormat: payloadFormat ? JSON.parse(payloadFormat.replace(/'/g, '"')) : null,
           maxDatetime,
           isRecurring,
@@ -91,6 +114,11 @@ export default function CreateAlertPage() {
         setDebugResponse(error)
       }
     }
+  }
+
+  const formatModelName = (str: string): string => {
+    const withoutHyphens = str.replace(/-/g, ' ');
+    return withoutHyphens.charAt(0).toUpperCase() + withoutHyphens.slice(1);
   }
 
   return (
@@ -141,13 +169,21 @@ export default function CreateAlertPage() {
           </div>
 
           <div>
-            <Input
-              placeholder="LLM Model"
-              value={llmModel}
-              onChange={(e) => setLlmModel(e.target.value)}
-              className={errors.llmModel ? "border-red-500" : ""}
-            />
-            {errors.llmModel && <p className="text-red-500 text-sm mt-1">{errors.llmModel}</p>}
+            <Select 
+              value={selectedModel} 
+              onValueChange={(value) => setSelectedModel(value)}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Select LLM Model" />
+              </SelectTrigger>
+              <SelectContent>
+                {models.map((model) => (
+                  <SelectItem key={model.modelName} value={model.modelName}>
+                    <span className="font-semibold">{formatModelName(model.modelName)}</span>
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
 
           <div>
