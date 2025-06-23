@@ -108,7 +108,7 @@ export default function MainPage() {
   }, [debouncedListAlerts, searchTerm]);
 
   return (
-    <div className="container mx-auto p-4 pt-24 max-w-7xl">
+    <div className="container mx-auto p-4 mt-40 max-w-7xl">
       <div className="flex flex-col sm:flex-row gap-4 mb-4">
         <Card 
           className="bg-green-600/80 backdrop-blur-md border-green-700 cursor-pointer hover:bg-green-700/90 transition-colors h-14 flex items-center justify-center min-w-[160px]"

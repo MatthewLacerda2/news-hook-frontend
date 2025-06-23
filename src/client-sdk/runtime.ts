@@ -13,8 +13,8 @@
  */
 
 
-//export const BASE_PATH = "https://newshookmvp-205743657377.southamerica-east1.run.app";
-export const BASE_PATH = "http://127.0.0.1:8000";
+export const BASE_PATH = "https://newshookmvp-205743657377.southamerica-east1.run.app";
+//export const BASE_PATH = "http://127.0.0.1:8000";
 
 export interface ConfigurationParameters {
     basePath?: string; // override base path

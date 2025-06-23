@@ -83,7 +83,7 @@ export default function AlertEventsPage() {
   }, []);
 
   return (
-    <div className="container mx-auto p-4 pt-24 max-w-7xl">
+    <div className="container mx-auto p-4 mt-40 max-w-7xl">
       <Card className="bg-gray/70 backdrop-blur-md border-gray-800">
         <CardContent>
           <Input
