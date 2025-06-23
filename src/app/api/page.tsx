@@ -6,7 +6,8 @@ export default function APIPage() {
     <div>
       <div className="container max-w-3xl mx-auto mt-18 pb-12">
         <div className="mb-8 text-sm text-gray-200 font-bold">
-          <p>URL: {BASE_PATH}</p>
+          <p>URL: <a href={BASE_PATH} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">{BASE_PATH}</a></p>
+          <p>You can try the API with: <a href={BASE_PATH + "/docs"} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">{BASE_PATH + "/docs"}</a></p>
           <p>X-API-Key header is required for all endpoints, except for the /llm-models endpoint</p>
         </div>
         <EndpointCard
