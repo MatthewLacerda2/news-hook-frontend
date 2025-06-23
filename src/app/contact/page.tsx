@@ -5,7 +5,7 @@ import profileImages from "./profile-images.json";
 export default function Contact() {
   return (
     <div>
-      <div className="container max-w-4xl mx-auto mt-18 pb-12">
+      <div className="container max-w-4xl mx-auto pt-24 pb-12">
         <div className="text-center mt-8">
           <p className="text-xl text-gray-100 mb-4 font-bold">
             Need support, customizations or help integrating News-Hook?
@@ -13,7 +13,7 @@ export default function Contact() {
         </div>
           <div className="flex justify-center my-12">
           <Card className="bg-zinc-900 border-zinc-800 max-w-xl w-full">
-            <CardContent className="flex items-start gap-4 p-6">
+            <CardContent className="flex flex-col sm:flex-row items-center sm:items-start gap-6 p-6">
               <div className="w-24 h-24 relative rounded-full overflow-hidden bg-zinc-800 flex-shrink-0">
                 <Image
                   src={profileImages.matheus}
@@ -22,7 +22,7 @@ export default function Contact() {
                   className="object-cover"
                 />
               </div>
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-2 text-center sm:text-left">
                 <h3 className="font-bold text-xl text-gray-200 mb-2">Matheus Lacerda Bezerra</h3>
                 <div className="space-y-2">
                   <a 

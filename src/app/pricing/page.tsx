@@ -35,7 +35,7 @@ export default function PricingPage() {
 
   return (
     <div>
-      <div className="container max-w-4xl mx-auto mt-18">
+      <div className="container max-w-4xl mx-auto pt-24">
         <Table>
           <TableHeader>
             <TableRow className="text-lg">
@@ -57,7 +57,7 @@ export default function PricingPage() {
         <div className="mt-2 mb-8">
           <p className="text-xs text-muted-foreground">* Per Million</p>
         </div>
-        <div className="mb-16 flex justify-between text-lg font-medium text-gray-400">
+        <div className="mb-16 flex flex-col sm:flex-row justify-between text-lg font-medium text-gray-400 gap-4">
           <div className="flex justify-between">
             <p>Price per 1000 requests: USD 5$</p>
           </div>
