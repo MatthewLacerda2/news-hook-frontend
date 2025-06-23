@@ -109,7 +109,7 @@ export default function MainPage() {
 
   return (
     <div className="container mx-auto p-4 mt-40 max-w-7xl">
-      <div className="flex gap-4 mb-4">
+      <div className="flex flex-col sm:flex-row gap-4 mb-4">
         <Card 
           className="bg-green-600/80 backdrop-blur-md border-green-700 cursor-pointer hover:bg-green-700/90 transition-colors h-14 flex items-center justify-center min-w-[160px]"
           onClick={() => window.location.href = '/alert-requests/create-alert'}
@@ -137,7 +137,7 @@ export default function MainPage() {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
           
-          <div className="flex gap-10 mb-3 mt-5 justify-start items-center text-white text-lg font-bold">
+          <div className="flex flex-col sm:flex-row gap-4 sm:gap-10 mb-3 mt-5 justify-start items-start sm:items-center text-white text-lg font-bold">
             {creditBalance !== null && (
               <>
                 <div>
@@ -165,10 +165,10 @@ export default function MainPage() {
             <TableHeader>
               <TableRow>
                 <TableHead className="text-gray-200 font-bold">Prompt</TableHead>
-                <TableHead className="text-gray-200 font-bold">URL</TableHead>
+                <TableHead className="text-gray-200 font-bold hidden sm:table-cell">URL</TableHead>
                 <TableHead className="text-gray-200 font-bold">Method</TableHead>
-                <TableHead className="text-gray-200 font-bold">Model</TableHead>
-                <TableHead className="text-gray-200 font-bold">Recurring</TableHead>
+                <TableHead className="text-gray-200 font-bold hidden sm:table-cell">Model</TableHead>
+                <TableHead className="text-gray-200 font-bold hidden sm:table-cell">Recurring</TableHead>
                 <TableHead className="text-gray-200 font-bold">Created At</TableHead>
                 <TableHead className="text-gray-200 font-bold">Status</TableHead>
               </TableRow>
@@ -182,16 +182,16 @@ export default function MainPage() {
                   <TableCell className="text-white" title={item.prompt}>
                     {formatPrompt(item.prompt)}
                   </TableCell>
-                  <TableCell className="text-white" title={item.httpUrl}>
+                  <TableCell className="text-white hidden sm:table-cell" title={item.httpUrl}>
                     {formatUrl(item.httpUrl)}
                   </TableCell>
                   <TableCell className={methodColors[item.httpMethod as keyof typeof methodColors]}>
                     {item.httpMethod}
                   </TableCell>
-                  <TableCell className="text-white font-mono text-sm">
+                  <TableCell className="text-white font-mono text-sm hidden sm:table-cell">
                     {item.llmModel.length > 23 ? `${item.llmModel.substring(0, 20)}...` : item.llmModel}
                   </TableCell>
-                  <TableCell className="text-white">
+                  <TableCell className="text-white hidden sm:table-cell">
                     {item.isRecurring ? "Yes" : "No"}
                   </TableCell>
                   <TableCell className="text-white">{formatDate(item.createdAt)}</TableCell>

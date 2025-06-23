@@ -64,33 +64,35 @@ export default function MyDocumentsPage() {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
 
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="text-white font-bold text-base w-40">Name</TableHead>
-                <TableHead className="text-white font-bold text-base w-36">Content</TableHead>
-                <TableHead className="text-white font-bold text-base w-24">Uploaded At</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {documents?.documents.map((item) => (
-                <TableRow 
-                  key={item.id}
-                  className="hover:bg-gray-700/50 transition-colors"
-                >
-                  <TableCell className="text-white w-40">
-                    {formatName(item.name)}
-                  </TableCell>
-                  <TableCell className="text-white w-36" title={item.content}>
-                    {formatContent(item.content)}
-                  </TableCell>
-                  <TableCell className="text-white w-24">
-                    {formatDate(item.uploadedAt)}
-                  </TableCell>
+          <div className="overflow-x-auto">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="text-white font-bold text-base">Name</TableHead>
+                  <TableHead className="text-white font-bold text-base">Content</TableHead>
+                  <TableHead className="text-white font-bold text-base">Uploaded At</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+              <TableBody>
+                {documents?.documents.map((item) => (
+                  <TableRow 
+                    key={item.id}
+                    className="hover:bg-gray-700/50 transition-colors"
+                  >
+                    <TableCell className="text-white">
+                      {formatName(item.name)}
+                    </TableCell>
+                    <TableCell className="text-white" title={item.content}>
+                      {formatContent(item.content)}
+                    </TableCell>
+                    <TableCell className="text-white">
+                      {formatDate(item.uploadedAt)}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
         </CardContent>
       </Card>
     </div>

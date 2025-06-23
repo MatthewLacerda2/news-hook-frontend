@@ -93,47 +93,49 @@ export default function AlertEventsPage() {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
 
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="text-white font-bold text-base w-40">Datetime</TableHead>
-                <TableHead className="text-white font-bold text-base w-36">Prompt</TableHead>
-                <TableHead className="text-white font-bold text-base w-24">Method</TableHead>
-                <TableHead className="text-white font-bold text-base w-64">URL</TableHead>
-                <TableHead className="text-white font-bold text-base w-24">Recurring</TableHead>
-                <TableHead className="text-white font-bold text-base w-64">Payload</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filteredData.map((item) => (
-                <TableRow 
-                  key={item.id}
-                  className="hover:bg-gray-700/50 transition-colors"
-                >
-                  <TableCell className="text-white w-40">
-                    {formatDate(new Date(item.triggeredAt))}
-                  </TableCell>
-                  <TableCell className="text-white w-36" title={item.prompt}>
-                    {formatPrompt(item.prompt)}
-                  </TableCell>
-                  <TableCell className={`${methodColors[item.httpMethod as keyof typeof methodColors]} font-semibold w-24`}>
-                    {item.httpMethod}
-                  </TableCell>
-                  <TableCell className="text-white w-64" title={item.httpUrl}>
-                    {formatUrl(item.httpUrl)}
-                  </TableCell>
-                  <TableCell className="text-white w-24">
-                    <span className={`font-bold ${item.isRecurring ? 'text-green-500' : 'text-blue-500'}`}>
-                      {item.isRecurring ? "Yes" : "No"}
-                    </span>
-                  </TableCell>
-                  <TableCell className="text-white w-64 font-mono text-sm" title={JSON.stringify(item.structuredData, null, 2)}>
-                    {formatJson(item.structuredData)}
-                  </TableCell>
+          <div className="overflow-x-auto">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="text-white font-bold text-base">Datetime</TableHead>
+                  <TableHead className="text-white font-bold text-base">Prompt</TableHead>
+                  <TableHead className="text-white font-bold text-base">Method</TableHead>
+                  <TableHead className="text-white font-bold text-base">URL</TableHead>
+                  <TableHead className="text-white font-bold text-base">Recurring</TableHead>
+                  <TableHead className="text-white font-bold text-base">Payload</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+              <TableBody>
+                {filteredData.map((item) => (
+                  <TableRow 
+                    key={item.id}
+                    className="hover:bg-gray-700/50 transition-colors"
+                  >
+                    <TableCell className="text-white">
+                      {formatDate(new Date(item.triggeredAt))}
+                    </TableCell>
+                    <TableCell className="text-white" title={item.prompt}>
+                      {formatPrompt(item.prompt)}
+                    </TableCell>
+                    <TableCell className={`${methodColors[item.httpMethod as keyof typeof methodColors]} font-semibold`}>
+                      {item.httpMethod}
+                    </TableCell>
+                    <TableCell className="text-white" title={item.httpUrl}>
+                      {formatUrl(item.httpUrl)}
+                    </TableCell>
+                    <TableCell className="text-white">
+                      <span className={`font-bold ${item.isRecurring ? 'text-green-500' : 'text-blue-500'}`}>
+                        {item.isRecurring ? "Yes" : "No"}
+                      </span>
+                    </TableCell>
+                    <TableCell className="text-white font-mono text-sm" title={JSON.stringify(item.structuredData, null, 2)}>
+                      {formatJson(item.structuredData)}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
         </CardContent>
       </Card>
     </div>
