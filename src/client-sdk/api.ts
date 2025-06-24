@@ -179,11 +179,11 @@ export interface AlertPromptCreateRequestBase {
      */
     'http_headers'?: { [key: string]: any; } | null;
     /**
-     * Should we send the alert every time the condition is met?
+     * 
      * @type {boolean}
      * @memberof AlertPromptCreateRequestBase
      */
-    'is_recurring': boolean;
+    'is_recurring'?: boolean | null;
     /**
      * 
      * @type {HttpMethod}
@@ -493,6 +493,12 @@ export interface UserDocumentCreateRequest {
      * @memberof UserDocumentCreateRequest
      */
     'content': string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof UserDocumentCreateRequest
+     */
+    'should_save'?: boolean | null;
 }
 /**
  * 
@@ -1780,6 +1786,45 @@ export const UserDocumentsApiAxiosParamCreator = function (configuration?: Confi
             };
         },
         /**
+         * Admin documents
+         * @summary Post Admin Document
+         * @param {UserDocumentCreateRequest} userDocumentCreateRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        postAdminDocumentApiV1UserDocumentsManualPost: async (userDocumentCreateRequest: UserDocumentCreateRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'userDocumentCreateRequest' is not null or undefined
+            assertParamExists('postAdminDocumentApiV1UserDocumentsManualPost', 'userDocumentCreateRequest', userDocumentCreateRequest)
+            const localVarPath = `/api/v1/user_documents/manual`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication APIKeyHeader required
+            await setApiKeyToObject(localVarHeaderParameter, "X-API-Key", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(userDocumentCreateRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * Create a new document
          * @summary Post User Document
          * @param {UserDocumentCreateRequest} userDocumentCreateRequest 
@@ -1857,6 +1902,19 @@ export const UserDocumentsApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
+         * Admin documents
+         * @summary Post Admin Document
+         * @param {UserDocumentCreateRequest} userDocumentCreateRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async postAdminDocumentApiV1UserDocumentsManualPost(userDocumentCreateRequest: UserDocumentCreateRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserDocumentCreateSuccessResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.postAdminDocumentApiV1UserDocumentsManualPost(userDocumentCreateRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['UserDocumentsApi.postAdminDocumentApiV1UserDocumentsManualPost']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
          * Create a new document
          * @summary Post User Document
          * @param {UserDocumentCreateRequest} userDocumentCreateRequest 
@@ -1902,6 +1960,16 @@ export const UserDocumentsApiFactory = function (configuration?: Configuration, 
             return localVarFp.getUserDocumentsApiV1UserDocumentsGet(contains, offset, limit, options).then((request) => request(axios, basePath));
         },
         /**
+         * Admin documents
+         * @summary Post Admin Document
+         * @param {UserDocumentCreateRequest} userDocumentCreateRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        postAdminDocumentApiV1UserDocumentsManualPost(userDocumentCreateRequest: UserDocumentCreateRequest, options?: RawAxiosRequestConfig): AxiosPromise<UserDocumentCreateSuccessResponse> {
+            return localVarFp.postAdminDocumentApiV1UserDocumentsManualPost(userDocumentCreateRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
          * Create a new document
          * @summary Post User Document
          * @param {UserDocumentCreateRequest} userDocumentCreateRequest 
@@ -1945,6 +2013,18 @@ export class UserDocumentsApi extends BaseAPI {
      */
     public getUserDocumentsApiV1UserDocumentsGet(contains?: string | null, offset?: number, limit?: number, options?: RawAxiosRequestConfig) {
         return UserDocumentsApiFp(this.configuration).getUserDocumentsApiV1UserDocumentsGet(contains, offset, limit, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Admin documents
+     * @summary Post Admin Document
+     * @param {UserDocumentCreateRequest} userDocumentCreateRequest 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UserDocumentsApi
+     */
+    public postAdminDocumentApiV1UserDocumentsManualPost(userDocumentCreateRequest: UserDocumentCreateRequest, options?: RawAxiosRequestConfig) {
+        return UserDocumentsApiFp(this.configuration).postAdminDocumentApiV1UserDocumentsManualPost(userDocumentCreateRequest, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

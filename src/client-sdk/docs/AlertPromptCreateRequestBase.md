@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 **prompt** | **string** | The description of what to monitor. Try to be specific, clear and succinct. | [default to undefined]
 **http_url** | **string** | The URL to alert at | [default to undefined]
 **http_headers** | **{ [key: string]: any; }** |  | [optional] [default to undefined]
-**is_recurring** | **boolean** | Should we send the alert every time the condition is met? | [default to undefined]
+**is_recurring** | **boolean** |  | [optional] [default to undefined]
 **http_method** | [**HttpMethod**](HttpMethod.md) |  | [optional] [default to undefined]
 **llm_model** | **string** |  | [optional] [default to undefined]
 **payload_format** | **{ [key: string]: any; }** |  | [optional] [default to undefined]
