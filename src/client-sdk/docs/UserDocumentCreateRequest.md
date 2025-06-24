@@ -7,6 +7,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **name** | **string** | The name of the document | [default to undefined]
 **content** | **string** | The actual content of the document | [default to undefined]
+**should_save** | **boolean** |  | [optional] [default to undefined]
 
 ## Example
 
@@ -16,6 +17,7 @@ import { UserDocumentCreateRequest } from './api';
 const instance: UserDocumentCreateRequest = {
     name,
     content,
+    should_save,
 };
 ```
 

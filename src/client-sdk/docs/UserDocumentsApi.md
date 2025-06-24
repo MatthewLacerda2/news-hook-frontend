@@ -6,6 +6,7 @@ All URIs are relative to *http://localhost*
 |------------- | ------------- | -------------|
 |[**getUserDocumentApiV1UserDocumentsDocumentIdGet**](#getuserdocumentapiv1userdocumentsdocumentidget) | **GET** /api/v1/user_documents/{document_id} | Get User Document|
 |[**getUserDocumentsApiV1UserDocumentsGet**](#getuserdocumentsapiv1userdocumentsget) | **GET** /api/v1/user_documents/ | Get User Documents|
+|[**postAdminDocumentApiV1UserDocumentsManualPost**](#postadmindocumentapiv1userdocumentsmanualpost) | **POST** /api/v1/user_documents/manual | Post Admin Document|
 |[**postUserDocumentApiV1UserDocumentsPost**](#postuserdocumentapiv1userdocumentspost) | **POST** /api/v1/user_documents/ | Post User Document|
 
 # **getUserDocumentApiV1UserDocumentsDocumentIdGet**
@@ -114,6 +115,59 @@ const { status, data } = await apiInstance.getUserDocumentsApiV1UserDocumentsGet
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 |**200** | Successful Response |  -  |
+|**422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **postAdminDocumentApiV1UserDocumentsManualPost**
+> UserDocumentCreateSuccessResponse postAdminDocumentApiV1UserDocumentsManualPost(userDocumentCreateRequest)
+
+Admin documents
+
+### Example
+
+```typescript
+import {
+    UserDocumentsApi,
+    Configuration,
+    UserDocumentCreateRequest
+} from './api';
+
+const configuration = new Configuration();
+const apiInstance = new UserDocumentsApi(configuration);
+
+let userDocumentCreateRequest: UserDocumentCreateRequest; //
+
+const { status, data } = await apiInstance.postAdminDocumentApiV1UserDocumentsManualPost(
+    userDocumentCreateRequest
+);
+```
+
+### Parameters
+
+|Name | Type | Description  | Notes|
+|------------- | ------------- | ------------- | -------------|
+| **userDocumentCreateRequest** | **UserDocumentCreateRequest**|  | |
+
+
+### Return type
+
+**UserDocumentCreateSuccessResponse**
+
+### Authorization
+
+[APIKeyHeader](../README.md#APIKeyHeader)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**201** | Successful Response |  -  |
 |**422** | Validation Error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

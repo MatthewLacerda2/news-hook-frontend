@@ -118,14 +118,6 @@ export default function MainPage() {
             <h3 className="text-lg font-semibold text-white">Create Alert</h3>
           </CardContent>
         </Card>
-        <Card 
-          className="bg-blue-600/80 backdrop-blur-md border-blue-700 cursor-pointer hover:bg-blue-700/90 transition-colors h-14 flex items-center justify-center min-w-[160px]"
-          onClick={() => window.location.href = '/alert-requests/send-document'}
-        >
-          <CardContent className="py-2 px-4 flex items-center justify-center">
-            <h3 className="text-lg font-semibold text-white">Send Document</h3>
-          </CardContent>
-        </Card>
       </div>
       <Card className="bg-gray/70 backdrop-blur-md border-gray-800">
         
