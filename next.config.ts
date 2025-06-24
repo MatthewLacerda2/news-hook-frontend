@@ -3,7 +3,8 @@ const nextConfig = {
   images: {
     domains: [
       'media-exp1.licdn.com',
-      'media.licdn.com'
+      'media.licdn.com',
+      'i.imgur.com'
     ],
   },
   async headers() {
