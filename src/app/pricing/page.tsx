@@ -35,7 +35,7 @@ export default function PricingPage() {
 
   return (
     <div>
-      <div className="container max-w-4xl mx-auto mt-40">
+      <div className="container max-w-4xl mx-auto mt-24">
         <Table>
           <TableHeader>
             <TableRow className="text-lg">

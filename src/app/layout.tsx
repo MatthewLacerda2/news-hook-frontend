@@ -33,7 +33,9 @@ export default async function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <HomeHeader token={token} />
-        {children}
+        <main className="pt-8">
+          {children}
+        </main>
       </body>
     </html>
   );
