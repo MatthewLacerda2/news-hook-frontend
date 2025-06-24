@@ -10,6 +10,7 @@ export default function HomeHeader({ token }: { token: string | undefined }) {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
 
   const baseLinks = [
+    { href: "/", label: "Home" },
     { href: "/pricing", label: "Pricing" },
     { href: "/api", label: "API" },
     { href: "/contact", label: "Contact" },
@@ -30,7 +31,7 @@ export default function HomeHeader({ token }: { token: string | undefined }) {
     <nav className="bg-gray-950 border-b border-white/10 fixed top-0 left-0 right-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
+          <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-center">
             <div className="hidden sm:block sm:ml-6">
               <div className="flex space-x-4">
                 {linksToShow.map((link) => (

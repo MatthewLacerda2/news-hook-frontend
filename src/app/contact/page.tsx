@@ -5,7 +5,7 @@ import profileImages from "./profile-images.json";
 export default function Contact() {
   return (
     <div>
-      <div className="container max-w-4xl mx-auto mt-40 pb-12">
+      <div className="container max-w-4xl mx-auto mt-24 pb-12">
         <div className="text-center mt-8">
           <p className="text-xl text-gray-100 mb-4 font-bold">
             Need support, customizations or help integrating News-Hook?
