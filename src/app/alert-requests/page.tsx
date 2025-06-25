@@ -43,13 +43,14 @@ export default function MainPage() {
   const apiKey = JSON.parse(localStorage.getItem('agentData') || '{}').apiKey;
   
   const formatPrompt = (prompt: string) => {
-    return prompt.length > 64 ? prompt.substring(0, 61) + "..." : prompt
+    return prompt.length > 48 ? prompt.substring(0, 45) + "..." : prompt
   }
 
   const formatUrl = (url: string) => {
     try {
       const urlObj = new URL(url)
-      return `${urlObj.hostname}/...`
+      const rootUrl = urlObj.hostname
+      return `${rootUrl.length > 32 ? rootUrl.substring(0, 29) + "..." : rootUrl}/...`
     } catch {
       return url;
     }
@@ -181,16 +182,16 @@ export default function MainPage() {
                     {item.httpMethod}
                   </TableCell>
                   <TableCell className="text-white font-mono text-sm hidden sm:table-cell">
-                    {item.llmModel.length > 23 ? `${item.llmModel.substring(0, 20)}...` : item.llmModel}
+                    {item.llmModel.length > 21 ? `${item.llmModel.substring(0, 18)}...` : item.llmModel}
                   </TableCell>
                   <TableCell className="text-white hidden sm:table-cell">
                     {item.isRecurring ? "Yes" : "No"}
                   </TableCell>
                   <TableCell className="text-white">{formatDate(item.createdAt)}</TableCell>
-                  <TableCell className={`${statusColors[item.status as keyof typeof statusColors]} font-semibold`}>
+                  <TableCell className={`${statusColors[item.status as keyof typeof statusColors]} font-semibold px-2`}>
                     {item.status}
                   </TableCell>
-                  <TableCell>
+                  <TableCell className="px-0">
                     {item.status !== "CANCELLED" && (
                       <Button
                         variant="ghost"
