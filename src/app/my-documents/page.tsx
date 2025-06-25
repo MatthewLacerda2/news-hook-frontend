@@ -16,6 +16,7 @@ import { Configuration } from "@/client-sdk/runtime"
 import { UserDocumentListResponse } from "@/client-sdk/models"
 import { debounce } from "lodash"
 import { BASE_PATH } from "@/client-sdk/runtime"
+import { PageDescription } from "@/components/page-description"
 
 export default function MyDocumentsPage() {
   const [searchTerm, setSearchTerm] = useState("")
@@ -52,9 +53,12 @@ export default function MyDocumentsPage() {
   useEffect(() => {
     debouncedListDocuments(searchTerm);
   }, [searchTerm, debouncedListDocuments]);
-
+  //TODO: show the alert that the document triggered
   return (
-    <div className="container mx-auto p-4 mt-24 max-w-7xl">
+    <div className="container mx-auto p-4 mt-12 md:mt-20 max-w-7xl">
+      <PageDescription 
+        description="These are documents you've sent. They trigger any matching alerts"
+      />
       <div className="flex flex-col sm:flex-row gap-4 mb-4">
         <Card 
           className="bg-blue-600/80 backdrop-blur-md border-blue-700 cursor-pointer hover:bg-blue-700/90 transition-colors h-14 flex items-center justify-center min-w-[160px]"

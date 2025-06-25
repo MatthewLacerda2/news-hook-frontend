@@ -12,6 +12,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { Card, CardContent } from "@/components/ui/card"
+import { PageDescription } from "@/components/page-description"
 import { AlertsApi } from "@/client-sdk/apis/AlertsApi"
 import { AuthApi } from "@/client-sdk/apis/AuthApi"
 import { Configuration } from "@/client-sdk/runtime"
@@ -109,7 +110,11 @@ export default function MainPage() {
   }, [debouncedListAlerts, searchTerm]);
 
   return (
-    <div className="container mx-auto p-4 mt-16 max-w-7xl">
+    <div className="container mx-auto p-4 mt-12 max-w-7xl">
+      <PageDescription 
+        description="These are the alerts you've set up. They will be triggered when their events occurs."
+      />
+      
       <div className="flex flex-col sm:flex-row gap-4 mb-4">
         <Card 
           className="bg-green-600/80 backdrop-blur-md border-green-700 cursor-pointer hover:bg-green-700/90 transition-colors h-14 flex items-center justify-center min-w-[160px]"

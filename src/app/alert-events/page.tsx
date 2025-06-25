@@ -15,6 +15,7 @@ import { EventsApi } from "@/client-sdk/apis/EventsApi"
 import { AlertEventListResponse } from "@/client-sdk/models"
 import { Configuration } from "@/client-sdk/runtime"
 import { BASE_PATH } from "@/client-sdk/runtime"
+import { PageDescription } from "@/components/page-description"
 
 const methodColors = {
   GET: "text-green-400",
@@ -83,7 +84,10 @@ export default function AlertEventsPage() {
   }, []);
 
   return (
-    <div className="container mx-auto p-4 mt-10 md:mt-28 max-w-7xl">
+    <div className="container mx-auto p-4 mt-8 md:mt-20 max-w-7xl">
+      <PageDescription 
+        description="These are the alerts triggered so far."
+      />  
       <Card className="bg-gray/70 backdrop-blur-md border-gray-800">
         <CardContent>
           <Input
