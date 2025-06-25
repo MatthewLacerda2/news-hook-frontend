@@ -44,25 +44,28 @@ const PropertyDescription: React.FC<PropertyDescriptionProps> = ({
       
       <p className="text-gray-400 text-sm my-3">{description}</p>
 
-      <div className="flex flex-col sm:flex-row gap-2 sm:gap-6">
-        {availableOptions && (
-          <div className="space-y-1">
-            <span className="text-gray-300 text-sm mr-4">Available options:</span>
-            <span className="px-3 py-1 text-sm rounded bg-gray-600/40 text-gray-300 break-all">{availableOptions}</span>
-          </div>
-        )}
+      {/* Only render the options/range row if at least one is present */}
+      {(availableOptions || min !== undefined || max !== undefined) && (
+        <div className="flex flex-col sm:flex-row gap-2 sm:gap-6">
+          {availableOptions && (
+            <div className="space-y-1">
+              <span className="text-gray-300 text-sm mr-4">Available options:</span>
+              <span className="px-3 py-1 text-sm rounded bg-gray-600/40 text-gray-300 break-all">{availableOptions}</span>
+            </div>
+          )}
 
-        {(min !== undefined || max !== undefined) && (
-          <div className="space-y-1">
-            <span className="text-gray-300 text-sm mr-4">range:</span>
-            <span className="px-3 py-1 text-sm rounded bg-gray-600/40 text-gray-300">
-              {min !== undefined && `min: ${min}`}
-              {min !== undefined && max !== undefined && ' | '}
-              {max !== undefined && `max: ${max}`}
-            </span>
-          </div>
-        )}
-      </div>
+          {(min !== undefined || max !== undefined) && (
+            <div className="space-y-1">
+              <span className="text-gray-300 text-sm mr-4">range:</span>
+              <span className="px-3 py-1 text-sm rounded bg-gray-600/40 text-gray-300">
+                {min !== undefined && `min: ${min}`}
+                {min !== undefined && max !== undefined && ' | '}
+                {max !== undefined && `max: ${max}`}
+              </span>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };
