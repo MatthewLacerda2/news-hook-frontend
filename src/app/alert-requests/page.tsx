@@ -12,6 +12,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { Card, CardContent } from "@/components/ui/card"
+import { PageDescription } from "@/components/page-description"
 import { AlertsApi } from "@/client-sdk/apis/AlertsApi"
 import { AuthApi } from "@/client-sdk/apis/AuthApi"
 import { Configuration } from "@/client-sdk/runtime"
@@ -43,13 +44,14 @@ export default function MainPage() {
   const apiKey = JSON.parse(localStorage.getItem('agentData') || '{}').apiKey;
   
   const formatPrompt = (prompt: string) => {
-    return prompt.length > 64 ? prompt.substring(0, 61) + "..." : prompt
+    return prompt.length > 48 ? prompt.substring(0, 45) + "..." : prompt
   }
 
   const formatUrl = (url: string) => {
     try {
       const urlObj = new URL(url)
-      return `${urlObj.hostname}/...`
+      const rootUrl = urlObj.hostname
+      return `${rootUrl.length > 32 ? rootUrl.substring(0, 29) + "..." : rootUrl}/...`
     } catch {
       return url;
     }
@@ -108,7 +110,11 @@ export default function MainPage() {
   }, [debouncedListAlerts, searchTerm]);
 
   return (
-    <div className="container mx-auto p-4 mt-16 max-w-7xl">
+    <div className="container mx-auto p-4 mt-12 max-w-7xl">
+      <PageDescription 
+        description="These are the alerts you've set up. They will be triggered when their events occurs."
+      />
+      
       <div className="flex flex-col sm:flex-row gap-4 mb-4">
         <Card 
           className="bg-green-600/80 backdrop-blur-md border-green-700 cursor-pointer hover:bg-green-700/90 transition-colors h-14 flex items-center justify-center min-w-[160px]"
@@ -181,16 +187,16 @@ export default function MainPage() {
                     {item.httpMethod}
                   </TableCell>
                   <TableCell className="text-white font-mono text-sm hidden sm:table-cell">
-                    {item.llmModel.length > 23 ? `${item.llmModel.substring(0, 20)}...` : item.llmModel}
+                    {item.llmModel.length > 21 ? `${item.llmModel.substring(0, 18)}...` : item.llmModel}
                   </TableCell>
                   <TableCell className="text-white hidden sm:table-cell">
                     {item.isRecurring ? "Yes" : "No"}
                   </TableCell>
                   <TableCell className="text-white">{formatDate(item.createdAt)}</TableCell>
-                  <TableCell className={`${statusColors[item.status as keyof typeof statusColors]} font-semibold`}>
+                  <TableCell className={`${statusColors[item.status as keyof typeof statusColors]} font-semibold px-2`}>
                     {item.status}
                   </TableCell>
-                  <TableCell>
+                  <TableCell className="px-0">
                     {item.status !== "CANCELLED" && (
                       <Button
                         variant="ghost"

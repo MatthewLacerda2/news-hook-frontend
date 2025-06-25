@@ -15,6 +15,7 @@ import { EventsApi } from "@/client-sdk/apis/EventsApi"
 import { AlertEventListResponse } from "@/client-sdk/models"
 import { Configuration } from "@/client-sdk/runtime"
 import { BASE_PATH } from "@/client-sdk/runtime"
+import { PageDescription } from "@/components/page-description"
 
 const methodColors = {
   GET: "text-green-400",
@@ -29,14 +30,14 @@ export default function AlertEventsPage() {
   const [events, setEvents] = useState<AlertEventListResponse>()
 
   const formatPrompt = (prompt: string) => {
-    return prompt.length > 50 ? prompt.substring(0, 47) + "..." : prompt
+    return prompt.length > 52 ? prompt.substring(0, 49) + "..." : prompt
   }
 
   const formatUrl = (url: string) => {
-    return url.length > 60 ? url.substring(0, 57) + "..." : url
+    return url.length > 32 ? url.substring(0, 29) + "..." : url
   }
 
-  const formatJson = (data: Record<string, unknown>) => {
+  const formatJson = (data: Record<string, unknown>) => { 
     const str = JSON.stringify(data)
     return str.length > 38 ? str.substring(0, 35) + "..." : str
   }
@@ -83,7 +84,10 @@ export default function AlertEventsPage() {
   }, []);
 
   return (
-    <div className="container mx-auto p-4 mt-10 md:mt-28 max-w-7xl">
+    <div className="container mx-auto p-4 mt-8 md:mt-20 max-w-7xl">
+      <PageDescription 
+        description="These are the alerts triggered so far."
+      />  
       <Card className="bg-gray/70 backdrop-blur-md border-gray-800">
         <CardContent>
           <Input
@@ -97,11 +101,11 @@ export default function AlertEventsPage() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="text-white font-bold text-base">Datetime</TableHead>
                   <TableHead className="text-white font-bold text-base">Prompt</TableHead>
                   <TableHead className="text-white font-bold text-base">Method</TableHead>
                   <TableHead className="text-white font-bold text-base">URL</TableHead>
                   <TableHead className="text-white font-bold text-base">Recurring</TableHead>
+                  <TableHead className="text-white font-bold text-base">Datetime</TableHead>
                   <TableHead className="text-white font-bold text-base">Payload</TableHead>
                 </TableRow>
               </TableHeader>
@@ -111,9 +115,6 @@ export default function AlertEventsPage() {
                     key={item.id}
                     className="hover:bg-gray-700/50 transition-colors"
                   >
-                    <TableCell className="text-white">
-                      {formatDate(new Date(item.triggeredAt))}
-                    </TableCell>
                     <TableCell className="text-white" title={item.prompt}>
                       {formatPrompt(item.prompt)}
                     </TableCell>
@@ -127,6 +128,9 @@ export default function AlertEventsPage() {
                       <span className={`font-bold ${item.isRecurring ? 'text-green-500' : 'text-blue-500'}`}>
                         {item.isRecurring ? "Yes" : "No"}
                       </span>
+                    </TableCell>
+                    <TableCell className="text-white">
+                      {formatDate(new Date(item.triggeredAt))}
                     </TableCell>
                     <TableCell className="text-white font-mono text-sm" title={JSON.stringify(item.structuredData, null, 2)}>
                       {formatJson(item.structuredData)}
