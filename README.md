@@ -1,36 +1,56 @@
+# News-Hook
+
+A service for natural-language based alerts
+
+**You setup alerts and we keep monitoring for when they happen**
+
+The alerts requests come in what we call "alert prompts". Just like you'd say to a friend or assistant:
+- "Inform me when [movie-name] gets a release date"
+- "Tell me when [rumor] is either confirmed or denied"
+- "Alert me on any tariffs news between USA and Brazil"
+
+We might not know when and even if the alert will be fulfilled. The alert can be a one-time thing or recurring
+
+**The alerts are triggered on user-created or webscraped data**
+
+- When and if a document comes that fulfills an alert, we send the alert via http request
+
+- It's a *natural-language webhook triggered by real-life news*
+
+# How to run:
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
 
-First, run the development server:
+At the first time, run ```npm install``` to install the dependencies. Then, run ```npm run dev```
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+The project will use the production api. If you're doing changes to the backend, you might wanna change the BASE_PATH at `runtime.ts` to target localhost
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+# What's the infrastructure
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Alert-Prompt / Alert-Request
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- We get the POST request for an alert
+    - An LLM validates the request based on semantic rules (must be clear, unambiguous, possible, etc). See "prompts.py" for that
+- Valid requests will get stored
+    - Their prompts will be vector-embedded
+    - We extract keywords from them
+- We keep monitoring
+    - Periodically webscraping sources / Receiving user-created documents
+    - Pgvector-search to see which alert-prompts are related to the scraped document
+    - Keyword filtering
+        - The document must contain at least one keyword extracted from the prompt
+    - We ask an LLM for verification
+        - The LLM confirms that the document fulfills the alert-request
+    - We ask an LLM to generate a payload
+    - We send the alert via HTTP request
 
-## Learn More
+# Pricing model
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The cost for the alert-requests and events will be:
+- The input and output tokens for:
+    - The alert prompt
+    - The documents sent by the user
+    - The alert-sending / generation
+- The api requests themselves
