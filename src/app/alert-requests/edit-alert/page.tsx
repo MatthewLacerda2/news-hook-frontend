@@ -1,9 +1,10 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { useSearchParams } from "next/navigation"
 import { AlertsApi } from "@/client-sdk/apis/AlertsApi"
 import { Configuration } from "@/client-sdk/runtime"
-import { AlertPromptCreateRequestBase, HttpMethod } from "@/client-sdk/models"
+import { HttpMethod } from "@/client-sdk/models"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
@@ -18,8 +19,12 @@ import {
 import { BASE_PATH } from "@/client-sdk/runtime"
 import { LlmModelsApi } from "@/client-sdk/apis/LlmModelsApi"
 import { LLMModelItem } from "@/client-sdk/models"
+import { AlertPatchRequest } from "@/client-sdk/models"
 
-export default function CreateAlertPage() {
+export default function EditAlertPage() {
+  const searchParams = useSearchParams()
+  const alertId = searchParams.get('id')
+  
   const [prompt, setPrompt] = useState("")
   const [httpMethod, setHttpMethod] = useState<HttpMethod>(HttpMethod.Post)
   const [httpUrl, setHttpUrl] = useState("")
@@ -33,6 +38,48 @@ export default function CreateAlertPage() {
   const [models, setModels] = useState<LLMModelItem[]>([])
   const [selectedModel, setSelectedModel] = useState<string>("")
   const [isLoading, setIsLoading] = useState(false)
+  const [isFetching, setIsFetching] = useState(true)
+
+  // Fetch alert data when component mounts
+  useEffect(() => {
+    const fetchAlertData = async () => {
+      if (!alertId) {
+        setErrors({ general: "No alert ID provided" })
+        setIsFetching(false)
+        return
+      }
+
+      try {
+        const agentData = JSON.parse(localStorage.getItem('agentData') || '{}')
+        const alertApi = new AlertsApi(new Configuration({ 
+          basePath: BASE_PATH, 
+          headers: {
+            'X-API-Key': agentData.apiKey
+          }
+        }))
+        
+        const response = await alertApi.getAlertApiV1AlertsAlertIdGet({alertId: alertId})
+        
+        // Pre-fill form with fetched data
+        setPrompt(response.prompt)
+        setHttpMethod(response.httpMethod)
+        setHttpUrl(response.httpUrl)
+        setHttpHeaders(response.httpHeaders ? JSON.stringify(response.httpHeaders, null, 2) : "")
+        setPayloadFormat(response.payloadFormat ? JSON.stringify(response.payloadFormat, null, 2) : "")
+        setMaxDatetime(new Date(response.expiresAt))
+        setIsRecurring(response.isRecurring)
+        setSelectedModel(response.llmModel)
+        
+      } catch (error) {
+        console.error('Failed to fetch alert data:', error)
+        setErrors({ general: "Failed to fetch alert data" })
+      } finally {
+        setIsFetching(false)
+      }
+    }
+
+    fetchAlertData()
+  }, [alertId])
 
   // Add useEffect to fetch models
   useEffect(() => {
@@ -43,10 +90,6 @@ export default function CreateAlertPage() {
         }))
         const response = await api.listLlmModelsApiV1LlmModelsGet()
         setModels(response.items)
-        // Set the first model as default if available
-        if (response.items.length > 0) {
-          setSelectedModel(response.items[0].modelName)
-        }
       } catch (error) {
         console.error('Failed to fetch LLM models:', error)
       }
@@ -89,30 +132,32 @@ export default function CreateAlertPage() {
 
     setErrors(newErrors)
 
-    if (Object.keys(newErrors).length === 0) {
+    if (Object.keys(newErrors).length === 0 && alertId) {
       try {
-        const agentData = JSON.parse(localStorage.getItem('agentData') || '{}');
-        const alertApi = new AlertsApi(new Configuration({ basePath: BASE_PATH, headers: {
-          'X-API-Key': agentData.apiKey
-        } }))
-        const createAlertRequest : AlertPromptCreateRequestBase = {
-          prompt,
-          httpMethod,
-          httpUrl,
-          httpHeaders: httpHeaders ? JSON.parse(httpHeaders.replace(/'/g, '"')) : null,
-          llmModel: selectedModel,
-          payloadFormat: payloadFormat ? JSON.parse(payloadFormat.replace(/'/g, '"')) : null,
-          maxDatetime,
-          isRecurring,
-        }
-        const response = await alertApi.createAlertApiV1AlertsPost({
-          alertPromptCreateRequestBase: createAlertRequest
-        })
+        const agentData = JSON.parse(localStorage.getItem('agentData') || '{}')
+        const alertApi = new AlertsApi(new Configuration({ 
+          basePath: BASE_PATH, 
+          headers: {
+            'X-API-Key': agentData.apiKey
+          }
+        }))
         
-        setSuccessMessage("Alert request created successfully!")
+        const patchRequest: AlertPatchRequest = {
+          http_url: httpUrl,
+          http_headers: httpHeaders ? JSON.parse(httpHeaders.replace(/'/g, '"')) : null,
+          is_recurring: isRecurring,
+          http_method: httpMethod,
+          llm_model: selectedModel,
+          payload_format: payloadFormat ? JSON.parse(payloadFormat.replace(/'/g, '"')) : null,
+          max_datetime: maxDatetime.toISOString(),
+        }
+        
+        const response = await alertApi.patchAlertApiV1AlertsAlertIdPatch(alertId, patchRequest)
+        
+        setSuccessMessage("Alert updated successfully!")
         setDebugResponse(response)
       } catch (error) {
-        setErrors({ submit: "Failed to create alert request" })
+        setErrors({ submit: "Failed to update alert" })
         setDebugResponse(error)
         console.error(error)
       }
@@ -122,8 +167,46 @@ export default function CreateAlertPage() {
   }
 
   const formatModelName = (str: string): string => {
-    const withoutHyphens = str.replace(/-/g, ' ');
-    return withoutHyphens.charAt(0).toUpperCase() + withoutHyphens.slice(1);
+    const withoutHyphens = str.replace(/-/g, ' ')
+    return withoutHyphens.charAt(0).toUpperCase() + withoutHyphens.slice(1)
+  }
+
+  if (isFetching) {
+    return (
+      <div className="container mx-auto p-4 mt-40 max-w-3xl">
+        <Card>
+          <CardContent className="space-y-4">
+            <div className="flex items-center justify-center py-8">
+              <svg className="animate-spin h-8 w-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              <span className="ml-2">Loading alert data...</span>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    )
+  }
+
+  if (errors.general) {
+    return (
+      <div className="container mx-auto p-4 mt-40 max-w-3xl">
+        <Card>
+          <CardContent className="space-y-4">
+            <div className="text-center py-8">
+              <p className="text-red-500 text-lg">{errors.general}</p>
+              <Button 
+                onClick={() => window.location.href = '/alert-requests'}
+                className="mt-4"
+              >
+                Back to Alerts
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    )
   }
 
   return (
@@ -234,10 +317,10 @@ export default function CreateAlertPage() {
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                 </svg>
-                Sending...
+                Updating...
               </>
             ) : (
-              "Send Alert Request"
+              "Update Alert"
             )}
           </Button>
 
