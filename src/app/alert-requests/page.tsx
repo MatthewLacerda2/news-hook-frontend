@@ -197,17 +197,6 @@ export default function MainPage() {
                     {item.status}
                   </TableCell>
                   <TableCell>
-                    {item.status === "ACTIVE" && (
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="w-8 h-8 text-blue-500 hover:text-blue-600 border border-gray-400/10 mr-2"
-                        title="Edit"
-                        onClick={() => window.location.href = `/alert-requests/edit-alert?id=${item.id}`}
-                      >
-                        ✏️
-                      </Button>
-                    )}
                     {item.status !== "CANCELLED" && (
                       <Button
                         variant="ghost"
