@@ -108,7 +108,7 @@ export default function Home() {
               <CardHeader className="pb-3 sm:pb-4">
                 <CardTitle className="text-gray-100 font-semibold tracking-wide text-xl sm:text-2xl lg:text-3xl font-display">REQUEST</CardTitle>
               </CardHeader>
-              <CardContent className="pt-0">
+              <CardContent>
                 <pre className="text-left text-xs sm:text-sm lg:text-base text-gray-300 font-mono overflow-x-auto whitespace-pre-wrap break-words">
 {JSON.stringify({
   prompt: alertPromptCreateRequestExample.prompt,
@@ -128,7 +128,7 @@ export default function Home() {
               <CardHeader className="pb-3 sm:pb-4">
                 <CardTitle className="text-gray-100 font-semibold tracking-wide text-xl sm:text-2xl lg:text-3xl font-display">RESPONSE</CardTitle>
               </CardHeader>
-              <CardContent className="pt-0">
+              <CardContent>
                 <pre className="text-left text-xs sm:text-sm lg:text-base text-gray-300 font-mono overflow-x-auto whitespace-pre-wrap break-words">
 {JSON.stringify({
   id: alertPromptCreateResponseExample.id,

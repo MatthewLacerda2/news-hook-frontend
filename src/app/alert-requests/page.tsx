@@ -196,7 +196,18 @@ export default function MainPage() {
                   <TableCell className={`${statusColors[item.status as keyof typeof statusColors]} font-semibold px-2`}>
                     {item.status}
                   </TableCell>
-                  <TableCell className="px-0">
+                  <TableCell>
+                    {item.status === "ACTIVE" && (
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="w-8 h-8 text-blue-500 hover:text-blue-600 border border-gray-400/10 mr-2"
+                        title="Edit"
+                        onClick={() => window.location.href = `/edit-alert?id=${item.id}`}
+                      >
+                        ✏️
+                      </Button>
+                    )}
                     {item.status !== "CANCELLED" && (
                       <Button
                         variant="ghost"
