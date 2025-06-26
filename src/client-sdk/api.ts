@@ -109,6 +109,12 @@ export interface AlertEventItem {
      */
     'structured_data': { [key: string]: any; };
     /**
+     * The status code of the response
+     * @type {number}
+     * @memberof AlertEventItem
+     */
+    'status_code': number;
+    /**
      * The alert prompt that this event answered to
      * @type {string}
      * @memberof AlertEventItem
@@ -154,6 +160,57 @@ export interface AlertEventListResponse {
      */
     'total_count': number;
 }
+/**
+ * 
+ * @export
+ * @interface AlertPatchRequest
+ */
+export interface AlertPatchRequest {
+    /**
+     * The URL to alert at
+     * @type {string}
+     * @memberof AlertPatchRequest
+     */
+    'http_url'?: string;
+    /**
+     * 
+     * @type {{ [key: string]: any; }}
+     * @memberof AlertPatchRequest
+     */
+    'http_headers'?: { [key: string]: any; } | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof AlertPatchRequest
+     */
+    'is_recurring'?: boolean | null;
+    /**
+     * 
+     * @type {HttpMethod}
+     * @memberof AlertPatchRequest
+     */
+    'http_method'?: HttpMethod | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof AlertPatchRequest
+     */
+    'llm_model'?: string | null;
+    /**
+     * 
+     * @type {{ [key: string]: any; }}
+     * @memberof AlertPatchRequest
+     */
+    'payload_format'?: { [key: string]: any; } | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof AlertPatchRequest
+     */
+    'max_datetime'?: string | null;
+}
+
+
 /**
  * 
  * @export
@@ -493,12 +550,6 @@ export interface UserDocumentCreateRequest {
      * @memberof UserDocumentCreateRequest
      */
     'content': string;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof UserDocumentCreateRequest
-     */
-    'should_save'?: boolean | null;
 }
 /**
  * 
@@ -789,6 +840,49 @@ export const AlertsApiAxiosParamCreator = function (configuration?: Configuratio
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * Patch an alert
+         * @summary Patch Alert
+         * @param {string} alertId 
+         * @param {AlertPatchRequest} alertPatchRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        patchAlertApiV1AlertsAlertIdPatch: async (alertId: string, alertPatchRequest: AlertPatchRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'alertId' is not null or undefined
+            assertParamExists('patchAlertApiV1AlertsAlertIdPatch', 'alertId', alertId)
+            // verify required parameter 'alertPatchRequest' is not null or undefined
+            assertParamExists('patchAlertApiV1AlertsAlertIdPatch', 'alertPatchRequest', alertPatchRequest)
+            const localVarPath = `/api/v1/alerts/{alert_id}`
+                .replace(`{${"alert_id"}}`, encodeURIComponent(String(alertId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication APIKeyHeader required
+            await setApiKeyToObject(localVarHeaderParameter, "X-API-Key", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(alertPatchRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -855,6 +949,20 @@ export const AlertsApiFp = function(configuration?: Configuration) {
             const localVarOperationServerBasePath = operationServerMap['AlertsApi.listAlertsApiV1AlertsGet']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
+        /**
+         * Patch an alert
+         * @summary Patch Alert
+         * @param {string} alertId 
+         * @param {AlertPatchRequest} alertPatchRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async patchAlertApiV1AlertsAlertIdPatch(alertId: string, alertPatchRequest: AlertPatchRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AlertPromptItem>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.patchAlertApiV1AlertsAlertIdPatch(alertId, alertPatchRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AlertsApi.patchAlertApiV1AlertsAlertIdPatch']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
     }
 };
 
@@ -908,6 +1016,17 @@ export const AlertsApiFactory = function (configuration?: Configuration, basePat
          */
         listAlertsApiV1AlertsGet(offset?: number, limit?: number, promptContains?: string | null, maxDatetime?: string | null, createdAfter?: string | null, options?: RawAxiosRequestConfig): AxiosPromise<AlertPromptListResponse> {
             return localVarFp.listAlertsApiV1AlertsGet(offset, limit, promptContains, maxDatetime, createdAfter, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Patch an alert
+         * @summary Patch Alert
+         * @param {string} alertId 
+         * @param {AlertPatchRequest} alertPatchRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        patchAlertApiV1AlertsAlertIdPatch(alertId: string, alertPatchRequest: AlertPatchRequest, options?: RawAxiosRequestConfig): AxiosPromise<AlertPromptItem> {
+            return localVarFp.patchAlertApiV1AlertsAlertIdPatch(alertId, alertPatchRequest, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -969,6 +1088,19 @@ export class AlertsApi extends BaseAPI {
      */
     public listAlertsApiV1AlertsGet(offset?: number, limit?: number, promptContains?: string | null, maxDatetime?: string | null, createdAfter?: string | null, options?: RawAxiosRequestConfig) {
         return AlertsApiFp(this.configuration).listAlertsApiV1AlertsGet(offset, limit, promptContains, maxDatetime, createdAfter, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Patch an alert
+     * @summary Patch Alert
+     * @param {string} alertId 
+     * @param {AlertPatchRequest} alertPatchRequest 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AlertsApi
+     */
+    public patchAlertApiV1AlertsAlertIdPatch(alertId: string, alertPatchRequest: AlertPatchRequest, options?: RawAxiosRequestConfig) {
+        return AlertsApiFp(this.configuration).patchAlertApiV1AlertsAlertIdPatch(alertId, alertPatchRequest, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -1701,6 +1833,91 @@ export class LlmModelsApi extends BaseAPI {
 export const UserDocumentsApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
+         * Delete a document by ID
+         * @summary Delete User Document
+         * @param {string} documentId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteUserDocumentApiV1UserDocumentsDocumentIdDelete: async (documentId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'documentId' is not null or undefined
+            assertParamExists('deleteUserDocumentApiV1UserDocumentsDocumentIdDelete', 'documentId', documentId)
+            const localVarPath = `/api/v1/user_documents/{document_id}`
+                .replace(`{${"document_id"}}`, encodeURIComponent(String(documentId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication APIKeyHeader required
+            await setApiKeyToObject(localVarHeaderParameter, "X-API-Key", configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * List public documents
+         * @summary Get Public Documents
+         * @param {string | null} [contains] 
+         * @param {number} [offset] 
+         * @param {number} [limit] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getPublicDocumentsApiV1UserDocumentsPublicGet: async (contains?: string | null, offset?: number, limit?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/v1/user_documents/public`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication APIKeyHeader required
+            await setApiKeyToObject(localVarHeaderParameter, "X-API-Key", configuration)
+
+            if (contains !== undefined) {
+                localVarQueryParameter['contains'] = contains;
+            }
+
+            if (offset !== undefined) {
+                localVarQueryParameter['offset'] = offset;
+            }
+
+            if (limit !== undefined) {
+                localVarQueryParameter['limit'] = limit;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * Get a document by ID
          * @summary Get User Document
          * @param {string} documentId 
@@ -1874,6 +2091,34 @@ export const UserDocumentsApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = UserDocumentsApiAxiosParamCreator(configuration)
     return {
         /**
+         * Delete a document by ID
+         * @summary Delete User Document
+         * @param {string} documentId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deleteUserDocumentApiV1UserDocumentsDocumentIdDelete(documentId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteUserDocumentApiV1UserDocumentsDocumentIdDelete(documentId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['UserDocumentsApi.deleteUserDocumentApiV1UserDocumentsDocumentIdDelete']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * List public documents
+         * @summary Get Public Documents
+         * @param {string | null} [contains] 
+         * @param {number} [offset] 
+         * @param {number} [limit] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getPublicDocumentsApiV1UserDocumentsPublicGet(contains?: string | null, offset?: number, limit?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserDocumentListResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getPublicDocumentsApiV1UserDocumentsPublicGet(contains, offset, limit, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['UserDocumentsApi.getPublicDocumentsApiV1UserDocumentsPublicGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
          * Get a document by ID
          * @summary Get User Document
          * @param {string} documentId 
@@ -1938,6 +2183,28 @@ export const UserDocumentsApiFactory = function (configuration?: Configuration, 
     const localVarFp = UserDocumentsApiFp(configuration)
     return {
         /**
+         * Delete a document by ID
+         * @summary Delete User Document
+         * @param {string} documentId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteUserDocumentApiV1UserDocumentsDocumentIdDelete(documentId: string, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.deleteUserDocumentApiV1UserDocumentsDocumentIdDelete(documentId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * List public documents
+         * @summary Get Public Documents
+         * @param {string | null} [contains] 
+         * @param {number} [offset] 
+         * @param {number} [limit] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getPublicDocumentsApiV1UserDocumentsPublicGet(contains?: string | null, offset?: number, limit?: number, options?: RawAxiosRequestConfig): AxiosPromise<UserDocumentListResponse> {
+            return localVarFp.getPublicDocumentsApiV1UserDocumentsPublicGet(contains, offset, limit, options).then((request) => request(axios, basePath));
+        },
+        /**
          * Get a document by ID
          * @summary Get User Document
          * @param {string} documentId 
@@ -1989,6 +2256,32 @@ export const UserDocumentsApiFactory = function (configuration?: Configuration, 
  * @extends {BaseAPI}
  */
 export class UserDocumentsApi extends BaseAPI {
+    /**
+     * Delete a document by ID
+     * @summary Delete User Document
+     * @param {string} documentId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UserDocumentsApi
+     */
+    public deleteUserDocumentApiV1UserDocumentsDocumentIdDelete(documentId: string, options?: RawAxiosRequestConfig) {
+        return UserDocumentsApiFp(this.configuration).deleteUserDocumentApiV1UserDocumentsDocumentIdDelete(documentId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * List public documents
+     * @summary Get Public Documents
+     * @param {string | null} [contains] 
+     * @param {number} [offset] 
+     * @param {number} [limit] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UserDocumentsApi
+     */
+    public getPublicDocumentsApiV1UserDocumentsPublicGet(contains?: string | null, offset?: number, limit?: number, options?: RawAxiosRequestConfig) {
+        return UserDocumentsApiFp(this.configuration).getPublicDocumentsApiV1UserDocumentsPublicGet(contains, offset, limit, options).then((request) => request(this.axios, this.basePath));
+    }
+
     /**
      * Get a document by ID
      * @summary Get User Document

@@ -7,6 +7,7 @@ configuration.ts
 docs/AgentControllerResponse.md
 docs/AlertEventItem.md
 docs/AlertEventListResponse.md
+docs/AlertPatchRequest.md
 docs/AlertPromptCreateRequestBase.md
 docs/AlertPromptCreateSuccessResponse.md
 docs/AlertPromptItem.md
