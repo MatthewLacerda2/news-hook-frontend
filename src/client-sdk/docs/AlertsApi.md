@@ -8,6 +8,7 @@ All URIs are relative to *http://localhost*
 |[**createAlertApiV1AlertsPost**](#createalertapiv1alertspost) | **POST** /api/v1/alerts/ | Create Alert|
 |[**getAlertApiV1AlertsAlertIdGet**](#getalertapiv1alertsalertidget) | **GET** /api/v1/alerts/{alert_id} | Get Alert|
 |[**listAlertsApiV1AlertsGet**](#listalertsapiv1alertsget) | **GET** /api/v1/alerts/ | List Alerts|
+|[**patchAlertApiV1AlertsAlertIdPatch**](#patchalertapiv1alertsalertidpatch) | **PATCH** /api/v1/alerts/{alert_id} | Patch Alert|
 
 # **cancelAlertApiV1AlertsAlertIdCancelPatch**
 > any cancelAlertApiV1AlertsAlertIdCancelPatch()
@@ -219,6 +220,62 @@ const { status, data } = await apiInstance.listAlertsApiV1AlertsGet(
 ### HTTP request headers
 
  - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**200** | Successful Response |  -  |
+|**422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **patchAlertApiV1AlertsAlertIdPatch**
+> AlertPromptItem patchAlertApiV1AlertsAlertIdPatch(alertPatchRequest)
+
+Patch an alert
+
+### Example
+
+```typescript
+import {
+    AlertsApi,
+    Configuration,
+    AlertPatchRequest
+} from './api';
+
+const configuration = new Configuration();
+const apiInstance = new AlertsApi(configuration);
+
+let alertId: string; // (default to undefined)
+let alertPatchRequest: AlertPatchRequest; //
+
+const { status, data } = await apiInstance.patchAlertApiV1AlertsAlertIdPatch(
+    alertId,
+    alertPatchRequest
+);
+```
+
+### Parameters
+
+|Name | Type | Description  | Notes|
+|------------- | ------------- | ------------- | -------------|
+| **alertPatchRequest** | **AlertPatchRequest**|  | |
+| **alertId** | [**string**] |  | defaults to undefined|
+
+
+### Return type
+
+**AlertPromptItem**
+
+### Authorization
+
+[APIKeyHeader](../README.md#APIKeyHeader)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
  - **Accept**: application/json
 
 
