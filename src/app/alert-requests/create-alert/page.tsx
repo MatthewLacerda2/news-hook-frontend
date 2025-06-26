@@ -127,7 +127,7 @@ export default function CreateAlertPage() {
   }
 
   return (
-    <div className="container mx-auto p-4 mt-40 max-w-3xl">
+    <div className="container mx-auto p-4 mt-12 md:mt-20 max-w-3xl">
       <Card>
         <CardContent className="space-y-4">
           <div>

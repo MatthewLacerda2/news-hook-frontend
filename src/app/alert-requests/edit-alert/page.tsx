@@ -152,7 +152,7 @@ export default function EditAlertPage() {
           max_datetime: maxDatetime.toISOString(),
         }
         
-        const response = await alertApi.patchAlertApiV1AlertsAlertIdPatch(alertId, patchRequest)
+        const response = await alertApi.patchAlertApiV1AlertsAlertIdPatch({alertId: alertId, alertPatchRequest: patchRequest})
         
         setSuccessMessage("Alert updated successfully!")
         setDebugResponse(response)
@@ -210,18 +210,14 @@ export default function EditAlertPage() {
   }
 
   return (
-    <div className="container mx-auto p-4 mt-40 max-w-3xl">
+    <div className="container mx-auto p-4 mt-12 md:mt-20 max-w-3xl">
       <Card>
         <CardContent className="space-y-4">
           <div>
             <p className="text-gray-500 text-xs mb-2 italic">Past events can not trigger alerts</p>
-            <Input
-              placeholder="Enter prompt"
-              value={prompt}
-              onChange={(e) => setPrompt(e.target.value)}
-              className={errors.prompt ? "border-red-500" : ""}
-            />
-            {errors.prompt && <p className="text-red-500 text-sm mt-1">{errors.prompt}</p>}
+            <div className="p-2 text-sm font-semibold bg-gray-100 border rounded-md">
+              <p className="text-gray-900">{prompt}</p>
+            </div>
           </div>
 
           <div>

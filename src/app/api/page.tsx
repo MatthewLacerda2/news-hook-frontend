@@ -4,11 +4,11 @@ import { BASE_PATH, shortner_path } from "@/client-sdk/runtime"
 export default function APIPage() {
   return (
     <div>
-      <div className="container max-w-3xl mx-auto mt-18 pb-12 px-4 sm:px-6">
+      <div className="container max-w-3xl mx-auto mt-16 px-4 sm:px-6">
         <div className="mb-8 text-sm text-gray-200 font-bold leading-relaxed">
           <p className="break-all">URL: <a href={BASE_PATH} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">{shortner_path}</a></p>
-          <p className="break-all">You can try the API with: <a href={BASE_PATH + "/docs"} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">{shortner_path + "/docs"}</a></p>
-          <p className="text-gray-300 font-semibold">X-API-Key header is required for all endpoints, except for the /llm-models endpoint</p>
+          <p className="break-all">Docs: <a href={BASE_PATH + "/docs"} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">{shortner_path + "/docs"}</a></p>
+          <p className="text-gray-300 font-semibold">X-API-Key header is required</p>
         </div>
         <EndpointCard
           url="/alerts"
