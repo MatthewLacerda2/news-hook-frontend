@@ -1,13 +1,19 @@
 "use client"
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
 import { Menu } from 'lucide-react';
 
-export default function HomeHeader({ token }: { token: string | undefined }) {
+export default function HomeHeader() {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
+  const [hasAccessToken, setHasAccessToken] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem('accessToken');
+    setHasAccessToken(!!token);
+  }, []);
 
   const baseLinks = [
     { href: "/", label: "Home" },
@@ -22,7 +28,7 @@ export default function HomeHeader({ token }: { token: string | undefined }) {
     { href: "/my-documents", label: "My Documents" },
   ];
 
-  const linksToShow = token === undefined ? [...baseLinks, ...extraLinks] : baseLinks;
+  const linksToShow = hasAccessToken ? [...baseLinks, ...extraLinks] : baseLinks;
 
   const tabStyle = "text-white font-semibold text-lg hover:text-gray-300 transition-colors hover:bg-gray-800 px-2 py-1 rounded-md";
   const mobileLinkStyle = "block py-2 text-lg text-white font-semibold hover:bg-gray-800 rounded-md px-3 capitalize";
