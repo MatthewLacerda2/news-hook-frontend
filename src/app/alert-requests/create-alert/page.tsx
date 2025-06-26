@@ -129,8 +129,9 @@ export default function CreateAlertPage() {
   return (
     <div className="container mx-auto p-4 mt-40 max-w-3xl">
       <Card>
-        <CardContent className="pt-6 space-y-4">
+        <CardContent className="space-y-4">
           <div>
+            <p className="text-gray-500 text-xs mb-2 italic">Past events can not trigger alerts</p>
             <Input
               placeholder="Enter prompt"
               value={prompt}
