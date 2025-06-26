@@ -203,7 +203,7 @@ export default function MainPage() {
                         size="sm"
                         className="w-8 h-8 text-blue-500 hover:text-blue-600 border border-gray-400/10 mr-2"
                         title="Edit"
-                        onClick={() => window.location.href = `/edit-alert?id=${item.id}`}
+                        onClick={() => window.location.href = `/alert-requests/edit-alert?id=${item.id}`}
                       >
                         ✏️
                       </Button>
