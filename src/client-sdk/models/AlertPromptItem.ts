@@ -65,12 +65,6 @@ export interface AlertPromptItem {
      */
     httpHeaders?: { [key: string]: any; } | null;
     /**
-     * 
-     * @type {{ [key: string]: any; }}
-     * @memberof AlertPromptItem
-     */
-    payloadFormat?: { [key: string]: any; } | null;
-    /**
      * Whether the alert is recurring
      * @type {boolean}
      * @memberof AlertPromptItem
@@ -141,7 +135,6 @@ export function AlertPromptItemFromJSONTyped(json: any, ignoreDiscriminator: boo
         'httpMethod': HttpMethodFromJSON(json['http_method']),
         'httpUrl': json['http_url'],
         'httpHeaders': json['http_headers'] == null ? undefined : json['http_headers'],
-        'payloadFormat': json['payload_format'] == null ? undefined : json['payload_format'],
         'isRecurring': json['is_recurring'],
         'tags': json['tags'] == null ? undefined : json['tags'],
         'status': AlertStatusFromJSON(json['status']),
@@ -167,7 +160,6 @@ export function AlertPromptItemToJSONTyped(value?: AlertPromptItem | null, ignor
         'http_method': HttpMethodToJSON(value['httpMethod']),
         'http_url': value['httpUrl'],
         'http_headers': value['httpHeaders'],
-        'payload_format': value['payloadFormat'],
         'is_recurring': value['isRecurring'],
         'tags': value['tags'],
         'status': AlertStatusToJSON(value['status']),

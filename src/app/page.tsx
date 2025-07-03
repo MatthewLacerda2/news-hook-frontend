@@ -24,26 +24,6 @@ export default function Home() {
     },
     isRecurring: true,
     llmModel: "gemini-2.5-pro-preview-05-06",
-    payloadFormat: {
-      "properties": {
-        "title": {
-          "maxLength": 63,
-          "title": "Title",
-          "type": "string"
-        },
-        "content": {
-          "maxLength": 2047,
-          "title": "Content",
-          "type": "string"
-        },
-      },
-      "required": [
-        "title",
-        "content",
-      ],
-      "title": "NewsAlertCreateRequest",
-      "type": "object"
-    },
     maxDatetime: new Date("2025-12-31T23:59:59Z")
   }
 
@@ -117,7 +97,6 @@ export default function Home() {
   http_headers: alertPromptCreateRequestExample.httpHeaders,
   is_recurring: alertPromptCreateRequestExample.isRecurring,
   llm_model: alertPromptCreateRequestExample.llmModel,
-  payload_format: alertPromptCreateRequestExample.payloadFormat,
   max_datetime: alertPromptCreateRequestExample.maxDatetime
 }, null, 2)}
                 </pre>
