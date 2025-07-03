@@ -11,7 +11,6 @@ Name | Type | Description | Notes
 **is_recurring** | **boolean** |  | [optional] [default to undefined]
 **http_method** | [**HttpMethod**](HttpMethod.md) |  | [optional] [default to undefined]
 **llm_model** | **string** |  | [optional] [default to undefined]
-**payload_format** | **{ [key: string]: any; }** |  | [optional] [default to undefined]
 **max_datetime** | **string** |  | [optional] [default to undefined]
 
 ## Example
@@ -26,7 +25,6 @@ const instance: AlertPromptCreateRequestBase = {
     is_recurring,
     http_method,
     llm_model,
-    payload_format,
     max_datetime,
 };
 ```

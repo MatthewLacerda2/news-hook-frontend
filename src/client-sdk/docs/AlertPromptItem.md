@@ -10,7 +10,6 @@ Name | Type | Description | Notes
 **http_method** | [**HttpMethod**](HttpMethod.md) |  | [default to undefined]
 **http_url** | **string** |  | [default to undefined]
 **http_headers** | **{ [key: string]: any; }** |  | [optional] [default to undefined]
-**payload_format** | **{ [key: string]: any; }** |  | [optional] [default to undefined]
 **is_recurring** | **boolean** | Whether the alert is recurring | [default to undefined]
 **tags** | **Array&lt;string&gt;** | Tags for hinting | [optional] [default to undefined]
 **status** | [**AlertStatus**](AlertStatus.md) |  | [default to undefined]
@@ -29,7 +28,6 @@ const instance: AlertPromptItem = {
     http_method,
     http_url,
     http_headers,
-    payload_format,
     is_recurring,
     tags,
     status,

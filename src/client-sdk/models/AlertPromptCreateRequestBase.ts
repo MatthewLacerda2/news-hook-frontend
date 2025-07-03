@@ -65,12 +65,6 @@ export interface AlertPromptCreateRequestBase {
     llmModel?: string | null;
     /**
      * 
-     * @type {{ [key: string]: any; }}
-     * @memberof AlertPromptCreateRequestBase
-     */
-    payloadFormat?: { [key: string]: any; } | null;
-    /**
-     * 
      * @type {Date}
      * @memberof AlertPromptCreateRequestBase
      */
@@ -105,7 +99,6 @@ export function AlertPromptCreateRequestBaseFromJSONTyped(json: any, ignoreDiscr
         'isRecurring': json['is_recurring'],
         'httpMethod': json['http_method'] == null ? undefined : HttpMethodFromJSON(json['http_method']),
         'llmModel': json['llm_model'] == null ? undefined : json['llm_model'],
-        'payloadFormat': json['payload_format'] == null ? undefined : json['payload_format'],
         'maxDatetime': json['max_datetime'] == null ? undefined : (new Date(json['max_datetime'])),
     };
 }
@@ -127,7 +120,6 @@ export function AlertPromptCreateRequestBaseToJSONTyped(value?: AlertPromptCreat
         'is_recurring': value['isRecurring'],
         'http_method': HttpMethodToJSON(value['httpMethod']),
         'llm_model': value['llmModel'],
-        'payload_format': value['payloadFormat'],
         'max_datetime': value['maxDatetime'] == null ? undefined : ((value['maxDatetime'] as any).toISOString()),
     };
 }

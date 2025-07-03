@@ -5,6 +5,7 @@ base.ts
 common.ts
 configuration.ts
 docs/AgentControllerResponse.md
+docs/AlertChatsApi.md
 docs/AlertEventItem.md
 docs/AlertEventListResponse.md
 docs/AlertPatchRequest.md

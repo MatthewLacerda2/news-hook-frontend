@@ -198,12 +198,6 @@ export interface AlertPatchRequest {
     'llm_model'?: string | null;
     /**
      * 
-     * @type {{ [key: string]: any; }}
-     * @memberof AlertPatchRequest
-     */
-    'payload_format'?: { [key: string]: any; } | null;
-    /**
-     * 
      * @type {string}
      * @memberof AlertPatchRequest
      */
@@ -253,12 +247,6 @@ export interface AlertPromptCreateRequestBase {
      * @memberof AlertPromptCreateRequestBase
      */
     'llm_model'?: string | null;
-    /**
-     * 
-     * @type {{ [key: string]: any; }}
-     * @memberof AlertPromptCreateRequestBase
-     */
-    'payload_format'?: { [key: string]: any; } | null;
     /**
      * 
      * @type {string}
@@ -341,12 +329,6 @@ export interface AlertPromptItem {
      * @memberof AlertPromptItem
      */
     'http_headers'?: { [key: string]: any; } | null;
-    /**
-     * 
-     * @type {{ [key: string]: any; }}
-     * @memberof AlertPromptItem
-     */
-    'payload_format'?: { [key: string]: any; } | null;
     /**
      * Whether the alert is recurring
      * @type {boolean}
@@ -658,6 +640,123 @@ export interface ValidationError {
  */
 export interface ValidationErrorLocInner {
 }
+
+/**
+ * AlertChatsApi - axios parameter creator
+ * @export
+ */
+export const AlertChatsApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @summary Handle Telegram Webhook
+         * @param {string} token 
+         * @param {{ [key: string]: any; }} requestBody 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        handleTelegramWebhookApiV1AlertChatsWebhookTokenPost: async (token: string, requestBody: { [key: string]: any; }, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'token' is not null or undefined
+            assertParamExists('handleTelegramWebhookApiV1AlertChatsWebhookTokenPost', 'token', token)
+            // verify required parameter 'requestBody' is not null or undefined
+            assertParamExists('handleTelegramWebhookApiV1AlertChatsWebhookTokenPost', 'requestBody', requestBody)
+            const localVarPath = `/api/v1/alert-chats/webhook/{token}`
+                .replace(`{${"token"}}`, encodeURIComponent(String(token)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(requestBody, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * AlertChatsApi - functional programming interface
+ * @export
+ */
+export const AlertChatsApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = AlertChatsApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @summary Handle Telegram Webhook
+         * @param {string} token 
+         * @param {{ [key: string]: any; }} requestBody 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async handleTelegramWebhookApiV1AlertChatsWebhookTokenPost(token: string, requestBody: { [key: string]: any; }, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.handleTelegramWebhookApiV1AlertChatsWebhookTokenPost(token, requestBody, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AlertChatsApi.handleTelegramWebhookApiV1AlertChatsWebhookTokenPost']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * AlertChatsApi - factory interface
+ * @export
+ */
+export const AlertChatsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = AlertChatsApiFp(configuration)
+    return {
+        /**
+         * 
+         * @summary Handle Telegram Webhook
+         * @param {string} token 
+         * @param {{ [key: string]: any; }} requestBody 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        handleTelegramWebhookApiV1AlertChatsWebhookTokenPost(token: string, requestBody: { [key: string]: any; }, options?: RawAxiosRequestConfig): AxiosPromise<any> {
+            return localVarFp.handleTelegramWebhookApiV1AlertChatsWebhookTokenPost(token, requestBody, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * AlertChatsApi - object-oriented interface
+ * @export
+ * @class AlertChatsApi
+ * @extends {BaseAPI}
+ */
+export class AlertChatsApi extends BaseAPI {
+    /**
+     * 
+     * @summary Handle Telegram Webhook
+     * @param {string} token 
+     * @param {{ [key: string]: any; }} requestBody 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AlertChatsApi
+     */
+    public handleTelegramWebhookApiV1AlertChatsWebhookTokenPost(token: string, requestBody: { [key: string]: any; }, options?: RawAxiosRequestConfig) {
+        return AlertChatsApiFp(this.configuration).handleTelegramWebhookApiV1AlertChatsWebhookTokenPost(token, requestBody, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
 
 /**
  * AlertsApi - axios parameter creator

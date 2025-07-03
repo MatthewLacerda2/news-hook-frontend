@@ -24,7 +24,6 @@ export default function CreateAlertPage() {
   const [httpMethod, setHttpMethod] = useState<HttpMethod>(HttpMethod.Post)
   const [httpUrl, setHttpUrl] = useState("")
   const [httpHeaders, setHttpHeaders] = useState("")
-  const [payloadFormat, setPayloadFormat] = useState("")
   const [maxDatetime, setMaxDatetime] = useState<Date>(new Date())
   const [isRecurring, setIsRecurring] = useState(false)
   const [errors, setErrors] = useState<Record<string, string>>({})
@@ -101,7 +100,6 @@ export default function CreateAlertPage() {
           httpUrl,
           httpHeaders: httpHeaders ? JSON.parse(httpHeaders.replace(/'/g, '"')) : null,
           llmModel: selectedModel,
-          payloadFormat: payloadFormat ? JSON.parse(payloadFormat.replace(/'/g, '"')) : null,
           maxDatetime,
           isRecurring,
         }
@@ -189,14 +187,6 @@ export default function CreateAlertPage() {
                 ))}
               </SelectContent>
             </Select>
-          </div>
-
-          <div>
-            <Input
-              placeholder="Payload Format (JSON format)"
-              value={payloadFormat}
-              onChange={(e) => setPayloadFormat(e.target.value)}
-            />
           </div>
 
           <div>
