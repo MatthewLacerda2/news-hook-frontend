@@ -53,14 +53,7 @@ export default function APIPage() {
               required: false,
               defaultValue: "gemini-2.5-pro-preview-05-06",
               availableOptions: "gemini-2.5-pro-preview-05-06, gemini-2.5-flash-preview-05-20, gemini-2.0-flash-lite-001, gemini-2.0-flash-001",
-            },
-            {
-              title: "payload_format",
-              description: "The body of the request. Must be in OpenAPI 3.0 Specification format",
-              mytype: "object",
-              required: false,
-              defaultValue: "An OpenAPI 3.0 Specification of an object with title and description",
-            },
+            },            
             {
               title: "max_datetime",
               description: "The expiration date of the alert request",
