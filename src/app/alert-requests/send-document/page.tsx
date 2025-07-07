@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { UserDocumentsApi } from "@/client-sdk/apis/UserDocumentsApi"
 import { Configuration } from "@/client-sdk/runtime"
 import { Card, CardContent } from "@/components/ui/card"
@@ -17,9 +17,12 @@ export default function SendDocumentPage() {
   const [debugResponse, setDebugResponse] = useState<unknown>(null)
   
   const router = useRouter();
-  if (localStorage.getItem('accessToken') === null) {
-    router.push('/');
-  }
+
+  useEffect(() => {
+    if (localStorage.getItem('accessToken') === null) {
+      router.push('/');
+    }
+  }, [router])
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {}

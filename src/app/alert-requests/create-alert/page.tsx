@@ -35,12 +35,12 @@ export default function CreateAlertPage() {
   const [isLoading, setIsLoading] = useState(false)
   
   const router = useRouter();
-  if (localStorage.getItem('accessToken') === null) {
-    router.push('/');
-  }
 
   // Add useEffect to fetch models
   useEffect(() => {
+    if (localStorage.getItem('accessToken') === null) {
+      router.push('/');
+    }
     const fetchModels = async () => {
       try {
         const api = new LlmModelsApi(new Configuration({
@@ -58,7 +58,7 @@ export default function CreateAlertPage() {
     }
     
     fetchModels()
-  }, [])
+  })
 
   // Validation functions
   const validatePrompt = (value: string) => value.length >= 3

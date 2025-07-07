@@ -31,9 +31,6 @@ export default function AlertEventsPage() {
   const [events, setEvents] = useState<AlertEventListResponse>()
   
   const router = useRouter();
-  if (localStorage.getItem('accessToken') === null) {
-    router.push('/');
-  }
 
   const formatPrompt = (prompt: string) => {
     return prompt.length > 52 ? prompt.substring(0, 49) + "..." : prompt
@@ -70,6 +67,12 @@ export default function AlertEventsPage() {
   }) || []
 
   useEffect(() => {
+    // Check authentication first
+    if (localStorage.getItem('accessToken') === null) {
+      router.push('/');
+      return;
+    }
+
     const fetchEvents = async () => {
       try {
         const agentData = JSON.parse(localStorage.getItem('agentData') || '{}');
@@ -87,12 +90,12 @@ export default function AlertEventsPage() {
     };
 
     fetchEvents();
-  }, []);
+  }, [router]);
 
   return (
     <div className="container mx-auto p-4 mt-8 md:mt-20 max-w-7xl">
       <PageDescription 
-        description="These are the alerts triggered so far."
+        description="These are the alerts triggered so far"
       />  
       <Card className="bg-gray/70 backdrop-blur-md border-gray-800">
         <CardContent>

@@ -41,14 +41,23 @@ export default function MainPage() {
   const [creditBalance, setCreditBalance] = useState<number | null>(null)
   const [alerts, setAlerts] = useState<AlertPromptItem[]>([])
   const [showApiKey, setShowApiKey] = useState(false)
+  const [apiKey, setApiKey] = useState<string>("")
 
   const router = useRouter();
-  if (localStorage.getItem('accessToken') === null) {
-    router.push('/');
-  }
 
-  const apiKey = JSON.parse(localStorage.getItem('agentData') || '{}').apiKey;
-  
+  useEffect(() => {
+    // Check if we're in the browser environment
+    if (typeof window !== 'undefined') {
+      if (localStorage.getItem('accessToken') === null) {
+        router.push('/');
+      }
+      
+      // Set API key from localStorage
+      const agentData = JSON.parse(localStorage.getItem('agentData') || '{}');
+      setApiKey(agentData.apiKey || "");
+    }
+  }, [router])
+
   const formatPrompt = (prompt: string) => {
     return prompt.length > 48 ? prompt.substring(0, 45) + "..." : prompt
   }
@@ -71,6 +80,8 @@ export default function MainPage() {
 
   const debouncedListAlerts = useCallback((term: string) => {
     const handler = debounce(async (searchTerm: string) => {
+      if (typeof window === 'undefined') return;
+      
       const agentData = JSON.parse(localStorage.getItem('agentData') || '{}');
       const alertApi = new AlertsApi(new Configuration({ 
         basePath: BASE_PATH,
@@ -96,6 +107,8 @@ export default function MainPage() {
 
   useEffect(() => {
     const fetchCredits = async () => {
+      if (typeof window === 'undefined') return;
+      
       try {
         const accessToken = localStorage.getItem('accessToken');
         const authApi = new AuthApi(new Configuration({ 
@@ -212,6 +225,7 @@ export default function MainPage() {
                         onClick={async () => {
                           if (window.confirm('Cancel alert. Are you sure?')) {
                             try {
+                              if (typeof window === 'undefined') return;
                               const agentData = JSON.parse(localStorage.getItem('agentData') || '{}');
                               const alertApi = new AlertsApi(new Configuration({ 
                                 basePath: BASE_PATH,
