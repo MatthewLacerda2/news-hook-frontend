@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { cookies } from 'next/headers';
 import HomeHeader from "@/components/home-header";
 
 const geistSans = Geist({
@@ -24,15 +23,12 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const cookieStore = await cookies();
-  const token = cookieStore.get('accessToken')?.value;
-
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <HomeHeader token={token} />
+        <HomeHeader/>
         <main className="pt-8">
           {children}
         </main>

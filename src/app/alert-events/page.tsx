@@ -16,6 +16,7 @@ import { AlertEventListResponse } from "@/client-sdk/models"
 import { Configuration } from "@/client-sdk/runtime"
 import { BASE_PATH } from "@/client-sdk/runtime"
 import { PageDescription } from "@/components/page-description"
+import { useRouter } from "next/navigation"
 
 const methodColors = {
   GET: "text-green-400",
@@ -28,6 +29,11 @@ const methodColors = {
 export default function AlertEventsPage() {
   const [searchTerm, setSearchTerm] = useState("")
   const [events, setEvents] = useState<AlertEventListResponse>()
+  
+  const router = useRouter();
+  if (localStorage.getItem('accessToken') === null) {
+    router.push('/');
+  }
 
   const formatPrompt = (prompt: string) => {
     return prompt.length > 52 ? prompt.substring(0, 49) + "..." : prompt

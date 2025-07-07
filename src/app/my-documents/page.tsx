@@ -17,10 +17,16 @@ import { UserDocumentListResponse } from "@/client-sdk/models"
 import { debounce } from "lodash"
 import { BASE_PATH } from "@/client-sdk/runtime"
 import { PageDescription } from "@/components/page-description"
+import { useRouter } from "next/navigation"
 
 export default function MyDocumentsPage() {
   const [searchTerm, setSearchTerm] = useState("")
   const [documents, setDocuments] = useState<UserDocumentListResponse>()
+  
+  const router = useRouter();
+  if (localStorage.getItem('accessToken') === null) {
+    router.push('/');
+  }
   
   const formatName = (name: string) => {
     return name.length > 51 ? name.substring(0, 48) + "..." : name

@@ -8,12 +8,18 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { BASE_PATH } from "@/client-sdk/runtime"
+import { useRouter } from "next/navigation"
 
 export default function SendDocumentPage() {
   const [name, setName] = useState("")
   const [content, setContent] = useState("")
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [debugResponse, setDebugResponse] = useState<unknown>(null)
+  
+  const router = useRouter();
+  if (localStorage.getItem('accessToken') === null) {
+    router.push('/');
+  }
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {}
