@@ -1,0 +1,80 @@
+name: Build Check
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    branches: [main, develop]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Run build
+        id: build
+        run: npm run build
+        continue-on-error: true
+        
+      - name: Check build status
+        id: check_build
+        run: |
+          if [ ${{ steps.build.outcome }} == 'success' ]; then
+            echo "build_success=true" >> $GITHUB_OUTPUT
+            echo "Build completed successfully"
+          else
+            echo "build_success=false" >> $GITHUB_OUTPUT
+            echo "Build failed"
+          fi
+          
+      - name: Convert PR to draft on build failure
+        if: steps.check_build.outputs.build_success == 'false'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            try {
+              await github.rest.pulls.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: context.issue.number,
+                draft: true
+              });
+              console.log('PR converted to draft due to build failure');
+            } catch (error) {
+              console.log('Failed to convert PR to draft:', error.message);
+            }
+            
+      - name: Comment on build failure
+        if: steps.check_build.outputs.build_success == 'false'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '❌ **Build Failed**\n\nThis PR has been automatically converted to draft because the build failed. Please fix the build issues and mark the PR as "Ready for review" again.\n\nBuild logs: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}'
+            });
+            
+      - name: Comment on build success
+        if: steps.check_build.outputs.build_success == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '✅ **Build Successful**\n\nThe build completed successfully. This PR is ready for review.'
+            });
