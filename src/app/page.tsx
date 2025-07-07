@@ -57,8 +57,28 @@ export default function Home() {
 
   return (
     <div>
-      <main className="pt-20 md:pt-24 pb-12 md:pb-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <main className="pt-20 md:pt-20 pb-12 md:pb-16">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          
+          <div className="mb-8 text-gray-200 mx-auto">
+            <div className="bg-white/5 border border-gray-700 rounded-lg p-4 backdrop-blur-sm">
+              <a 
+                  href="https://t.me/bob_reynolds_bot" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center px-6 py-2 border border-transparent text-base font-medium rounded-lg text-black bg-gradient-to-r from-blue-400 to-emerald-400 hover:from-blue-500 hover:to-emerald-500 transition-all transform hover:scale-105"
+                >
+                  <svg className="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+                  </svg>
+                  Try our Telegram Bot!
+                </a>
+                <p className="text-lg text-gray-300 mt-2 font-semibold">
+                  Create and receive alerts directly on Telegram.
+                </p>
+              </div>
+            </div>
+
           <h1 className="text-5xl sm:text-6xl lg:text-8xl font-extrabold tracking-tight mb-12 md:mb-8 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-emerald-400">
             NEWS-HOOK
           </h1>
