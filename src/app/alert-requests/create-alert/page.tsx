@@ -18,6 +18,7 @@ import {
 import { BASE_PATH } from "@/client-sdk/runtime"
 import { LlmModelsApi } from "@/client-sdk/apis/LlmModelsApi"
 import { LLMModelItem } from "@/client-sdk/models"
+import { useRouter } from "next/navigation"
 
 export default function CreateAlertPage() {
   const [prompt, setPrompt] = useState("")
@@ -33,6 +34,11 @@ export default function CreateAlertPage() {
   const [models, setModels] = useState<LLMModelItem[]>([])
   const [selectedModel, setSelectedModel] = useState<string>("")
   const [isLoading, setIsLoading] = useState(false)
+  
+  const router = useRouter();
+  if (localStorage.getItem('accessToken') === null) {
+    router.push('/');
+  }
 
   // Add useEffect to fetch models
   useEffect(() => {

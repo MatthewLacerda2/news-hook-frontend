@@ -19,6 +19,7 @@ import { Configuration } from "@/client-sdk/runtime"
 import { AlertPromptItem } from "@/client-sdk/models"
 import debounce from "lodash/debounce"
 import { BASE_PATH } from "@/client-sdk/runtime"
+import { useRouter } from "next/navigation"
 
 const methodColors = {
   GET: "text-green-400",
@@ -40,6 +41,11 @@ export default function MainPage() {
   const [creditBalance, setCreditBalance] = useState<number | null>(null)
   const [alerts, setAlerts] = useState<AlertPromptItem[]>([])
   const [showApiKey, setShowApiKey] = useState(false)
+
+  const router = useRouter();
+  if (localStorage.getItem('accessToken') === null) {
+    router.push('/');
+  }
 
   const apiKey = JSON.parse(localStorage.getItem('agentData') || '{}').apiKey;
   
