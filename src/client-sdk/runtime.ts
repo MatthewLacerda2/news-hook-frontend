@@ -14,7 +14,7 @@
 
 
 export const shortner_path = "news-hook.southamerica-east1.run.app";
-export const BASE_PATH = "https://news-hook-205743657377.southamerica-east1.run.app";
+export const BASE_PATH = "https://testnewshook-205743657377.europe-west1.run.app";
 //export const BASE_PATH = "http://127.0.0.1:8000";
 
 export interface ConfigurationParameters {
