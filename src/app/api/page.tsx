@@ -196,25 +196,6 @@ export default function APIPage() {
             }
           ]}
         />
-        <EndpointCard
-          url="/alerts/{alert_id}"
-          description="Get alert request with the given ID"
-          method="GET"
-          properties={[
-            {
-              title: "alert_id",
-              description: "The ID of the alert request to get",
-              mytype: "string",
-              required: true,
-            },
-          ]}
-        />
-        <EndpointCard
-          url="/credits"
-          description="Check how many credits you have"
-          method="GET"
-          properties={[]}
-        />
       </div>
     </div>
   )
