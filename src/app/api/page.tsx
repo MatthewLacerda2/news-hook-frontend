@@ -209,12 +209,6 @@ export default function APIPage() {
             },
           ]}
         />
-        <EndpointCard
-          url="/credits"
-          description="Check how many credits you have"
-          method="GET"
-          properties={[]}
-        />
       </div>
     </div>
   )

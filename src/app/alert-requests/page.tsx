@@ -14,7 +14,6 @@ import {
 import { Card, CardContent } from "@/components/ui/card"
 import { PageDescription } from "@/components/page-description"
 import { AlertsApi } from "@/client-sdk/apis/AlertsApi"
-import { AuthApi } from "@/client-sdk/apis/AuthApi"
 import { Configuration } from "@/client-sdk/runtime"
 import { AlertPromptItem } from "@/client-sdk/models"
 import debounce from "lodash/debounce"
@@ -38,7 +37,6 @@ const statusColors = {
 
 export default function MainPage() {
   const [searchTerm, setSearchTerm] = useState("")
-  const [creditBalance, setCreditBalance] = useState<number | null>(null)
   const [alerts, setAlerts] = useState<AlertPromptItem[]>([])
   const [showApiKey, setShowApiKey] = useState(false)
   const [apiKey, setApiKey] = useState<string>("")
@@ -105,29 +103,6 @@ export default function MainPage() {
     debouncedListAlerts(searchTerm);
   }, [searchTerm, debouncedListAlerts]);
 
-  useEffect(() => {
-    const fetchCredits = async () => {
-      if (typeof window === 'undefined') return;
-      
-      try {
-        const accessToken = localStorage.getItem('accessToken');
-        const authApi = new AuthApi(new Configuration({ 
-          basePath: BASE_PATH,
-          headers: {
-            'Authorization': `Bearer ${accessToken}`
-          }
-        }));
-        const response = await authApi.checkCreditsApiV1AuthCreditsGet();
-        setCreditBalance(response.credit_balance);
-      } catch (error) {
-        console.error('Error fetching credit balance:', error);
-      }
-    };
-
-    fetchCredits();
-    debouncedListAlerts(searchTerm);
-  }, [debouncedListAlerts, searchTerm]);
-
   return (
     <div className="container mx-auto p-4 mt-12 max-w-7xl">
       <PageDescription 
@@ -154,28 +129,16 @@ export default function MainPage() {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
           
-          <div className="flex flex-col sm:flex-row gap-4 sm:gap-10 mb-3 mt-5 justify-start items-start sm:items-center text-white text-lg font-bold">
-            {creditBalance !== null && (
-              <>
-                <div>
-                  {creditBalance.toFixed(4)} credits
-                </div>  
-                <div className="hidden sm:block">
-                  |
-                </div>
-                <div className="flex items-center gap-2">
-                  <span>Api key: </span>
-                  <button
-                    onClick={() => setShowApiKey(!showApiKey)}
-                    className="p-1 hover:bg-gray-700/50 rounded transition-colors"
-                    title={showApiKey ? "Hide API key" : "Show API key"}
-                  >
-                    {showApiKey ? "👁️" : "👁️‍🗨️"}
-                  </button>
-                  <span className="font-mono">{showApiKey ? apiKey : '************'}</span>
-                </div>
-              </>
-            )}
+          <div className="flex items-center gap-2 mb-3 mt-5 text-white text-lg font-bold">
+            <span>Api key: </span>
+            <button
+              onClick={() => setShowApiKey(!showApiKey)}
+              className="p-1 hover:bg-gray-700/50 rounded transition-colors"
+              title={showApiKey ? "Hide API key" : "Show API key"}
+            >
+              {showApiKey ? "👁️" : "👁️‍🗨️"}
+            </button>
+            <span className="font-mono">{showApiKey ? apiKey : '************'}</span>
           </div>
 
           <Table>
